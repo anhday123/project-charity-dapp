@@ -2,10 +2,12 @@
 pragma solidity ^0.8.0;
 
 contract Charity {
+    
     struct Project {
         uint256 id;
-        address recipient;
+        address payable recipient;
         string projectName;
+        string location;
         string description;
         uint256 amountNeeded;
         uint256 amountDonated;
@@ -13,6 +15,7 @@ contract Charity {
         bool ongoing;
         address projectAddress;
     }
+
     struct Donor {
         address donorAddress;
         uint256 amount;
@@ -21,19 +24,21 @@ contract Charity {
     uint256 public nextId = 1;
     Donor[] public allDonors;
     Project[] public allProjects; //mang project.
-
+    mapping (address => uint256) public ownerProjectAmount;
+    mapping (uint256 => uint256) public ownerDonateAmount;
+    
     function createDonationStruct(uint256 amount, uint256 id) internal {Donor memory newDonor = Donor(
         {donorAddress: msg.sender,
             amount: amount,
             projectID: id
         });
         allDonors.push(newDonor);
+        ownerDonateAmount[newDonor.projectID]++;
     }
 
     function donate(uint256 id) public payable {
-        //click donate on project
-        //find project
         require(msg.value > 0, 'Please donote more then 0 amount');
+        //tìm project
         uint256 i = find(id);
         // require(
         //     allProjects[i].recipient != msg.sender,
@@ -45,22 +50,23 @@ contract Charity {
         // this.balance.transfer(msg.value);
         allProjects[i].amountDonated += msg.value;
         emit Funds_Donated(msg.sender, address(this), msg.value);
-        // if (allProjects[i].amountDonated >= allProjects[i].amountNeeded) {
-        //     //run function to end the project
-        //     //endProject(allProjects[i].id);
-        //     emit Goal_Reached(
-        //         allProjects[i].recipient,
-        //         address(this),
-        //         allProjects[i].amountDonated
-        //     );
-        // }
+        if (allProjects[i].amountDonated >= allProjects[i].amountNeeded) {
+            //chạy chức năng để kết thúc dự án
+            endProject(allProjects[i].id);
+            emit Goal_Reached(
+                allProjects[i].recipient,
+                address(this),
+                allProjects[i].amountDonated
+            );
+        }
     }
-
-    function createProjectStruct(string memory name,string memory description,uint256 amountNeeded,string memory imageUrl) public {
+    // tạo  project kêu gọi ủng hộ (tên, mô tả, số tiền cần, ảnh)
+    function createProjectStruct(string memory name,string memory location,string memory description,uint256 amountNeeded,string memory imageUrl) public {
         Project memory newProject = Project({
             id: nextId,
-            recipient: msg.sender,
+            recipient: payable(msg.sender),
             projectName: name,
+            location:location,
             description: description,
             amountNeeded: amountNeeded,
             amountDonated: 0,
@@ -70,53 +76,93 @@ contract Charity {
         });
         allProjects.push(newProject);
         nextId++;
+        ownerProjectAmount[newProject.recipient]++;
+        
         emit Project_Created(msg.sender, address(this), description);
     }
     
     function getAllProjects() public view returns(Project[] memory){
         return allProjects;
     }
-
+    
+    function getAllOwnerDonateLength(uint256 id) public view returns (uint256) {
+        return ownerDonateAmount[id];
+    }
+    function getDonor(uint256 id)public view returns(Donor[] memory){
+        Donor[] memory result = new Donor[](ownerDonateAmount[id]);
+        uint256 count;
+        for(uint256 i=0;i<allDonors.length;i++){
+            if(allDonors[i].projectID == id){
+                result[count] = allDonors[i];
+                count++;
+            }
+          }
+      return result;
+    }
+    
+    function getAllOwnerProjectsLength(address _owner) public view returns (uint256) {
+        return ownerProjectAmount[_owner];
+    }
+    
+    
+    function getOwnerProjects(address _owner) public view returns (Project[] memory ) {
+        Project[] memory result = new Project[](ownerProjectAmount[_owner]);
+        
+      uint count=0;
+      for(uint i=0;i<allProjects.length;i++){
+          if(allProjects[i].recipient == _owner){
+              result[count]=allProjects[i];
+              count++;
+          }
+      }
+      return result;
+      
+    }
+    
+    // tìm project theo id
     function find(uint256 id) internal view returns (uint256) {
         for (uint256 i = 0; i < allProjects.length; i++) {
             if (allProjects[i].id == id) {
                 return i;
             }
         }
-        revert('Project does not exist!');
+        revert('Project does not exist');
     }
 
     function getAllProjectsLength() public view returns (uint256) {
         return allProjects.length;
     }
+    
+    
+    function endProject(uint256 id) public payable {
+        uint256 i = find(id);
+        require(
+            allProjects[i].amountDonated >= allProjects[i].amountNeeded,
+            'project doesnt have enough money'
+        );
+        emit Goal_Reached(
+            allProjects[i].recipient,
+            address(this),
+            allProjects[i].amountDonated
+        );
+        allProjects[i].ongoing = false;
+        emit Project_Ended(
+            allProjects[i].recipient,
+            address(this),
+            allProjects[i].amountDonated
+        );
+      
+        allProjects[i].recipient.transfer(allProjects[i].amountDonated); // sends the account balance to recipient
+    }
 
-    // function endProject(uint256 id) public payable {
-    //     uint256 i = find(id);
-    //     require(
-    //         allProjects[i].amountDonated >= allProjects[i].amountNeeded,
-    //         'This project has not rasied enough money'
-    //     );
-    //     emit Goal_Reached(
-    //         allProjects[i].recipient,
-    //         address(this),
-    //         allProjects[i].amountDonated
-    //     );
-    //     allProjects[i].ongoing = false;
-    //     emit Project_Ended(
-    //         allProjects[i].recipient,
-    //         address(this),
-    //         allProjects[i].amountDonated
-    //     );
-    //     allProjects[i].recipient.transfer(allProjects[i].amountDonated); // sends the account balance to recipient
-    // }
-
-    //use this to render single project view
+    //xem một project
     function readSingleProject(uint256 id)
         public
         view
         returns (
             uint256,
             address,
+            string memory,
             string memory,
             string memory,
             uint256,
@@ -131,6 +177,7 @@ contract Charity {
             allProjects[i].id,
             allProjects[i].recipient,
             allProjects[i].projectName,
+            allProjects[i].location,
             allProjects[i].description,
             allProjects[i].amountNeeded,
             allProjects[i].amountDonated,
@@ -139,7 +186,7 @@ contract Charity {
             allProjects[i].projectAddress
         );
     }
-
+    // kiểm tra có project của địa chỉ này hay không
     function isCharity() public view returns (bool) {
         for (uint256 i = 0; i < allProjects.length; i++) {
             if (allProjects[i].recipient == msg.sender) {
@@ -155,25 +202,25 @@ contract Charity {
 
 
     //     //EVENTS
-    //event for when a contract is created. Shows owner address, contract address and description of fundraiser
+    // sự kiện khi hợp đồng được tạo. Hiển thị địa chỉ chủ sở hữu, địa chỉ hợp đồng và mô tả về hoạt động gây quỹ
     event Project_Created(
         address indexed _from,
         address indexed _project,
         string _desription
     );
-    // event for when money is donated. Shows address of donor, fundraiser contract donated to and value donated
+    // sự kiện khi tiền được tặng. Hiển thị địa chỉ của nhà tài trợ, hợp đồng gây quỹ được tặng và giá trị được tặng
     event Funds_Donated(
         address indexed _from,
         address indexed _contract,
         uint256 _value
     );
-    //event for when the fundraising goal is reached. Shows recipient address, contract address and amount raised
+    // sự kiện khi đạt được mục tiêu gây quỹ. Hiển thị địa chỉ người nhận, địa chỉ hợp đồng và số tiền huy động được
     event Goal_Reached(
         address indexed _from,
         address indexed _contract,
         uint256 _value
     );
-    //event for when recipient/contract owner ends fundraiser. Shows the owner address, contract address and amount rasied
+    // sự kiện khi người nhận / chủ sở hữu hợp đồng kết thúc đợt gây quỹ. Hiển thị địa chỉ chủ sở hữu, địa chỉ hợp đồng và số tiền bị kê khai
     event Project_Ended(
         address indexed _from,
         address indexed _contract,
