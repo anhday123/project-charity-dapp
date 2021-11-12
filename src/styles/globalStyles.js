@@ -4,10 +4,11 @@ import styled from "styled-components";
 export const Screen = styled.div `
   margin-top: 80px;
   background-image: ${({ image }) => (image ? `url(${image})` : "none")};
+
   background-size: cover;
   /* background-position: center; */
   width: 100%;
-  min-height: 60vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   font-family: var( --font-family-Sora);
@@ -397,11 +398,11 @@ export const ContainerItemTitle = styled.div `
       object-fit: cover;
     }
     `
-export const ItemImg= styled.img `
+export const ItemImg = styled.img `
     width: 100%;
     height: 100%;
     object-fit: cover;`
-export const ItemTitle= styled.div `
+export const ItemTitle = styled.div `
     width: 100%;
     padding: 16px;
     position: absolute;
@@ -411,7 +412,7 @@ export const ItemTitle= styled.div `
     background: rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(4px);`
 
-export const ItemH3= styled.h3 `
+export const ItemH3 = styled.h3 `
     margin: 0px 0px 4px;
     font-size: 18px;
     line-height: 24px;
@@ -419,7 +420,7 @@ export const ItemH3= styled.h3 `
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;`
-export const ItemP= styled.p `
+export const ItemP = styled.p `
     height: 20px;
     font-size: 16px;
     line-height: 16px;
@@ -427,26 +428,26 @@ export const ItemP= styled.p `
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;`
-export const ItemBodyContainer= styled.div `
+export const ItemBodyContainer = styled.div `
   margin: 16px 16px 16px;`
-export const ItemBody= styled.div `
+export const ItemBody = styled.div `
   margin: 0px 0px 4px;  `
-export const ItemBodyMoney1= styled.span `
+export const ItemBodyMoney1 = styled.span `
     margin: 0px 6px 0px 0px;
     font-size: 18px;
     line-height: 21px;
     font-weight: 500;
     color: rgb(0, 0, 0);`
-export const ItemBodyMoney2= styled.span `
+export const ItemBodyMoney2 = styled.span `
     font-size: 12px;
     line-height: 16px;
     color: rgb(94, 102, 115);`
-export const ItemFooterContainer= styled.div `
+export const ItemFooterContainer = styled.div `
     position: relative;
     margin: 0px 24px 16px;`
-export const ItemFooter= styled.div `
+export const ItemFooter = styled.div `
     margin-right: 18px;`
-export const ItemFooterDonateText= styled.div `
+export const ItemFooterDonateText = styled.div `
     font-size: 14px;
     line-height: 24px;
     color: rgb(94, 102, 115);
@@ -454,7 +455,7 @@ export const ItemFooterDonateText= styled.div `
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 100%;`
-export const ItemFooterDonate= styled.div `
+export const ItemFooterDonate = styled.div `
     font-size: 18px;
     line-height: 24px;
     font-weight: 700;
@@ -463,7 +464,8 @@ export const ItemFooterDonate= styled.div `
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 100%;`
-export const ItemBtn= styled.button `    width: 124px;
+export const ItemBtn = styled.button `    
+    width: 124px;
     height: 40px;
     display: flex;
     -webkit-box-pack: center;
@@ -482,88 +484,11 @@ export const ItemBtn= styled.button `    width: 124px;
     border: none;
     cursor: pointer;`
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// FORM
-export const FormB = styled.div `
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    // height: 100vh;
-`
-export const Form = styled.div `
-      // position: absolute;
-    // position: relative;
-    width: 1000px;
-    height: 700px;
-    padding: 4rem 2rem;
-    border-radius: 1rem;
-    box-shadow: 0 10px 25px rgba(76, 82, 87, 0.2);
-    &__title {
-        font-weight: 400;
-        margin-bottom: 3rem;
-    }
-    &__div {
-        // position: absolute;
-        position: relative;
-        height: 48px;
-        margin-bottom: 1.5rem;
-    }
-    &__input {
-        display: block;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        font-size: var(--normal-font-size);
-        border: 1px solid var(--border-color);
-        border-radius: .5rem;
-        outline: none;
-        padding: 1rem;
-        background: none;
-        z-index: 1;
-    }
-    &__label {
-        position: absolute;
-        left: 1rem;
-        top: 1rem;
-        padding: 0 .25rem;
-        background-color: #f8f9fc;
-        color: var(--input-color);
-        font-size: var(--normal-font-size);
-        transition: .3s;
-    }
-    &__button {
-        display: block;
-        margin-top: 16px;
-        margin-left: auto;
-        padding: .75rem 2rem;
-        outline: none;
-        border: none;
-        background-color: var(--first-color);
-        color: #fff;
-        font-size: var(--normal-font-size);
-        border-radius: .5rem;
-        cursor: pointer;
-        transition: .3s;
-        &:hover {
-            box-shadow: 0 10px 36px rgba(0, 0, 0, .15);
-        }
-    }
-`
+//FORM
+export const FormContainer = styled.button ``
+export const FormTitle = styled.button ``
+export const Form = styled.button ``
+export const FormDiv = styled.button ``
+export const FormInput = styled.button ``
+export const FormLable = styled.button ``
+export const FormButton = styled.button ``

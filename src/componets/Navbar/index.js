@@ -5,6 +5,7 @@ import { connect } from '../../redux/blockchain/blockchainActions';
 import { useEffect } from "react";
 import { fetchData } from "../../redux/data/dataActions"
 
+
 const Navbar = () => {
   const blockchain = useSelector((state) => state.blockchain);
   const dispatch = useDispatch();
@@ -32,7 +33,7 @@ const Navbar = () => {
     <>
     <Nav>
       
-      <NavLink to='/' exact>
+      <NavLink to='/'  >
         <h1>Chairity-Dapp</h1>
       </NavLink>
       <Bars />
@@ -44,18 +45,12 @@ const Navbar = () => {
         {blockchain.account !== null ? (
           
           <NavBtn>
-                 <NavBtnLink to='/'  
-            onClick={(e) => {
-              e.preventDefault();
-              dispatch(connect());
-            }}>
+                 <NavBtnLink to='/formcreate' activeStyle  
+          >
             Tạo chương trình
           </NavBtnLink>
           <NavBtnLink to='/'  
-            onClick={(e) => {
-              e.preventDefault();
-              dispatch(connect());
-            }}>
+         >
             {account.substring(0, 6)}....
             {account.substring(account.length - 6)}
             
