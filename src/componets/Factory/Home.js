@@ -3,10 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { connect } from "../../redux/blockchain/blockchainActions";
 import { fetchData } from "../../redux/data/dataActions";
 import * as s from "../../styles/globalStyles";
-import _color from "../../assets/images/bg/1.jpg";
+import { create as ipfsHttpClient } from 'ipfs-http-client'
+import _Bg from "../../assets/images/bg/1.jpg";
 // import { BiDna } from "react-icons/bi";
 // import {Link} from "react-router-dom";
-
+const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0')
 const Home = () => {
   const dispatch = useDispatch();
   const blockchain = useSelector((state) => state.blockchain);
@@ -17,6 +18,21 @@ const Home = () => {
   const [amountNeed, setAmountNeed] = useState();
   const [fileImg, setFileImg] = useState();
   
+  async function onChange(e) {
+    const file = e.target.files[0]
+    try {
+      const added = await client.add(
+        file,
+        {
+          progress: (prog) => console.log(`received: ${prog}`)
+        }
+      )
+      const url = `https://ipfs.infura.io/ipfs/${added.path}`
+      setFileImg(url)
+    } catch (error) {
+      console.log('Error uploading file: ', error)
+    }  
+  }
     console.log(data);
 
     const createProjectStruct = (_account, _name, _description, _amountNeeded, _imageUrl) => {
@@ -37,11 +53,13 @@ const Home = () => {
         });
     };
 
-    const handlePreviewImg = (e) => {
-      const file = e.target.files[0];
-      file.preview = URL.createObjectURL(file);
-      setFileImg(file);
-    }
+    console.log(data.AllProjects)
+
+    // const handlePreviewImg = (e) => {
+    //   const file = e.target.files[0];
+    //   file.preview = URL.createObjectURL(file);
+    //   setFileImg(file);
+    // }
 
 
     useEffect(() => {
@@ -54,9 +72,10 @@ const Home = () => {
 
     return (
       <>
-        <s.Screen image={_color}>
-      {blockchain.account === "" || blockchain.Charity === null ? (
+        <s.Screen image={_Bg}>
+        {blockchain.account === "" || blockchain.Charity === null ? (
             <s.Container flex={1} ai={"center"} jc={"center"}>
+
               <s.TextTitle style={{textAlign: "center", fontSize: "36px"}}>Một cách tạo chương trình từ thiện khác biệt!</s.TextTitle>
               <s.TextTitle style={{textAlign: "center", fontSize: "24px"}}>Hãy tạo chương trình hoặc ủng hộ chương trình mà bạn quan tâm</s.TextTitle>
               <s.SpacerSmall />
@@ -75,6 +94,7 @@ const Home = () => {
               ) : null}
             </s.Container>
           ) : (
+            
             <s.Container flex={1} ai={"center"} jc={"center"} > 
           {!loading &&
           <>
@@ -99,7 +119,7 @@ const Home = () => {
           <input 
               type="file"
               style={{color : "#ffffff"}}
-              onChange={handlePreviewImg}
+              onChange={onChange}
           />
           {fileImg && (
             <img 
@@ -124,66 +144,23 @@ const Home = () => {
           </button>
           </>
           }   
-        
-            {/* <s.Container >
-              {data.AllProjects.map((item, index) => {
-                  return (
-                    <s.Container 
-                      flex={1} 
-                      ai={"center"} 
-                      jc={"center"}
-                      
-                      key={index}
-                    >
-                      <s.TextDescription>{item.id}</s.TextDescription>
-                      <s.TextDescription>{item.recipient}</s.TextDescription>
-                      <s.TextDescription>{item.projectName}</s.TextDescription>
-                      <s.TextDescription>{item.description}</s.TextDescription>
-                      <s.TextDescription>{item.amountNeeded}</s.TextDescription>
-                      <s.TextDescription>{item.amountDonated}</s.TextDescription>
-                      <s.TextDescription>{item.imageUrl}</s.TextDescription>
-                      <s.TextDescription>{item.ongoing}</s.TextDescription>
-                      <s.TextDescription>{item.projectAddress}</s.TextDescription>
-
-                    </s.Container>
-                  );
-              })}
-            </s.Container> */}
-          
         </s.Container>
       )}
-                {/* <s.Footer>
-            <s.TextSubTitleFooter>
-              Account: {blockchain.account}
-            </s.TextSubTitleFooter>
-            <s.TextSubTitleFooter>
-              Total Truffle in game: {data.AllProjects.length}
-              </s.TextSubTitleFooter>
-          </s.Footer> */}
-
-
       </s.Screen>
       <s.Container bgc={"#71a5f2"} flex={1} ai={"center"} jc={"center"} >
-      <s.TextTitle style={{textAlign: "center", fontSize: "36px", color: "#000"}}>CHƯƠNG TRÌNH NỔI BẬT</s.TextTitle>
+      <s.TextTitle style={{textAlign: "center", fontSize: "36px", color: "#000"}}>CHƯƠNG TRÌNH NỔI BẬT</s.TextTitle>      
+      
       <s.Container >
               {data.AllProjects.map((item, index) => {
                   return (
-                    <s.Container 
+                    
+                    <s.Container
                       flex={1} 
                       ai={"center"} 
                       jc={"center"}
                       
                       key={index}
-                    >
-                      <s.TextDescription>{item.id}</s.TextDescription>
-                      <s.TextDescription>{item.recipient}</s.TextDescription>
-                      <s.TextDescription>{item.projectName}</s.TextDescription>
-                      <s.TextDescription>{item.description}</s.TextDescription>
-                      <s.TextDescription>{item.amountNeeded}</s.TextDescription>
-                      <s.TextDescription>{item.amountDonated}</s.TextDescription>
-                      <s.TextDescription>{item.imageUrl}</s.TextDescription>
-                      <s.TextDescription>{item.ongoing}</s.TextDescription>
-                      <s.TextDescription>{item.projectAddress}</s.TextDescription>
+                    >                     
 
                     </s.Container>
                   );
@@ -191,7 +168,51 @@ const Home = () => {
             </s.Container>
         
       </s.Container>
-      </>
+
+      <s.ContainerI>
+        <s.ContainerItemBoder>
+        {data.AllProjects.map((item, index) => {
+                  return (
+                    
+                    <s.ContainerItem
+                      flex={1} 
+                      ai={"center"} 
+                      jc={"center"}
+                      
+                      key={index}
+                    >                     
+                    <s.ContainerItemTitle>
+                        <img src={item.imageUrl} alt="img"/>
+
+                    <s.ItemTitle>
+                    <s.ItemH3>#{item.id}</s.ItemH3>
+                    <s.ItemH3>{item.projectName}</s.ItemH3>
+                    </s.ItemTitle>
+                  </s.ContainerItemTitle>
+                    <s.ItemBodyContainer>
+                    <s.ItemBodyMoney1>{item.recipient}</s.ItemBodyMoney1>
+                    <s.ItemP>{item.description}</s.ItemP>
+                    
+                    <s.ItemBody>
+                      <s.ItemBodyMoney1>{item.amountDonated}</s.ItemBodyMoney1>
+                      <s.ItemBodyMoney2>{item.amountNeeded}</s.ItemBodyMoney2>
+                    </s.ItemBody>
+                  </s.ItemBodyContainer>
+                  <s.ItemFooterContainer>
+                    <s.ItemFooter>
+                      <s.ItemFooterDonateText>Số lần ủng hộ</s.ItemFooterDonateText>
+                      <s.ItemFooterDonate>800</s.ItemFooterDonate>
+                      <s.ItemBtn>Tham gia</s.ItemBtn>
+                    </s.ItemFooter>
+                  </s.ItemFooterContainer>
+
+                    </s.ContainerItem>
+                  );
+              })}
+    
+        </s.ContainerItemBoder>
+      </s.ContainerI>        
+     </>
     );
 }
 

@@ -2,10 +2,10 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navbar from'./componets/Navbar/index';
 import Home from './componets/Factory/Home';
-import Marketplace from './page/Marketplace';
-import Breed from './page/Breed';
+import About from './page/About';
+import AllProjects from './page/AllProjects';
 import Ambassadors from './page/Ambassadors'
-// import Details from './componets/Factory/Details';
+import Details from './componets/Factory/Details';
 function App() {
 
   return (
@@ -13,10 +13,10 @@ function App() {
     <Navbar />
     <Switch>
       <Route path='/' exact component={Home} />
-      <Route path='/breed' component={Breed} />
+      <Route path='/allprojects' component={AllProjects} />
       <Route path='/ambassadors' component={Ambassadors} />
-      <Route path='/marketplace' component={Marketplace} />
-      {/* <Route path="/details/:id?" component={Details} /> */}
+      <Route path='/about' component={About} />
+      <Route path="/details" component={Details} />
       <Route>404 Not Found!</Route>
     </Switch>
   </Router>

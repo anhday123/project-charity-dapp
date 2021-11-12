@@ -5,7 +5,7 @@ import H2 from "../assets/images/bg/about-2.jpeg"
 import H3 from "../assets/images/bg/about-3.jpeg"
 import H4 from "../assets/images/bg/about-4.jpeg"
 import * as s from "../styles/globalStyles";
-const Marketplace = () => {
+const About = () => {
     return (
       <s.Screen>
 <div className="">
@@ -79,7 +79,7 @@ const Marketplace = () => {
       </s.Screen>
     )
 }
-export default Marketplace
+export default About
 
 // const Container = styled.div `
 //     display: flex;

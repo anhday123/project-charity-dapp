@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 // Used for wrapping a page component
-export const Screen = styled.div`
+export const Screen = styled.div `
   margin-top: 80px;
   background-image: ${({ image }) => (image ? `url(${image})` : "none")};
   background-size: cover;
@@ -15,37 +15,37 @@ export const Screen = styled.div`
 `;
 
 // Used for providing space between components
-export const SpacerXSmall = styled.div`
+export const SpacerXSmall = styled.div `
   height: 8px;
   width: 8px;
 `;
 
 // Used for providing space between components
-export const SpacerSmall = styled.div`
+export const SpacerSmall = styled.div `
   height: 16px;
   width: 16px;
 `;
 
 // Used for providing space between components
-export const SpacerMedium = styled.div`
+export const SpacerMedium = styled.div `
   height: 24px;
   width: 24px;
 `;
 
 // Used for providing space between components
-export const SpacerLarge = styled.div`
+export const SpacerLarge = styled.div `
   height: 32px;
   width: 32px;
 `;
 
 // Used for providing space between components
-export const SpacerSuperLarge = styled.div`
+export const SpacerSuperLarge = styled.div `
   height: 52px;
   width: 52px;
 `;
 
 // Used for providing a wrapper around a component
-export const Container = styled.div`
+export const Container = styled.div `
   /* margin-top: 80px; */
   display: flex;
   flex: ${({ flex }) => (flex ? flex : 0)};
@@ -54,14 +54,17 @@ export const Container = styled.div`
   align-items: ${({ ai }) => (ai ? ai : "flex-start")};
   background-color: ${({ bgc }) => (bgc ? bgc : "none")};
   width: 100%;
-  background-image: ${({ image }) => (image ? `url(${image})` : "none")};
+  background-image: ${({ image }) => (image ? `
+url($ { image })
+` : "none")};
   background-size: cover;
   background-position: center;
   box-sizing: border-box;
   /* border: 1px solid #ffffff; */
 `;
 
-export const InputTransfer = styled.input.attrs({type: "text"})`
+export const InputTransfer = styled.input.attrs({ type: "text" })
+`
   display: inline-block;
   width: 35%;
   height: 40px;
@@ -81,7 +84,7 @@ export const InputTransfer = styled.input.attrs({type: "text"})`
   }
 `;
 
-export const ContainerDetails = styled.div`
+export const ContainerDetails = styled.div `
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -101,7 +104,7 @@ export const ContainerDetails = styled.div`
   ; */
 `;
 
-export const Box = styled.div`
+export const Box = styled.div `
   display: inline-block;
   justify-content: center;
   align-items: center;
@@ -112,7 +115,7 @@ export const Box = styled.div`
   border-radius: 0.8rem;
 `;
 
-export const StyledImg = styled.div`
+export const StyledImg = styled.div `
   width: 200px;
   height: 200px;
   border: 1px solid #ffffff;
@@ -120,7 +123,7 @@ export const StyledImg = styled.div`
   cursor: pointer;
 `;
 
-export const StyledImgDetails = styled.div`
+export const StyledImgDetails = styled.div `
   width: 350px;
   height: 350px;
   border-radius: 0.8rem;
@@ -128,21 +131,21 @@ export const StyledImgDetails = styled.div`
   cursor: pointer;
 `;
 
-export const StyledTextBox = styled.div`
+export const StyledTextBox = styled.div `
   display: flex;
   width: 100%;
   justify-content: space-between;
   align-items: center;
 `;
 
-export const StyledTextBoxName = styled.div`
+export const StyledTextBoxName = styled.div `
   display: flex;
   width: 100%;
   justify-content: center;
   align-items: center;
 `;
 
-export const StyledTextBoxNameDetails = styled.div`
+export const StyledTextBoxNameDetails = styled.div `
   display: flex;
   width: 100%;
   justify-content: start;
@@ -150,14 +153,14 @@ export const StyledTextBoxNameDetails = styled.div`
   margin-bottom: 60px;
 `;
 
-export const TextTitle = styled.p`
+export const TextTitle = styled.p `
   color: #ffffff;
   font-size: 20px;
   font-weight: 600;
   line-height: 0px;
 `;
 
-export const TextSubTitle = styled.p`
+export const TextSubTitle = styled.p `
   color: #ffffff;
   font-size: 14px;
   font-weight: 500;
@@ -167,7 +170,7 @@ export const TextSubTitle = styled.p`
   line-height: 0;
 `;
 
-export const TextDescription = styled.p`
+export const TextDescription = styled.p `
   color: #ffffff;
   font-size: 14px;
   letter-spacing: 0.8px;
@@ -175,7 +178,7 @@ export const TextDescription = styled.p`
   height: 5px;
 `;
 
-export const TextDescriptionDetail = styled.p`
+export const TextDescriptionDetail = styled.p `
   color: #ffffff;
   font-size: 30px;
   letter-spacing: 0.8px;
@@ -183,13 +186,13 @@ export const TextDescriptionDetail = styled.p`
   height: 5px;
 `;
 
-export const StyledClickable = styled.div`
+export const StyledClickable = styled.div `
   :active {
     opacity: 0.6;
   }
 `;
 
-export const StyledButton = styled.button`
+export const StyledButton = styled.button `
   display: block;
   height: 70px;
   width: 180px;
@@ -213,7 +216,7 @@ export const StyledButton = styled.button`
   }
 `;
 
-export const StyledButtonTransfer = styled.button`
+export const StyledButtonTransfer = styled.button `
   display: block;
   height: 40px;
   width: auto;
@@ -242,7 +245,7 @@ export const StyledButtonTransfer = styled.button`
   } */
 `;
 
-export const StyledButtonAction= styled.button`
+export const StyledButtonAction = styled.button `
   display: block;
   height: 40px;
   width: 100%;
@@ -266,7 +269,7 @@ export const StyledButtonAction= styled.button`
   }
 `;
 
-export const StyledButtonLoadingAction = styled.div`
+export const StyledButtonLoadingAction = styled.div `
   display: inline-block;
   align-items: center;
   width: 20px;
@@ -284,7 +287,7 @@ export const StyledButtonLoadingAction = styled.div`
   }
 `
 
-export const StyledButtonLoading = styled.div`
+export const StyledButtonLoading = styled.div `
   display: inline-block;
   align-items: center;
   width: 30px;
@@ -301,7 +304,7 @@ export const StyledButtonLoading = styled.div`
     }
   }
 `
-export const TextSubTitleFooter = styled.p`
+export const TextSubTitleFooter = styled.p `
   color: #ffffff;
   font-size: 16px;
   font-weight: 500;
@@ -309,7 +312,7 @@ export const TextSubTitleFooter = styled.p`
 `;
 
 //navbarhelpers
-export const MenuTabs = styled.div`
+export const MenuTabs = styled.div `
   width: 100%;
   height: 40px;
   border-bottom: 1px solid #ffffff;
@@ -318,7 +321,7 @@ export const MenuTabs = styled.div`
   align-items: stretch;
 `;
 
-export const Tabs = styled.a`
+export const Tabs = styled.a `
   color: #fff;
   display: flex;
   align-items: center;
@@ -337,7 +340,7 @@ export const Tabs = styled.a`
 
 `;
 
-export const Footer = styled.div`
+export const Footer = styled.div `
   overflow: hidden;
   display: flex;
   /* display: none; */
@@ -351,14 +354,159 @@ export const Footer = styled.div`
   color: #ffffff;
   padding: 5px 0px;
 `;
+//ITEM
+export const ContainerI = styled.div `
+    // max-width: 1060px;
+    // padding: 0px 0px 40px;
+    margin: 0;
+    padding: 0;
+    // display: grid;
+    // grid-template-columns: repeat(2, 1fr); 
+`
+export const ContainerItemBoder = styled.div `
+    max-width: 1060px;
+    // width: 510px;
+    margin: 0px auto;
+    padding: 0px 0px 40px;
+    display: flex;
+    // display: grid;
+    // grid-template-columns: repeat(2, 1fr);
+    flex-flow: row wrap;
+    animation: 0.3s linear 0s 1 normal none running animation-1t3yl1m;
+`
+export const ContainerItem = styled.div `
+    width: 510px;
+    margin: 10px;
+    position: relative;
+    background: rgb(255, 255, 255);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, .1), 0 2px 24px rgba(0, 0, 0, .05);
+    border: 0;
+    // box-shadow: rgb(0 0 0 / 10%) 0px 0px 10px;
+    border-radius: 4px;
+    overflow: hidden;
+    transform: translate3d(0px, 0px, 0px);
+    transition: all 0.3s ease 0s;`
+export const ContainerItemTitle = styled.div `
+    width: 100%;
+    height: 240px;
+    position: relative;
+    cursor: pointer;
+    img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    `
+export const ItemImg= styled.img `
+    width: 100%;
+    height: 100%;
+    object-fit: cover;`
+export const ItemTitle= styled.div `
+    width: 100%;
+    padding: 16px;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(4px);`
+
+export const ItemH3= styled.h3 `
+    margin: 0px 0px 4px;
+    font-size: 18px;
+    line-height: 24px;
+    color: rgb(255, 255, 255);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;`
+export const ItemP= styled.p `
+    height: 20px;
+    font-size: 16px;
+    line-height: 16px;
+    color: rgb(0, 0, 0);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;`
+export const ItemBodyContainer= styled.div `
+  margin: 16px 16px 16px;`
+export const ItemBody= styled.div `
+  margin: 0px 0px 4px;  `
+export const ItemBodyMoney1= styled.span `
+    margin: 0px 6px 0px 0px;
+    font-size: 18px;
+    line-height: 21px;
+    font-weight: 500;
+    color: rgb(0, 0, 0);`
+export const ItemBodyMoney2= styled.span `
+    font-size: 12px;
+    line-height: 16px;
+    color: rgb(94, 102, 115);`
+export const ItemFooterContainer= styled.div `
+    position: relative;
+    margin: 0px 24px 16px;`
+export const ItemFooter= styled.div `
+    margin-right: 18px;`
+export const ItemFooterDonateText= styled.div `
+    font-size: 14px;
+    line-height: 24px;
+    color: rgb(94, 102, 115);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;`
+export const ItemFooterDonate= styled.div `
+    font-size: 18px;
+    line-height: 24px;
+    font-weight: 700;
+    color: rgb(30, 32, 38);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;`
+export const ItemBtn= styled.button `    width: 124px;
+    height: 40px;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    position: absolute;
+    right: 0px;
+    bottom: 10px;
+    font-size: 16px;
+    font-weight: 400;
+    color: rgb(30, 35, 41);
+    background: rgb(252, 213, 53);
+    border-radius: 4px;
+    outline: none;
+    border: none;
+    cursor: pointer;`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // FORM
-export const FormB = styled.div`
+export const FormB = styled.div `
     display: flex;
     justify-content: center;
     align-items: center;
     // height: 100vh;
 `
-export const Form = styled.div`
+export const Form = styled.div `
       // position: absolute;
     // position: relative;
     width: 1000px;
@@ -419,4 +567,3 @@ export const Form = styled.div`
         }
     }
 `
-

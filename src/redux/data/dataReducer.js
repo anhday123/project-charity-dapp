@@ -11,8 +11,6 @@ const dataReducer = (state = initialState, action) => {
             return {
                 ...initialState,
                 loading: true,
-
-
             };
         case "CHECK_DATA_SUCCESS":
             return {
