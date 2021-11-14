@@ -1,30 +1,33 @@
 import React from 'react'
-import {  useSelector } from "react-redux";
-import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom";
-// import _Bg from "../assets/images/bg/about-2.jpeg"
 
+import { useDispatch, useSelector } from "react-redux";
+
+import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom";
 import * as s from "../styles/globalStyles";
 
+const MyProjects = () => {
+ 
+    const data = useSelector((state) => state.data)
+    
+    console.log(data.AllOwnerProjects);
 
-const AllProjects = () => {
-    const data = useSelector((state) => state.data);
-    console.log(data.AllProjects)
 
-    return ( 
-       <s.Screen mgtS={"80px"}>
-        <s.Container   ai={"center"}  >
-        <s.TextTitle 
-          style={{
-            textAlign: "center", 
-            fontSize: "36px", 
-            color: "#000"}}
+    return (
+        <>
+        <s.Screen mgtS={"80px"}>
+        <s.Container ai={"center"}>
+            <s.TextTitle 
+                style={{
+                    textAlign: "center", 
+                    fontSize: "36px", 
+                    color: "#000"}}
             >
-              Chương trình đang kêu gọi
+            Chương trình của bạn
             </s.TextTitle>      
         </s.Container>
         <s.ContainerI>
         <s.ContainerItemBoder>
-        {data.AllProjects.map((item, index) => {
+        {data.AllOwnerProjects.map((item, index) => {
                   return (
                     
                     <s.ContainerItem
@@ -36,7 +39,7 @@ const AllProjects = () => {
                     >                     
                     <s.ContainerItemTitle>
                     <Link to={`/details/${item.id}`}>
-                      <img src={item.imageUrl} alt=""/>
+                        <img src={item.imageUrl} alt="img"/>
                     </Link>
 
                     <s.ItemTitle>
@@ -45,6 +48,7 @@ const AllProjects = () => {
                     </s.ItemTitle>
                   </s.ContainerItemTitle>
                     <s.ItemBodyContainer>
+                    <s.ItemBodyMoney1>{item.location}</s.ItemBodyMoney1>
                     <s.ItemBodyMoney1>{item.recipient}</s.ItemBodyMoney1>
                     <s.ItemP>{item.description}</s.ItemP>
                     
@@ -55,32 +59,28 @@ const AllProjects = () => {
                   </s.ItemBodyContainer>
                   <s.ItemFooterContainer>
                     <s.ItemFooter>
-                      <s.ItemFooterDonateText>Số lần ủng hộ</s.ItemFooterDonateText>
+                        <s.ItemFooterDonateText>
+                          Số lần ủng hộ
+                        </s.ItemFooterDonateText>
                       <s.ItemFooterDonate>800</s.ItemFooterDonate>
-                      <Link to={`/details/${item.id}`}><s.ItemBtn>Tham gia</s.ItemBtn></Link>
+                        <Link to={`/details/${item.id}`}>
+                          <s.ItemBtn>Tham gia</s.ItemBtn>
+                        </Link>
                     </s.ItemFooter>
                   </s.ItemFooterContainer>
 
                     </s.ContainerItem>
                   );
               })}
-          {/*
-            <s.ItemFooterContainer>
-              <s.ItemFooter>
-                <s.ItemFooterDonateText>huhuhu</s.ItemFooterDonateText>
-                <s.ItemFooterDonate>800</s.ItemFooterDonate>
-                <s.ItemBtn>Tham gia</s.ItemBtn>
-              </s.ItemFooter>
-            </s.ItemFooterContainer>
-          </s.ContainerItem> */}
-  
+    
         </s.ContainerItemBoder>
-        </s.ContainerI>
-     
-       </s.Screen>
-  
-
-    )
+      </s.ContainerI>   
+        </s.Screen>
+            
+        </>  
+    );
 }
 
-export default AllProjects
+
+
+export default MyProjects;

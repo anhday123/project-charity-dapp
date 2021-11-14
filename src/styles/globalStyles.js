@@ -1,14 +1,15 @@
 import styled from "styled-components";
+import { FaCheckSquare } from 'react-icons/fa'
 
 // Used for wrapping a page component
 export const Screen = styled.div `
-  margin-top: 80px;
+  margin-top: ${({ mgtS }) => (mgtS ? mgtS : "0px")};
   background-image: ${({ image }) => (image ? `url(${image})` : "none")};
 
   background-size: cover;
   /* background-position: center; */
   width: 100%;
-  min-height: 100vh;
+  min-height: 120vh;
   display: flex;
   flex-direction: column;
   font-family: var( --font-family-Sora);
@@ -55,110 +56,19 @@ export const Container = styled.div `
   align-items: ${({ ai }) => (ai ? ai : "flex-start")};
   background-color: ${({ bgc }) => (bgc ? bgc : "none")};
   width: 100%;
-  background-image: ${({ image }) => (image ? `
-url($ { image })
-` : "none")};
+  background-image: ${({ image }) => (image ? `url(${image})` : "none")};
   background-size: cover;
   background-position: center;
   box-sizing: border-box;
   /* border: 1px solid #ffffff; */
 `;
 
-export const InputTransfer = styled.input.attrs({ type: "text" })
-`
-  display: inline-block;
-  width: 35%;
-  height: 40px;
-  border: 1px solid #ffffff;
-  background: #333;
-  outline: none;
-  box-sizing: border-box;
-  border-radius: 0.4rem;
-  padding: 0 10px;
-  font-size: 15px;
-  color: #fff;
-  transition: 0.3s;
-
-  &:focus {
-    border-color: #00aec9;
-    box-shadow: 0 0 0 0.2rem rgba(19, 162, 228, 0.25);
-  }
-`;
-
-export const ContainerDetails = styled.div `
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  width: 100%;
-  height: 350px;
-  padding: 0.8rem 2rem;
-  box-sizing: border-box;
-  border-radius: 0.8rem;
-  margin-left: 4rem;
-  border: 1px solid #ffffff;
-  /* box-shadow: -15px -15px 15px rgba(255, 255, 255, 0.2),
-    15px  15px 15px rgba(0, 0, 0, 0.1),
-    inset -5px -5px 5px rgba(255, 255, 255, 0.2),
-    inset 5px 5px 5px rgba(0, 0, 0, 0.1)
-  ; */
-`;
-
-export const Box = styled.div `
-  display: inline-block;
-  justify-content: center;
-  align-items: center;
-  width: auto;
-  height: auto;
-  color: #ffffff;
-  border: 1px solid #ffffff;
-  border-radius: 0.8rem;
-`;
-
-export const StyledImg = styled.div `
-  width: 200px;
-  height: 200px;
-  border: 1px solid #ffffff;
-  border-radius: 0.8rem;
-  cursor: pointer;
-`;
-
-export const StyledImgDetails = styled.div `
-  width: 350px;
-  height: 350px;
-  border-radius: 0.8rem;
-  box-shadow: 0 0 2em 10px #fff;
-  cursor: pointer;
-`;
-
-export const StyledTextBox = styled.div `
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-export const StyledTextBoxName = styled.div `
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const StyledTextBoxNameDetails = styled.div `
-  display: flex;
-  width: 100%;
-  justify-content: start;
-  align-items: center;
-  margin-bottom: 60px;
-`;
-
 export const TextTitle = styled.p `
   color: #ffffff;
+  width: ${({ wt }) => (wt ? wt : "50%")};
   font-size: 20px;
   font-weight: 600;
-  line-height: 0px;
+  /* line-height: 0px; */
 `;
 
 export const TextSubTitle = styled.p `
@@ -177,20 +87,6 @@ export const TextDescription = styled.p `
   letter-spacing: 0.8px;
   font-weight: 600;
   height: 5px;
-`;
-
-export const TextDescriptionDetail = styled.p `
-  color: #ffffff;
-  font-size: 30px;
-  letter-spacing: 0.8px;
-  font-weight: 600;
-  height: 5px;
-`;
-
-export const StyledClickable = styled.div `
-  :active {
-    opacity: 0.6;
-  }
 `;
 
 export const StyledButton = styled.button `
@@ -239,72 +135,8 @@ export const StyledButtonTransfer = styled.button `
     visibility: none;
     color: #010606;
   }
-
-  /* &:disabled {
-    opacity: 0.2;
-    pointer-events: none;
-  } */
 `;
 
-export const StyledButtonAction = styled.button `
-  display: block;
-  height: 40px;
-  width: 100%;
-  border-radius: 0.4rem;
-  border: 1px solid #fff;
-  background: none;
-  color: #fff;
-  cursor: pointer;
-  font-family: var( --font-family-Sora);
-  font-size: 12px;
-  letter-spacing: 2px;
-  transition: all 0.5s ease-in-out;
-  font-weight: 600;
-  padding: 0 50px;
-
-  &:hover {
-    transition: all 0.5s ease-in-out;
-    background: #fff;
-    visibility: none;
-    color: #010606;
-  }
-`;
-
-export const StyledButtonLoadingAction = styled.div `
-  display: inline-block;
-  align-items: center;
-  width: 20px;
-  height: 20px;
-  background: transparent;
-  border: 4px dotted #3498db;
-  border-radius: 50%;
-  border-top-color: transparent;
-  animation: button-loading-spinner 1.2s linear infinite;
-
-  @keyframes button-loading-spinner {
-    to {
-      transform: rotate(360deg);
-    }
-  }
-`
-
-export const StyledButtonLoading = styled.div `
-  display: inline-block;
-  align-items: center;
-  width: 30px;
-  height: 30px;
-  background: transparent;
-  border: 4px dotted #3498db;
-  border-radius: 50%;
-  border-top-color: transparent;
-  animation: button-loading-spinner 1.2s linear infinite;
-
-  @keyframes button-loading-spinner {
-    to {
-      transform: rotate(360deg);
-    }
-  }
-`
 export const TextSubTitleFooter = styled.p `
   color: #ffffff;
   font-size: 16px;
@@ -357,21 +189,14 @@ export const Footer = styled.div `
 `;
 //ITEM
 export const ContainerI = styled.div `
-    // max-width: 1060px;
-    // padding: 0px 0px 40px;
     margin: 0;
     padding: 0;
-    // display: grid;
-    // grid-template-columns: repeat(2, 1fr); 
 `
 export const ContainerItemBoder = styled.div `
     max-width: 1060px;
-    // width: 510px;
     margin: 0px auto;
     padding: 0px 0px 40px;
     display: flex;
-    // display: grid;
-    // grid-template-columns: repeat(2, 1fr);
     flex-flow: row wrap;
     animation: 0.3s linear 0s 1 normal none running animation-1t3yl1m;
 `
@@ -382,11 +207,11 @@ export const ContainerItem = styled.div `
     background: rgb(255, 255, 255);
     box-shadow: 0 1px 6px rgba(0, 0, 0, .1), 0 2px 24px rgba(0, 0, 0, .05);
     border: 0;
-    // box-shadow: rgb(0 0 0 / 10%) 0px 0px 10px;
     border-radius: 4px;
     overflow: hidden;
     transform: translate3d(0px, 0px, 0px);
     transition: all 0.3s ease 0s;`
+
 export const ContainerItemTitle = styled.div `
     width: 100%;
     height: 240px;
@@ -484,11 +309,101 @@ export const ItemBtn = styled.button `
     border: none;
     cursor: pointer;`
 
-//FORM
-export const FormContainer = styled.button ``
-export const FormTitle = styled.button ``
-export const Form = styled.button ``
-export const FormDiv = styled.button ``
-export const FormInput = styled.button ``
-export const FormLable = styled.button ``
-export const FormButton = styled.button ``
+
+//ContenHome
+export const ContainerContent = styled.div`
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    width: 100%;
+    margin-top: 24px;
+    padding: 24px 120px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 24px;
+`
+
+export const ContentHd = styled.div `
+box-shadow:0px 8px 20px rgba(0,0,0,0.06);
+border:0;
+
+    @media screen and (max-width: 768px){
+       width: 100%;
+       margin-top: 28px;
+    }
+
+`
+export const ContentBg = styled.div `
+
+    height: 400px;
+    background-color: ${({bg}) => bg || '#FFEDDA'};
+    padding: 16px;
+
+ 
+`
+
+export const ContentLogo = styled.div `
+    font-size: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    color: #fff;
+    border-radius: 50%;
+    background-color: ${({bg}) => bg || 'rgb(236, 70, 70)'};
+    margin-top: -56px;
+
+`
+
+export const Icon = styled(FaCheckSquare)` 
+  margin-top: 24px;
+`
+export const ContentH1 = styled.h1 `
+        margin-top: 40px;
+        font-size: 24px;
+        letter-spacing: 3px;
+`
+
+export const ContentP = styled.p `
+        margin-top: 28px;
+        font-size: 20px;
+        letter-spacing: 2px;
+        height: 200px;
+`
+export const ContentHd2 = styled.div `
+    box-shadow:0px 8px 20px rgba(0,0,0,0.06);
+    border:0;
+    text-align: left;
+
+
+    @media screen and (max-width: 768px){
+       width: 100%;
+       margin-top: 26px;
+    }
+
+`
+export const ContentBg2 = styled.div `
+
+    height: 320px;
+    background-color: ${({bg}) => bg || '#FFEDDA'};
+    padding: 16px;
+    color: #28a0e6;
+ 
+`
+
+export const Icon2= styled(FaCheckSquare)` 
+    font-size: 120px;
+    background-color: ${({bg}) => bg || '#FFEDDA'};
+`
+export const ContentH12 = styled.h1 `
+        margin-top: 16px;
+        font-size: 24px;
+        letter-spacing: 3px;
+`
+
+export const ContentP2 = styled.p `
+        margin-top: 28px;
+        font-size: 20px;
+        letter-spacing: 2px;
+`

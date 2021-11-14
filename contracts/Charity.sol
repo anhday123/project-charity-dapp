@@ -44,7 +44,7 @@ contract Charity {
         //     allProjects[i].recipient != msg.sender,
         //     'Please donate from another wallet'
         // );
-        require(isCharity() == false, 'cannot donate.');
+        //require(isCharity() == false, 'cannot donate.');
         require(allProjects[i].amountDonated < allProjects[i].amountNeeded, 'the project already raised enough money');
         createDonationStruct(msg.value, id);
         // this.balance.transfer(msg.value);
@@ -79,6 +79,9 @@ contract Charity {
         ownerProjectAmount[newProject.recipient]++;
         
         emit Project_Created(msg.sender, address(this), description);
+    }
+    function getAllDonors()public view returns(Donor[] memory){
+        return allDonors;
     }
     
     function getAllProjects() public view returns(Project[] memory){

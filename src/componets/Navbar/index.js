@@ -40,8 +40,6 @@ const Navbar = () => {
       <NavMenu>
         {links}
       </NavMenu>
-      
-
         {blockchain.account !== null ? (
           
           <NavBtn>
@@ -49,7 +47,7 @@ const Navbar = () => {
           >
             Tạo chương trình
           </NavBtnLink>
-          <NavBtnLink to='/'  
+          <NavBtnLink to='/myproject' activeStyle  
          >
             {account.substring(0, 6)}....
             {account.substring(account.length - 6)}

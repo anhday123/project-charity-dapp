@@ -6,6 +6,7 @@ import About from './page/About';
 import AllProjects from './page/AllProjects';
 import Ambassadors from './page/Ambassadors'
 import Details from './componets/Factory/Details';
+import MyProjects from './page/MyProjects';
 import FormCreate from "./page/FormCreate";
 
 function App() {
@@ -19,7 +20,8 @@ function App() {
       <Route path='/ambassadors' component={Ambassadors} />
       <Route path='/about' component={About} />
       <Route path='/formcreate' component={FormCreate} />
-      <Route path="/details" component={Details} />
+      <Route path='/myproject' component={MyProjects} />
+      <Route path="/details/:id?" component={Details} />
       <Route>404 Not Found!</Route>
     </Switch>
   </Router>

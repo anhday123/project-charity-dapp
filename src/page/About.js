@@ -7,7 +7,7 @@ import H4 from "../assets/images/bg/about-4.jpeg"
 import * as s from "../styles/globalStyles";
 const About = () => {
     return (
-      <s.Screen>
+      <s.Screen mgtS={"80px"}>
 <div className="">
             <div className="explore-main">
               <div className="explore-image">
@@ -81,30 +81,4 @@ const About = () => {
 }
 export default About
 
-// const Container = styled.div `
-//     display: flex;
-//     justify-content: space-between;
-//     align-items: center;
-//     gap: 0 50px;
-//     padding: 16px 44px;
-// `
-
-// const Image = styled.div `
-//     display: flex;
-//     justify-content: space-between;
-//     align-items: center;
-//     gap: 0 50px;
-//     padding: 16px 44px;
-//     img {
-//         width: 800px;
-//         border-radius: 10px;
-//     }
-// `
-// const Text = styled.p `
-//     display: flex;
-//     justify-content: space-between;
-//     align-items: center;
-//     gap: 0 50px;
-//     padding: 16px 44px;
-// `
 

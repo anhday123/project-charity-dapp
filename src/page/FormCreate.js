@@ -15,6 +15,7 @@ const FormCreate = () => {
   const data = useSelector((state) => state.data);
   const [loading, setLoading] = useState(false);
   const [nameCharity, setNameCharity] = useState("");
+  const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
   const [amountNeed, setAmountNeed] = useState();
   const [fileImg, setFileImg] = useState();
@@ -36,10 +37,10 @@ const FormCreate = () => {
   }
     console.log(data);
 
-    const createProjectStruct = (_account, _name, _description, _amountNeeded, _imageUrl) => {
+    const createProjectStruct = (_account, _name, _location, _description, _amountNeeded, _imageUrl) => {
       setLoading(true);
       blockchain.Charity.methods
-        .createProjectStruct(_name, _description, _amountNeeded, _imageUrl)
+        .createProjectStruct(_name, _location, _description, _amountNeeded, _imageUrl)
         .send({
           from: _account,
         })
@@ -73,26 +74,14 @@ const FormCreate = () => {
 
     return (
       <>
-         <s.Container bgc={"#71a5f2"} flex={1} ai={"center"} jc={"center"} >
-      <s.TextTitle style={{textAlign: "center", fontSize: "36px", color: "#000"}}>CHƯƠNG TRÌNH NỔI BẬT</s.TextTitle>      
-      </s.Container>
-        <s.Screen >
+      
+        <s.Screen mgtS={"80px"}>
+        <s.Container  flex={1} ai={"center"} jc={"center"} >
+        <s.TextTitle style={{textAlign: "center", fontSize: "36px", color: "#000"}}>Tạo chương trình</s.TextTitle>      
+        </s.Container>
         {blockchain.account === "" || blockchain.Charity === null ? (
             <s.Container flex={1} ai={"center"} jc={"center"}>
-
-              <s.TextTitle style={{textAlign: "center", fontSize: "36px"}}>Một cách tạo chương trình từ thiện khác biệt!</s.TextTitle>
-              <s.TextTitle style={{textAlign: "center", fontSize: "24px"}}>Hãy tạo chương trình hoặc ủng hộ chương trình mà bạn quan tâm</s.TextTitle>
-              <s.SpacerSmall />
-              <s.StyledButton 
-              
-                onClick={(e) => {
-                  e.preventDefault();
-                  dispatch(connect());
-                }}
-              >
-                Tham gia
-              </s.StyledButton>
-              <s.SpacerXSmall />
+          
               {blockchain.errorMsg !== "" ? (
                 <s.TextDescription>{blockchain.errorMsg}</s.TextDescription>
               ) : null}
@@ -103,7 +92,7 @@ const FormCreate = () => {
           {!loading &&
           <div className="l-form">
           <form action="" className="form">
-              <h1 className="form__title">Tạo chương trình</h1>
+              {/* <h1 className="form__title">Tạo chương trình</h1> */}
 
               <div className="form__div">
                   <input type="text" className="form__input" placeholder=" " onChange={e => setNameCharity(e.target.value)}/>
@@ -111,7 +100,7 @@ const FormCreate = () => {
               </div>
 
               <div className="form__div">
-                  <input type="text" className="form__input" placeholder=" "/>
+                  <input type="text" className="form__input" placeholder=" " onChange={e => setLocation(e.target.value)}/>
                   <label for="" className="form__label">Địa điểm </label>
               </div>
               <div className="form__div">
@@ -129,6 +118,7 @@ const FormCreate = () => {
               placeholder=" Chọn ảnh minh hoạ"
             //   style={{color : "#ffffff"}}
               onChange={onChange}
+              
           />
           {fileImg && (
             <img 
@@ -144,6 +134,7 @@ const FormCreate = () => {
                         createProjectStruct(
                           blockchain.account,
                           nameCharity,
+                          location,
                           description,
                           amountNeed,
                           fileImg

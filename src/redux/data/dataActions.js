@@ -20,6 +20,12 @@ const fetchDataFailed = (payload) => {
         payload: payload,
     };
 };
+const removeSelectedProduct = () => {
+    return {
+        type: "REMOVE_SELECTED_PRODUCT",
+    };
+};
+
 
 export const fetchData = (account) => {
     return async(dispatch) => {
@@ -29,23 +35,32 @@ export const fetchData = (account) => {
                 .getState()
                 .blockchain.Charity.methods.getAllProjects()
                 .call();
+            let AllOwnerProjects = await store
+                .getState()
+                .blockchain.Charity.methods.getOwnerProjects(account)
+                .call();
+            let Donors = await store
+                .getState()
+                .blockchain.Charity.methods.getAllDonors()
+                .call();
+
+
             dispatch(
                 fetchDataSuccess({
                     AllProjects,
+                    AllOwnerProjects,
+                    Donors,
                 })
             );
         } catch (err) {
             console.log(err);
             dispatch(fetchDataFailed("Could not load data from contract."));
-            // let AllProjects = await store
-            //     .getState()
-            //     .blockchain.Charity.methods.getAllProjects()
-            //     .call();
-            // dispatch(
-            //     fetchDataSuccess({
-            //         AllProjects,
-            //     })
-            // );
+
         }
+    };
+};
+export const removeData = () => {
+    return async(dispatch) => {
+        dispatch(removeSelectedProduct());
     };
 };
