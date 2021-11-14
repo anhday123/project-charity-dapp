@@ -45,18 +45,26 @@ const AllProjects = () => {
                     </s.ItemTitle>
                   </s.ContainerItemTitle>
                     <s.ItemBodyContainer>
+                  <s.ItemBodyMoney1>{item.location}</s.ItemBodyMoney1>
+
+                    </s.ItemBodyContainer>
+                    <s.ItemBodyContainer>
+
                     <s.ItemBodyMoney1>{item.recipient}</s.ItemBodyMoney1>
-                    <s.ItemP>{item.description}</s.ItemP>
                     
+                    <s.ItemP>{item.description}</s.ItemP>
+
                     <s.ItemBody>
                       <s.ItemBodyMoney1>{item.amountDonated}</s.ItemBodyMoney1>
-                      <s.ItemBodyMoney2>{item.amountNeeded}</s.ItemBodyMoney2>
+                      <s.ItemBodyMoney1>/ {item.amountNeeded}</s.ItemBodyMoney1>
+
+                      {/* <s.ItemBodyMoney2>{item.amountNeeded}</s.ItemBodyMoney2> */}
                     </s.ItemBody>
                   </s.ItemBodyContainer>
                   <s.ItemFooterContainer>
                     <s.ItemFooter>
                       <s.ItemFooterDonateText>Số lần ủng hộ</s.ItemFooterDonateText>
-                      <s.ItemFooterDonate>800</s.ItemFooterDonate>
+                      <s.ItemFooterDonate>xxxx</s.ItemFooterDonate>
                       <Link to={`/details/${item.id}`}><s.ItemBtn>Tham gia</s.ItemBtn></Link>
                     </s.ItemFooter>
                   </s.ItemFooterContainer>

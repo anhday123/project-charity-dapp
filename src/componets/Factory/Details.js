@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchData , removeData } from "../../redux/data/dataActions";
 import * as s from "../../styles/globalStyles";
+import "../../page/styled/styled.scss"
 import _Bg1 from "../../assets/images/bg/blockchain1.png";
 import { ethers } from "ethers";
 const Details = () => {
@@ -36,10 +37,15 @@ const Details = () => {
             dispatch(fetchData(blockchain.account));
           });
       };
+      console.log(listDonors.length);
     
     return (
         <>
-            <s.Screen mgtS={"80px"} image={_Bg1}>
+            <s.Screen
+             mgtS={"80px"} 
+            //  image={_Bg1}
+             >
+              
             <s.Container ai={"center"}>
             <s.TextTitle 
                 style={{
@@ -50,13 +56,37 @@ const Details = () => {
             Chi tiết chương trình
             </s.TextTitle>      
         </s.Container>
-            <s.Container>
+   
+            <s.ContainerItemBoder>
+            {list.filter(item => item.id === id).map((item, index) => (
+              <div className="item">
+              <div className="title">
+                <h3 className="name">Tên chương trình: {item.projectName}</h3>
+                <p className="location">Địa điểm: {item.location}</p>
+                <p className="stk">Số tài khoản kêu gọi: {item.recipient}</p>
+    
+              </div>
+              <p className="location">Hình ảnh minh hoạ:</p>
+    
+              <div className="img">
+    
+                <img src={item.imageUrl} alt=""  />
+              </div>
+              <div className="tt">
+                        <p className="sumary">Mô tả: {item.description}</p>
+              </div>
+              <div className="tt-right">
+                <p className="title money">Số tiền kêu gọi: {item.amountNeeded} wei</p>
+                <p className="title money">Số tiền đã kêu gọi được: {item.amountDonated} wei</p>
+           
+                <s.Container>
             <input
             placeholder={"Số tiền ủng hộ"}
             style={{padding: "10px", margin: "10px"}}
             onChange={e => setValue(e.target.value)}
             />
             <button
+            className="log"
                 onClick={() => {
                 donate(
                     blockchain.account,
@@ -68,76 +98,42 @@ const Details = () => {
             </button>
 
             </s.Container>
-            <s.ContainerItemBoder>
-            {list.filter(item => item.id === id).map((item, index) => (
-                <s.Container 
-                    key={index} 
-                    style={{ padding:"10px 100px"}}
-                >
-                {/* <s.ContainerItem
-                        flex={1} 
-                        ai={"center"} 
-                        jc={"center"}
-                        
-                        key={index}
-                      >                      */}
-                      {/* <s.ContainerItemTitle> */}
-                          <img src={item.imageUrl} alt="img"/>
-
-                      {/* <s.ItemTitle> */}
-                      <s.ItemH3>#{item.id}</s.ItemH3>
-                      <s.ItemH3>{item.projectName}</s.ItemH3>
-                      {/* </s.ItemTitle> */}
-                    {/* </s.ContainerItemTitle> */}
-                      {/* <s.ItemBodyContainer> */}
-                      <s.ItemBodyMoney1>{item.location}</s.ItemBodyMoney1>
-                      <s.ItemBodyMoney1>{item.recipient}</s.ItemBodyMoney1>
-                      <s.ItemP>{item.description}</s.ItemP>
-                      
-                      {/* <s.ItemBody> */}
-                        <s.ItemBodyMoney1>{item.amountDonated}</s.ItemBodyMoney1>
-                        <s.ItemBodyMoney2>{item.amountNeeded}</s.ItemBodyMoney2>
-                      {/* </s.ItemBody> */}
-                    {/* </s.ItemBodyContainer> */}
-                    {/* <s.ItemFooterContainer> */}
-                      <s.ItemFooter>
-                        <s.ItemFooterDonateText>Số lần ủng hộ</s.ItemFooterDonateText>
-                        <s.ItemFooterDonate>800</s.ItemFooterDonate>
-
-
-                      </s.ItemFooter>
-                    {/* </s.ItemFooterContainer> */}
-
-                      {/* </s.ContainerItem> */}
-                </s.Container>
-            ))};
+    
+          </div>
+          </div>
+        
+            ))}
+            
             </s.ContainerItemBoder  >
 
-            <s.ContainerItemBoder>
+         
+            <div className='container-table'>
+              <h1>Danh sách người ủng hộ</h1>
+            {/* <h3>Số người đã ủng hộ: {listDonors.length}</h3> */}
+
+
+            <table id="customers">
+              <tr>
+                  <th>Địa chỉ ví</th>
+                  <th>Số tiền</th>
+              </tr>
+            
             {listDonors.filter(item => item.projectID === id).map((item, index) => (
-                <s.Container 
-                    key={index} 
-                    style={{ padding:"10px 100px"}}
-                >
-                <s.ContainerItem
-                        flex={1} 
-                        ai={"center"} 
-                        jc={"center"}
-                        
-                        key={index}
-                      >                     
-                      <s.ContainerItemTitle>
-                      <s.ItemTitle>
-                      <s.ItemH3>{item.donorAddress}</s.ItemH3>
-                      </s.ItemTitle>
-                    </s.ContainerItemTitle>
-                      <s.ItemBodyContainer>
-                      <s.ItemBodyMoney1>{item.amount}</s.ItemBodyMoney1>
-                    </s.ItemBodyContainer>
-                      </s.ContainerItem>
-                </s.Container>
-            ))};
-            </s.ContainerItemBoder  >
+          
+                       
+                            <tr>
+                                <td>{item.donorAddress}</td>
+                                <td>{item.amount} Ether</td>
+                            </tr>
+                   
+               
+              
+            ))}
+            
+                
+            </table>
+
+        </div>
         </s.Screen>
         
         </>

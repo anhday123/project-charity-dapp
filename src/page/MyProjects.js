@@ -46,12 +46,18 @@ const MyProjects = () => {
                     <s.ItemH3>#{item.id}</s.ItemH3>
                     <s.ItemH3>{item.projectName}</s.ItemH3>
                     </s.ItemTitle>
-                  </s.ContainerItemTitle>
-                    <s.ItemBodyContainer>
-                    <s.ItemBodyMoney1>{item.location}</s.ItemBodyMoney1>
-                    <s.ItemBodyMoney1>{item.recipient}</s.ItemBodyMoney1>
-                    <s.ItemP>{item.description}</s.ItemP>
                     
+                  </s.ContainerItemTitle>
+                  <s.ItemBodyContainer>
+                  <s.ItemBodyMoney1>{item.location}</s.ItemBodyMoney1>
+
+                    </s.ItemBodyContainer>
+                  
+                    <s.ItemBodyContainer>
+                    <s.ItemBodyMoney1>{item.recipient}</s.ItemBodyMoney1>                   
+                    <s.ItemP>{item.description}</s.ItemP>
+                    {/* <s.ItemBodyMoney1>{item.location}</s.ItemBodyMoney1> */}
+
                     <s.ItemBody>
                       <s.ItemBodyMoney1>{item.amountDonated}</s.ItemBodyMoney1>
                       <s.ItemBodyMoney2>{item.amountNeeded}</s.ItemBodyMoney2>
@@ -62,7 +68,7 @@ const MyProjects = () => {
                         <s.ItemFooterDonateText>
                           Số lần ủng hộ
                         </s.ItemFooterDonateText>
-                      <s.ItemFooterDonate>800</s.ItemFooterDonate>
+                      <s.ItemFooterDonate>xxxx</s.ItemFooterDonate>
                         <Link to={`/details/${item.id}`}>
                           <s.ItemBtn>Tham gia</s.ItemBtn>
                         </Link>
