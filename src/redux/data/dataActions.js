@@ -43,6 +43,10 @@ export const fetchData = (account) => {
                 .getState()
                 .blockchain.Charity.methods.getAllDonors()
                 .call();
+            let Receivers = await store
+                .getState()
+                .blockchain.Charity.methods.getAllReceiver()
+                .call();
 
 
             dispatch(
@@ -50,6 +54,7 @@ export const fetchData = (account) => {
                     AllProjects,
                     AllOwnerProjects,
                     Donors,
+                    Receivers,
                 })
             );
         } catch (err) {

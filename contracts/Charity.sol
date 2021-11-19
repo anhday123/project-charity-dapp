@@ -5,7 +5,7 @@ contract Charity {
     
     struct Project {
         uint256 id;
-        address payable recipient;
+        address payable program_creator;
         string projectName;
         string location;
         string description;
@@ -21,11 +21,18 @@ contract Charity {
         uint256 amount;
         uint256 projectID;
     }
+    
+    struct Receiver {
+        address payable receiverAddress;
+        uint256 projectID;
+    }
     uint256 public nextId = 1;
-    Donor[] public allDonors;
-    Project[] public allProjects; //mang project.
+    Donor[] public allDonors;   // mang donate
+    Project[] public allProjects; //mang project
+    Receiver[] public allReceviver; //mang nguoi nhan
     mapping (address => uint256) public ownerProjectAmount;
-    mapping (uint256 => uint256) public ownerDonateAmount;
+    mapping (uint256 => uint256) public IDDonateAmount;
+    mapping (uint256 => uint256) public IDReceiverAmount;
     
     function createDonationStruct(uint256 amount, uint256 id) internal {Donor memory newDonor = Donor(
         {donorAddress: msg.sender,
@@ -33,7 +40,7 @@ contract Charity {
             projectID: id
         });
         allDonors.push(newDonor);
-        ownerDonateAmount[newDonor.projectID]++;
+        IDDonateAmount[newDonor.projectID]++;
     }
 
     function donate(uint256 id) public payable {
@@ -41,30 +48,31 @@ contract Charity {
         //tìm project
         uint256 i = find(id);
         // require(
-        //     allProjects[i].recipient != msg.sender,
+        //     allProjects[i].program_creator != msg.sender,
         //     'Please donate from another wallet'
         // );
-        //require(isCharity() == false, 'cannot donate.');
+        require(isCharity() == false, 'cannot donate.');
+        require(allProjects[i].ongoing != false,'The program is closed');
         require(allProjects[i].amountDonated < allProjects[i].amountNeeded, 'the project already raised enough money');
         createDonationStruct(msg.value, id);
         // this.balance.transfer(msg.value);
         allProjects[i].amountDonated += msg.value;
         emit Funds_Donated(msg.sender, address(this), msg.value);
-        if (allProjects[i].amountDonated >= allProjects[i].amountNeeded) {
-            //chạy chức năng để kết thúc dự án
-            endProject(allProjects[i].id);
-            emit Goal_Reached(
-                allProjects[i].recipient,
-                address(this),
-                allProjects[i].amountDonated
-            );
-        }
+        // if (allProjects[i].amountDonated >= allProjects[i].amountNeeded) {
+        //     //chạy chức năng để kết thúc dự án
+        //     endProject(allProjects[i].id);
+        //     // emit Goal_Reached(
+        //     //     allProjects[i].program_creator,
+        //     //     address(this),
+        //     //     allProjects[i].amountDonated
+        //     // );
+        // }
     }
     // tạo  project kêu gọi ủng hộ (tên, mô tả, số tiền cần, ảnh)
     function createProjectStruct(string memory name,string memory location,string memory description,uint256 amountNeeded,string memory imageUrl) public {
         Project memory newProject = Project({
             id: nextId,
-            recipient: payable(msg.sender),
+            program_creator: payable(msg.sender),
             projectName: name,
             location:location,
             description: description,
@@ -76,7 +84,7 @@ contract Charity {
         });
         allProjects.push(newProject);
         nextId++;
-        ownerProjectAmount[newProject.recipient]++;
+        ownerProjectAmount[newProject.program_creator]++;
         
         emit Project_Created(msg.sender, address(this), description);
     }
@@ -88,11 +96,13 @@ contract Charity {
         return allProjects;
     }
     
-    function getAllOwnerDonateLength(uint256 id) public view returns (uint256) {
-        return ownerDonateAmount[id];
+    function getAllidDonateLength(uint256 id) public view returns (uint256) {
+        return IDDonateAmount[id];
     }
+    
+    //danh sách ủng hộ của một chương trình
     function getDonor(uint256 id)public view returns(Donor[] memory){
-        Donor[] memory result = new Donor[](ownerDonateAmount[id]);
+        Donor[] memory result = new Donor[](IDDonateAmount[id]);
         uint256 count;
         for(uint256 i=0;i<allDonors.length;i++){
             if(allDonors[i].projectID == id){
@@ -107,13 +117,13 @@ contract Charity {
         return ownerProjectAmount[_owner];
     }
     
-    
+    // danh sách chương trình của một tài khoản 
     function getOwnerProjects(address _owner) public view returns (Project[] memory ) {
         Project[] memory result = new Project[](ownerProjectAmount[_owner]);
         
       uint count=0;
       for(uint i=0;i<allProjects.length;i++){
-          if(allProjects[i].recipient == _owner){
+          if(allProjects[i].program_creator == _owner){
               result[count]=allProjects[i];
               count++;
           }
@@ -121,6 +131,7 @@ contract Charity {
       return result;
       
     }
+    
     
     // tìm project theo id
     function find(uint256 id) internal view returns (uint256) {
@@ -136,27 +147,50 @@ contract Charity {
         return allProjects.length;
     }
     
-    
-    function endProject(uint256 id) public payable {
+    // dừng chương trình 
+    function endProject(uint256 id) public {
         uint256 i = find(id);
-        require(
-            allProjects[i].amountDonated >= allProjects[i].amountNeeded,
-            'project doesnt have enough money'
-        );
+        // require(
+        //     allProjects[i].amountDonated >= allProjects[i].amountNeeded,
+        //     'project doesnt have enough money'
+        // );
+        require(msg.sender == allProjects[i].program_creator,'you have no right');
         emit Goal_Reached(
-            allProjects[i].recipient,
+            allProjects[i].program_creator,
             address(this),
             allProjects[i].amountDonated
         );
         allProjects[i].ongoing = false;
         emit Project_Ended(
-            allProjects[i].recipient,
+            allProjects[i].program_creator,
             address(this),
             allProjects[i].amountDonated
         );
       
-        allProjects[i].recipient.transfer(allProjects[i].amountDonated); // sends the account balance to recipient
+        // //allProjects[i].program_creator.transfer(allProjects[i].amountDonated); // gửi số dư tài khoản đến program_creator
+        
     }
+    // chuyển tiền cho người thụ hưởng
+    function pay(uint256 id)public payable returns(uint256 ethers){
+        uint256 i = find(id);
+        require(msg.sender == allProjects[i].program_creator,'you have no right');
+        
+        Receiver[] memory result = new Receiver[](IDReceiverAmount[id]);
+        result = getIdReceiver(id);
+        uint256 a = result.length;
+        if(a==0){
+            allProjects[i].program_creator.transfer(allProjects[i].amountDonated);
+            return allProjects[i].amountDonated;
+        }else{
+            uint b = allProjects[i].amountDonated / a;
+            for(uint256 p=0; p<a; p++){
+            result[p].receiverAddress.transfer(b);
+            }
+            return b;
+        }
+        
+    }
+    
 
     //xem một project
     function readSingleProject(uint256 id)
@@ -178,7 +212,7 @@ contract Charity {
         uint256 i = find(id);
         return (
             allProjects[i].id,
-            allProjects[i].recipient,
+            allProjects[i].program_creator,
             allProjects[i].projectName,
             allProjects[i].location,
             allProjects[i].description,
@@ -189,10 +223,10 @@ contract Charity {
             allProjects[i].projectAddress
         );
     }
-    // kiểm tra có project của địa chỉ này hay không
+    // kiểm tra project có phải của địa chỉ này hay không
     function isCharity() public view returns (bool) {
         for (uint256 i = 0; i < allProjects.length; i++) {
-            if (allProjects[i].recipient == msg.sender) {
+            if (allProjects[i].program_creator == msg.sender) {
                 return true;
             }
         }
@@ -201,7 +235,35 @@ contract Charity {
     // function () external fall {
     //     revert('not sure what you are doing');
     // }
-
+    // tạo người nhận ủng hộ
+    function createRegistered_recipientStruct(uint256 id) internal {Receiver memory newReceiver = Receiver(
+        {receiverAddress: payable(msg.sender),
+            projectID: id
+        });
+        allReceviver.push(newReceiver);
+        IDReceiverAmount[newReceiver.projectID]++;
+    }
+    function Registered_recipient (uint256 id)public{
+       
+        require(isCharity() == false, 'cannot be the receiver.');
+        
+        createRegistered_recipientStruct(id);
+    }
+    function getAllReceiver() public view returns(Receiver[] memory){
+        return allReceviver;
+    }
+    // lấy người nhận theo 1 chương trình
+    function getIdReceiver(uint256 id)public view returns(Receiver[] memory){
+        Receiver[] memory result = new Receiver[](IDReceiverAmount[id]);
+        uint256 count;
+        for(uint256 i=0;i<allReceviver.length;i++){
+            if(allReceviver[i].projectID == id){
+                result[count] = allReceviver[i];
+                count++;
+            }
+          }
+      return result;
+    }
 
 
     //     //EVENTS

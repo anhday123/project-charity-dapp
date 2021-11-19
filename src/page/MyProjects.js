@@ -54,7 +54,7 @@ const MyProjects = () => {
                     </s.ItemBodyContainer>
                   
                     <s.ItemBodyContainer>
-                    <s.ItemBodyMoney1>{item.recipient}</s.ItemBodyMoney1>                   
+                    <s.ItemBodyMoney1>{item.program_creator}</s.ItemBodyMoney1>                   
                     <s.ItemP>{item.description}</s.ItemP>
                     {/* <s.ItemBodyMoney1>{item.location}</s.ItemBodyMoney1> */}
 

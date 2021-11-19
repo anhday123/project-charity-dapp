@@ -68,7 +68,7 @@ export const connect = () => {
                     });
                     // Add listeners end
                 } else {
-                    dispatch(connectFailed("Change network to rinkey."));
+                    dispatch(connectFailed("Change network to rinkeby."));
                 }
             } catch (err) {
                 dispatch(connectFailed("Something went wrong."));

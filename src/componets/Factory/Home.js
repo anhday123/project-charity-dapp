@@ -12,13 +12,14 @@ import contentData from "./fake-data/contentUser"
 import ContentUse from "./fake-data/contenUser1"
 import Footer from "./fake-data/Footer"
 
+
 const Home = () => {
   const dispatch = useDispatch();
   const blockchain = useSelector((state) => state.blockchain);
   const data = useSelector((state) => state.data);
     console.log(data);
-    console.log(data.AllProjects)
-
+    console.log(data.AllProjects);
+  
     // const handlePreviewImg = (e) => {
     //   const file = e.target.files[0];
     //   file.preview = URL.createObjectURL(file);

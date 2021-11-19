@@ -5,7 +5,7 @@ import { fetchData , removeData } from "../../redux/data/dataActions";
 import * as s from "../../styles/globalStyles";
 import "../../page/styled/styled.scss"
 import _Bg1 from "../../assets/images/bg/blockchain1.png";
-import { ethers } from "ethers";
+
 const Details = () => {
     const dispatch = useDispatch();
     const blockchain = useSelector((state) => state.blockchain);
@@ -18,7 +18,10 @@ const Details = () => {
     const list = data.AllProjects;
     console.log(list);
     const listDonors = data.Donors;
-   console.log(listDonors);
+    console.log(listDonors);
+    const listReceiver = data.Receivers;
+
+
     const donate = async (_account, _value) => {
         setLoading(true);
         await blockchain.Charity.methods
@@ -37,7 +40,58 @@ const Details = () => {
             dispatch(fetchData(blockchain.account));
           });
       };
-      console.log(listDonors.length);
+      const end = async (_account) => {
+        setLoading(true);
+        await blockchain.Charity.methods
+          .endProject(id)
+          .send({
+            from: _account,
+          })
+          .once("error", (err) => {
+            setLoading(false);
+            console.log(err);
+          })
+          .then((receipt) => {
+            setLoading(false);
+            console.log(receipt);
+            dispatch(fetchData(blockchain.account));
+          });
+      };
+      const pay = async (_account) => {
+        setLoading(true);
+        await blockchain.Charity.methods
+          .pay(id)
+          .send({
+            from: _account,
+          })
+          .once("error", (err) => {
+            setLoading(false);
+            console.log(err);
+          })
+          .then((receipt) => {
+            setLoading(false);
+            console.log(receipt);
+            dispatch(fetchData(blockchain.account));
+          });
+      };
+      const receiver = async (_account) => {
+        setLoading(true);
+        await blockchain.Charity.methods
+          .Registered_recipient(id)
+          .send({
+            from: _account,
+          })
+          .once("error", (err) => {
+            setLoading(false);
+            console.log(err);
+          })
+          .then((receipt) => {
+            setLoading(false);
+            console.log(receipt);
+            dispatch(fetchData(blockchain.account));
+          });
+      };
+
     
     return (
         <>
@@ -63,7 +117,7 @@ const Details = () => {
               <div className="title">
                 <h3 className="name">Tên chương trình: {item.projectName}</h3>
                 <p className="location">Địa điểm: {item.location}</p>
-                <p className="stk">Số tài khoản kêu gọi: {item.recipient}</p>
+                <p className="stk">Số tài khoản kêu gọi: {item.program_creator}</p>
     
               </div>
               <p className="location">Hình ảnh minh hoạ:</p>
@@ -94,7 +148,18 @@ const Details = () => {
                 )
                 }}
             >
-                donate
+                DONATE
+            </button>
+
+            <button
+            className="log"
+                onClick={() => {
+                receiver(
+                    blockchain.account,
+                )
+                }}
+            >
+                Registered_RECEIVER
             </button>
 
             </s.Container>
@@ -111,7 +176,6 @@ const Details = () => {
               <h1>Danh sách người ủng hộ</h1>
             {/* <h3>Số người đã ủng hộ: {listDonors.length}</h3> */}
 
-
             <table id="customers">
               <tr>
                   <th>Địa chỉ ví</th>
@@ -119,21 +183,57 @@ const Details = () => {
               </tr>
             
             {listDonors.filter(item => item.projectID === id).map((item, index) => (
-          
-                       
+           
                             <tr>
                                 <td>{item.donorAddress}</td>
                                 <td>{item.amount} Ether</td>
                             </tr>
-                   
-               
-              
+ 
             ))}
-            
-                
+    
             </table>
-
         </div>
+
+        <div className='container-table'>
+              <h1>Danh sách người nhận ủng hộ</h1>
+
+            <table id="customers">
+              <tr>
+                  <th>Địa chỉ ví</th>
+              </tr>
+            
+            {listReceiver.filter(item => item.projectID === id).map((item, index) => (
+           
+                            <tr>
+                                <td>{item.receiverAddress}</td>
+                                
+                            </tr>
+ 
+            ))}
+    
+            </table>
+        </div>
+        <button
+            className="log"
+                onClick={() => {
+                end(
+                    blockchain.account,
+                )
+                }}
+            >
+                END PROJECT
+            </button>
+            <button
+            className="log"
+                onClick={() => {
+                pay(
+                    blockchain.account,
+                )
+                }}
+            >
+                PAY
+            </button>
+
         </s.Screen>
         
         </>

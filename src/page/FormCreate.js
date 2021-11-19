@@ -120,14 +120,7 @@ const FormCreate = () => {
               onChange={onChange}
               
           />
-          {fileImg && (
-            <img 
-            
-              src={fileImg.preview} 
-              alt="" 
-              style={{backgroundSize: "cover", backgroundPosition: "cover", width: "400px", height: "cover"}}
-            />
-          )}
+          
 
               <input type="submit" className="form__button" value="Tạo chương trình"
                      onClick={() => {
