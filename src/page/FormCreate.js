@@ -135,8 +135,8 @@ const FormCreate = () => {
                           location,
                           description,
                           amountNeed,
+                          fileImg,
                           recipient,
-                          fileImg
                         )
                       }}/>
           </form>
