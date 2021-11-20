@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { connect } from "../redux/blockchain/blockchainActions";
+
 import { fetchData } from "../redux/data/dataActions";
 import * as s from "../styles/globalStyles";
 import { create as ipfsHttpClient } from 'ipfs-http-client'
@@ -18,6 +18,7 @@ const FormCreate = () => {
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
   const [amountNeed, setAmountNeed] = useState();
+  const [recipient, setRecipient] = useState();
   const [fileImg, setFileImg] = useState();
   
   async function onChange(e) {
@@ -37,10 +38,10 @@ const FormCreate = () => {
   }
     console.log(data);
 
-    const createProjectStruct = (_account, _name, _location, _description, _amountNeeded, _imageUrl) => {
+    const createProjectStruct = (_account, _name, _location, _description, _amountNeeded, _imageUrl, _recipient) => {
       setLoading(true);
       blockchain.Charity.methods
-        .createProjectStruct(_name, _location, _description, _amountNeeded, _imageUrl)
+        .createProjectStruct(_name, _location, _description, _amountNeeded, _imageUrl, _recipient)
         .send({
           from: _account,
         })
@@ -112,6 +113,10 @@ const FormCreate = () => {
                   <input type="text" className="form__input" placeholder=" " onChange={e => setAmountNeed(e.target.value)}/>
                   <label for="" className="form__label">Số tiền kêu gọi</label>
               </div>
+              <div className="form__div">
+                  <input type="text" className="form__input" placeholder=" " onChange={e => setRecipient(e.target.value)}/>
+                  <label for="" className="form__label">Địa chỉ người nhận</label>
+              </div>
               <input 
               className="form__button"
               type="file"
@@ -130,6 +135,7 @@ const FormCreate = () => {
                           location,
                           description,
                           amountNeed,
+                          recipient,
                           fileImg
                         )
                       }}/>

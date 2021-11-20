@@ -132,7 +132,7 @@ const Details = () => {
               <div className="tt-right">
                 <p className="title money">Số tiền kêu gọi: {item.amountNeeded} wei</p>
                 <p className="title money">Số tiền đã kêu gọi được: {item.amountDonated} wei</p>
-           
+                <p className="stk">Số tài khoản người nhận: {item.recipient}</p>
                 <s.Container>
             <input
             placeholder={"Số tiền ủng hộ"}
@@ -195,7 +195,7 @@ const Details = () => {
         </div>
 
         <div className='container-table'>
-              <h1>Danh sách người nhận ủng hộ</h1>
+              <h1>Danh sách người nhận ủng hộ đăng kí thêm</h1>
 
             <table id="customers">
               <tr>
@@ -203,10 +203,9 @@ const Details = () => {
               </tr>
             
             {listReceiver.filter(item => item.projectID === id).map((item, index) => (
-           
+                            
                             <tr>
                                 <td>{item.receiverAddress}</td>
-                                
                             </tr>
  
             ))}

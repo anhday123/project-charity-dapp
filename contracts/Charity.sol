@@ -14,6 +14,7 @@ contract Charity {
         string imageUrl;
         bool ongoing;
         address projectAddress;
+        address payable recipient;
     }
 
     struct Donor {
@@ -69,7 +70,7 @@ contract Charity {
         // }
     }
     // tạo  project kêu gọi ủng hộ (tên, mô tả, số tiền cần, ảnh)
-    function createProjectStruct(string memory name,string memory location,string memory description,uint256 amountNeeded,string memory imageUrl) public {
+    function createProjectStruct(string memory name,string memory location,string memory description,uint256 amountNeeded,string memory imageUrl,address recipient) public {
         Project memory newProject = Project({
             id: nextId,
             program_creator: payable(msg.sender),
@@ -80,8 +81,10 @@ contract Charity {
             amountDonated: 0,
             imageUrl: imageUrl,
             ongoing: true,
-            projectAddress: address(this)
+            projectAddress: address(this),
+            recipient: payable(recipient)
         });
+        require(msg.sender != recipient,'does not allow you to be the recipient');
         allProjects.push(newProject);
         nextId++;
         ownerProjectAmount[newProject.program_creator]++;
@@ -179,10 +182,11 @@ contract Charity {
         result = getIdReceiver(id);
         uint256 a = result.length;
         if(a==0){
-            allProjects[i].program_creator.transfer(allProjects[i].amountDonated);
+            allProjects[i].recipient.transfer(allProjects[i].amountDonated);
             return allProjects[i].amountDonated;
         }else{
-            uint b = allProjects[i].amountDonated / a;
+            uint b = allProjects[i].amountDonated / (a+1);
+            allProjects[i].recipient.transfer(b);
             for(uint256 p=0; p<a; p++){
             result[p].receiverAddress.transfer(b);
             }
@@ -206,6 +210,7 @@ contract Charity {
             uint256,
             bool,
             string memory,
+            address,
             address
         )
     {
@@ -220,7 +225,8 @@ contract Charity {
             allProjects[i].amountDonated,
             allProjects[i].ongoing,
             allProjects[i].imageUrl,
-            allProjects[i].projectAddress
+            allProjects[i].projectAddress,
+            allProjects[i].recipient
         );
     }
     // kiểm tra project có phải của địa chỉ này hay không
@@ -244,10 +250,16 @@ contract Charity {
         IDReceiverAmount[newReceiver.projectID]++;
     }
     function Registered_recipient (uint256 id)public{
-       
-        require(isCharity() == false, 'cannot be the receiver.');
-        
+        uint256 i = find(id);
+        require(allProjects[i].program_creator != msg.sender,'you cannot register');
+        require(allProjects[i].recipient != msg.sender,'you cannot register');
+        Receiver[] memory result = new Receiver[](IDReceiverAmount[id]);
+        result = getIdReceiver(id);
+        for(uint256 j=0;j<result.length;j++){
+            require(msg.sender != result[j].receiverAddress,'you are already registered');
+        }
         createRegistered_recipientStruct(id);
+        
     }
     function getAllReceiver() public view returns(Receiver[] memory){
         return allReceviver;
