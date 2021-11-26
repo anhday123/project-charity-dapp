@@ -5,6 +5,11 @@ import { fetchData } from "../redux/data/dataActions";
 import * as s from "../styles/globalStyles";
 import { create as ipfsHttpClient } from 'ipfs-http-client'
 import "./styled/formcreate.scss"
+import ReactNotification from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
+import { store } from 'react-notifications-component';
+import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom";
+
 // import _Bg from "../../assets/images/bg/1.jpg";
 // import { BiDna } from "react-icons/bi";
 // import {Link} from "react-router-dom";
@@ -48,15 +53,50 @@ const FormCreate = () => {
         .once("error", (err) => {
           setLoading(false);
           console.log(err);
+          ShowError();
         })
         .then((receipt) => {
           setLoading(false);
           console.log(receipt);
           dispatch(fetchData(blockchain.account));
+          ShowSuccess();
         });
     };
 
     console.log(data.AllProjects)
+    const ShowError = () => {
+      store.addNotification({
+        title: "failed",
+        message: "Transaction failed",
+        type: "danger",
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animate__animated", "animate__fadeIn"],
+        animationOut: ["animate__animated", "animate__fadeOut"],
+        dismiss: {
+          duration: 10000,
+          showIcon: true,
+          onScreen: true,
+        },
+      })
+    }
+
+    const ShowSuccess = () => {
+      store.addNotification({
+        title: "Tạo thành công",
+        message: "Bạn đã tạo 1 chương trình thành công",
+        type: "success",
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animate__animated", "animate__fadeIn"],
+        animationOut: ["animate__animated", "animate__fadeOut"],
+        dismiss: {
+          duration: 10000,
+          showIcon: true,
+          onScreen: true
+        },
+      })
+    }
 
     // const handlePreviewImg = (e) => {
     //   const file = e.target.files[0];
@@ -64,7 +104,7 @@ const FormCreate = () => {
     //   setFileImg(file);
     // }
 
-
+    
     useEffect(() => {
         if (blockchain.account !== "" && blockchain.Charity !== null) {
             dispatch(fetchData(blockchain.account));
@@ -77,6 +117,7 @@ const FormCreate = () => {
       <>
       
         <s.Screen mgtS={"80px"}>
+        <ReactNotification />
         <s.Container  flex={1} ai={"center"} jc={"center"} >
         <s.TextTitle style={{textAlign: "center", fontSize: "36px", color: "#000"}}>Tạo chương trình</s.TextTitle>      
         </s.Container>
@@ -126,8 +167,9 @@ const FormCreate = () => {
               
           />
           
-
-              <input type="submit" className="form__button" value="Tạo chương trình"
+              {/* <Link to="/allprojects"> */}
+              <input  type="submit" className="form__button" value="Tạo chương trình"
+            
                      onClick={() => {
                         createProjectStruct(
                           blockchain.account,
@@ -138,7 +180,9 @@ const FormCreate = () => {
                           fileImg,
                           recipient,
                         )
-                      }}/>
+                      }}
+                      />
+              {/* </Link> */}
           </form>
       </div>
           }   

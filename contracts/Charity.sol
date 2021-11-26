@@ -15,6 +15,7 @@ contract Charity {
         bool ongoing;
         address projectAddress;
         address payable recipient;
+        uint32 readyTime;
     }
 
     struct Donor {
@@ -28,6 +29,7 @@ contract Charity {
         uint256 projectID;
     }
     uint256 public nextId = 1;
+    uint cooldownTime = 30 seconds;
     Donor[] public allDonors;   // mang donate
     Project[] public allProjects; //mang project
     Receiver[] public allReceviver; //mang nguoi nhan
@@ -47,14 +49,15 @@ contract Charity {
     function donate(uint256 id) public payable {
         require(msg.value > 0, 'Please donote more then 0 amount');
         //tìm project
+
         uint256 i = find(id);
         // require(
         //     allProjects[i].program_creator != msg.sender,
         //     'Please donate from another wallet'
         // );
-        require(isCharity() == false, 'cannot donate.');
+        // require(isCharity() == false, 'cannot donate.');
         require(allProjects[i].ongoing != false,'The program is closed');
-        require(allProjects[i].amountDonated < allProjects[i].amountNeeded, 'the project already raised enough money');
+        // require(allProjects[i].amountDonated < allProjects[i].amountNeeded, 'the project already raised enough money');
         createDonationStruct(msg.value, id);
         // this.balance.transfer(msg.value);
         allProjects[i].amountDonated += msg.value;
@@ -68,6 +71,10 @@ contract Charity {
         //     //     allProjects[i].amountDonated
         //     // );
         // }
+        if(allProjects[i].readyTime <= block.timestamp){
+            endProject(id);
+        }
+        
     }
     // tạo  project kêu gọi ủng hộ (tên, mô tả, số tiền cần, ảnh)
     function createProjectStruct(string memory name,string memory location,string memory description,uint256 amountNeeded,string memory imageUrl,address recipient) public {
@@ -82,7 +89,8 @@ contract Charity {
             imageUrl: imageUrl,
             ongoing: true,
             projectAddress: address(this),
-            recipient: payable(recipient)
+            recipient: payable(recipient),
+            readyTime: uint32(block.timestamp + cooldownTime)
         });
         require(msg.sender != recipient,'does not allow you to be the recipient');
         allProjects.push(newProject);
@@ -146,6 +154,11 @@ contract Charity {
         revert('Project does not exist');
     }
 
+
+    function _isReady(Project storage _project) internal view returns (bool) {
+        return (_project.readyTime <= block.timestamp);
+    }
+
     function getAllProjectsLength() public view returns (uint256) {
         return allProjects.length;
     }
@@ -157,6 +170,8 @@ contract Charity {
         //     allProjects[i].amountDonated >= allProjects[i].amountNeeded,
         //     'project doesnt have enough money'
         // );
+        Project storage myProject = allProjects[id];
+        require(_isReady(myProject));
         require(msg.sender == allProjects[i].program_creator,'you have no right');
         emit Goal_Reached(
             allProjects[i].program_creator,
@@ -177,7 +192,6 @@ contract Charity {
     function pay(uint256 id)public payable returns(uint256 ethers){
         uint256 i = find(id);
         require(msg.sender == allProjects[i].program_creator,'you have no right');
-        
         Receiver[] memory result = new Receiver[](IDReceiverAmount[id]);
         result = getIdReceiver(id);
         uint256 a = result.length;
@@ -194,6 +208,10 @@ contract Charity {
         }
         
     }
+
+    // function _isReady(Project storage _project) internal view returns (bool) {
+    //     return (_project.readyTime <= block.timestamp);
+    // }
     
 
     //xem một project
