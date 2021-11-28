@@ -60,7 +60,9 @@ const MyProjects = () => {
 
                     <s.ItemBody>
                       <s.ItemBodyMoney1>{item.amountDonated}</s.ItemBodyMoney1>
-                      <s.ItemBodyMoney2>{item.amountNeeded}</s.ItemBodyMoney2>
+                      <s.ItemBodyMoney1>/ {item.amountNeeded}</s.ItemBodyMoney1>
+
+                      {/* <s.ItemBodyMoney2>{item.amountNeeded}</s.ItemBodyMoney2> */}
                     </s.ItemBody>
                   </s.ItemBodyContainer>
                   <s.ItemFooterContainer>

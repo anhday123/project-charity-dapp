@@ -22,7 +22,7 @@ const About = () => {
                   when looking to plan and execute their perfect trip, but now,
                   they can also let Lonely Planet Experiences lead the way
                 </p>
-                <a href="#!" className="btn1 btn--primary">Learn more</a>
+                {/* <a href="#!" className="btn1 btn--primary">Learn more</a> */}
               </div>
             </div>
             <div className="explore-main reverse">
@@ -38,7 +38,7 @@ const About = () => {
                   when looking to plan and execute their perfect trip, but now,
                   they can also let Lonely Planet Experiences lead the way
                 </p>
-                <a href="#!" className="btn1 btn--primary">Learn more</a>
+                {/* <a href="#!" className="btn1 btn--primary">Learn more</a> */}
               </div>
             </div>
             <div className="explore-main">
@@ -54,7 +54,7 @@ const About = () => {
                   when looking to plan and execute their perfect trip, but now,
                   they can also let Lonely Planet Experiences lead the way
                 </p>
-                <a href="#!" className="btn1 btn--primary">Learn more</a>
+                {/* <a href="#!" className="btn1 btn--primary">Learn more</a> */}
               </div>
             </div>
             <div className="explore-main reverse">
@@ -70,7 +70,7 @@ const About = () => {
                   when looking to plan and execute their perfect trip, but now,
                   they can also let Lonely Planet Experiences lead the way
                 </p>
-                <a href="#!" className="btn1 btn--primary">Learn more</a>
+                {/* <a href="#!" className="btn1 btn--primary">Learn more</a> */}
               </div>
             </div>
 

@@ -12,8 +12,9 @@ contract Charity {
         uint256 amountNeeded;
         uint256 amountDonated;
         string imageUrl;
+        string imageUrl1;
         bool ongoing;
-        address projectAddress;
+        //address projectAddress;
         address payable recipient;
         uint32 readyTime;
     }
@@ -29,7 +30,7 @@ contract Charity {
         uint256 projectID;
     }
     uint256 public nextId = 1;
-    uint cooldownTime = 30 seconds;
+    uint cooldownTime = 3 minutes;
     Donor[] public allDonors;   // mang donate
     Project[] public allProjects; //mang project
     Receiver[] public allReceviver; //mang nguoi nhan
@@ -77,7 +78,7 @@ contract Charity {
         
     }
     // tạo  project kêu gọi ủng hộ (tên, mô tả, số tiền cần, ảnh)
-    function createProjectStruct(string memory name,string memory location,string memory description,uint256 amountNeeded,string memory imageUrl,address recipient) public {
+    function createProjectStruct(string memory name,string memory location,string memory description,uint256 amountNeeded,string memory imageUrl,string memory imageUrl1,address recipient) public {
         Project memory newProject = Project({
             id: nextId,
             program_creator: payable(msg.sender),
@@ -87,8 +88,9 @@ contract Charity {
             amountNeeded: amountNeeded,
             amountDonated: 0,
             imageUrl: imageUrl,
+            imageUrl1: imageUrl1,
             ongoing: true,
-            projectAddress: address(this),
+            // projectAddress: address(this),
             recipient: payable(recipient),
             readyTime: uint32(block.timestamp + cooldownTime)
         });
@@ -170,8 +172,8 @@ contract Charity {
         //     allProjects[i].amountDonated >= allProjects[i].amountNeeded,
         //     'project doesnt have enough money'
         // );
-        Project storage myProject = allProjects[id];
-        require(_isReady(myProject));
+        // Project storage myProject = allProjects[id];
+        // require(_isReady(myProject));
         require(msg.sender == allProjects[i].program_creator,'you have no right');
         emit Goal_Reached(
             allProjects[i].program_creator,
@@ -228,7 +230,8 @@ contract Charity {
             uint256,
             bool,
             string memory,
-            address,
+   
+            //address,
             address
         )
     {
@@ -243,7 +246,8 @@ contract Charity {
             allProjects[i].amountDonated,
             allProjects[i].ongoing,
             allProjects[i].imageUrl,
-            allProjects[i].projectAddress,
+    
+            //allProjects[i].projectAddress,
             allProjects[i].recipient
         );
     }
@@ -271,6 +275,7 @@ contract Charity {
         uint256 i = find(id);
         require(allProjects[i].program_creator != msg.sender,'you cannot register');
         require(allProjects[i].recipient != msg.sender,'you cannot register');
+        require(allProjects[i].ongoing != false,'The program is closed');
         Receiver[] memory result = new Receiver[](IDReceiverAmount[id]);
         result = getIdReceiver(id);
         for(uint256 j=0;j<result.length;j++){
@@ -321,4 +326,4 @@ contract Charity {
         address indexed _contract,
         uint256 _value
     );
-}
+} 

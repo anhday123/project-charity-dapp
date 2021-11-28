@@ -6,8 +6,9 @@
     .title {
         padding: 8px 16px;
         text-align: left;
+        font-size: 20px;
         .name {
-            font-size: 24px;
+            font-size: 28px;
         }
     }
     
@@ -15,10 +16,11 @@
         padding: 0 44px;
         width: 100%;
         .img {
-            width: 100%;
+            width: 1000px;
             img {
                 height: 480px;
                 width: 100%;
+                margin-top: 16px;
             }
         }
         .tt-right {
@@ -40,6 +42,11 @@
     .tt {
         text-align: left;
         margin-top: 16px;
+        .sumary {
+            font-size: 20px;
+            line-height: 2;
+            // text-align: left;
+        }
     }
     
     .img {

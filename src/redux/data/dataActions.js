@@ -55,6 +55,7 @@ export const fetchData = (account) => {
                     AllOwnerProjects,
                     Donors,
                     Receivers,
+
                 })
             );
         } catch (err) {

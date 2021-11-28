@@ -77,15 +77,17 @@ h1 {
         left: 1rem;
         top: 1rem;
         padding: 0 .25rem;
-        background-color: #f8f9fc;
+        background-color: #ffff;
         color: var(--input-color);
         font-size: var(--normal-font-size);
         transition: .3s;
     }
     &__button {
+        width: 500px;
         display: block;
         margin-top: 16px;
         margin-left: auto;
+        margin-right: auto;
         padding: .75rem 2rem;
         outline: none;
         border: none;
@@ -129,4 +131,12 @@ h1 {
 
 .form__input:focus {
     border: 1.5px solid var(--first-color);
+}
+
+.unghott {
+    padding: 10px;
+    height: 50px;
+    width: 500px;
+    margin-left: auto;
+    margin-right: auto;
 }

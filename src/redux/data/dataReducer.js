@@ -3,7 +3,7 @@ const initialState = {
     AllProjects: [],
     AllOwnerProjects: [],
     Donors: [],
-    Receivers:[],
+    Receivers: [],
     error: false,
     errorMsg: "",
 };
@@ -23,6 +23,7 @@ const dataReducer = (state = initialState, action) => {
                 AllOwnerProjects: action.payload.AllOwnerProjects,
                 Donors: action.payload.Donors,
                 Receivers: action.payload.Receivers,
+
             };
         case "CHECK_DATA_FAILED":
             return {

@@ -3,12 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchData , removeData } from "../../redux/data/dataActions";
 import * as s from "../../styles/globalStyles";
+import "../../page/styled/formcreate.scss"
 // import { Nav, NavLink, Bars, NavMenu, NavBtn, NavBtnLink } from '../Navbar/NavbarElements';
 import ReactNotification from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
 import { store } from 'react-notifications-component';
 import "../../page/styled/styled.scss"
-import _Bg1 from "../../assets/images/bg/blockchain1.png";
+// import _Bg1 from "../../assets/images/bg/blockchain1.png";
 
 const Details = () => {
     const dispatch = useDispatch();
@@ -62,39 +63,7 @@ const Details = () => {
     })
 
     console.log(data.AllProjects)
-    const ShowError = () => {
-      store.addNotification({
-        title: "failed",
-        message: "Transaction failed",
-        type: "danger",
-        insert: "top",
-        container: "top-right",
-        animationIn: ["animate__animated", "animate__fadeIn"],
-        animationOut: ["animate__animated", "animate__fadeOut"],
-        dismiss: {
-          duration: 10000,
-          showIcon: true,
-          onScreen: true,
-        },
-      })
-    }
 
-    const ShowSuccess = () => {
-      store.addNotification({
-        title: "Thành công",
-        message: "Bạn đã ủng hộ thành công cho chương trình",
-        type: "success",
-        insert: "top",
-        container: "top-right",
-        animationIn: ["animate__animated", "animate__fadeIn"],
-        animationOut: ["animate__animated", "animate__fadeOut"],
-        dismiss: {
-          duration: 10000,
-          showIcon: true,
-          onScreen: true
-        },
-      })
-    }
 
     const donate = async (_account, _value) => {
         setLoading(true);
@@ -126,11 +95,14 @@ const Details = () => {
           .once("error", (err) => {
             setLoading(false);
             console.log(err);
+            ShowError1();
           })
           .then((receipt) => {
             setLoading(false);
             console.log(receipt);
             dispatch(fetchData(blockchain.account));
+            ShowSuccess1();
+
           });
       };
       const pay = async (_account) => {
@@ -143,13 +115,18 @@ const Details = () => {
           .once("error", (err) => {
             setLoading(false);
             console.log(err);
+            ShowError2();
           })
           .then((receipt) => {
             setLoading(false);
             console.log(receipt);
             dispatch(fetchData(blockchain.account));
+            ShowSuccess2();
+
           });
       };
+      
+    
       const receiver = async (_account) => {
         setLoading(true);
         await blockchain.Charity.methods
@@ -160,11 +137,14 @@ const Details = () => {
           .once("error", (err) => {
             setLoading(false);
             console.log(err);
+            ShowError3();
           })
           .then((receipt) => {
             setLoading(false);
             console.log(receipt);
             dispatch(fetchData(blockchain.account));
+            ShowSuccess3();
+
           });
       };
 
@@ -177,6 +157,7 @@ const Details = () => {
             dispatch(fetchData(blockchain.account));
         }
     }, [blockchain.Charity, blockchain.account, dispatch]);
+    // var tinh = item.amountDonated / listReceiver.lenght;
     return (
         <>
             <s.Screen
@@ -194,7 +175,21 @@ const Details = () => {
                     color: "#000"}}
         >
             Chi tiết chương trình
-            </s.TextTitle>      
+            </s.TextTitle>
+            <h3  style={{
+                    textAlign: "center", 
+                    fontSize: "28px", 
+                   }}
+                    >Thời gian kêu gọi còn lại: {timerDays} Ngày {timerHours} Giờ {timerMinutes} Phút {timerSeconds} Giây</h3>
+          
+            {/* <s.TextTitle 
+                style={{
+                    textAlign: "center", 
+                    fontSize: "36px", 
+                    color: "#000"}}
+        >
+            {timerDays} Ngày {timerHours} Giờ {timerMinutes} Phút {timerSeconds} Giây
+            </s.TextTitle>        */}
         </s.Container>
    
             <s.ContainerItemBoder>
@@ -211,24 +206,34 @@ const Details = () => {
               <p className="location">Hình ảnh minh hoạ:</p>
     
               <div className="img">
-    
                 <img src={item.imageUrl} alt=""  />
+                <img src={item.imageUrl1} alt=""  />
+
               </div>
+             
               <div className="tt">
                 <p className="sumary">Mô tả: {item.description}</p>
               </div>
               <div className="tt-right">
                 <p className="title money">Số tiền kêu gọi: {item.amountNeeded} wei</p>
                 <p className="title money">Số tiền đã kêu gọi được: {item.amountDonated} wei</p>
-                <s.Container>
+                
+                  
+                
+                <s.Container 
+                style={{
+                  textAlign: "center", 
+                   
+                  }}>
             <input
-            placeholder={"Số tiền ủng hộ"}
+            className="unghott"
+            placeholder={"Số tiền ủng hộ đơn vị ETH"}
             style={{padding: "10px",  height:"50px", width: "500px"}}
             onChange={e => setValue(e.target.value)}
             />
             {/* <div className="container-btn"> */}
             <button
-            className="log"
+            className="form__button"
                 onClick={() => {
                 donate(
                     blockchain.account,
@@ -240,7 +245,7 @@ const Details = () => {
             </button>
 
             <button
-            className="log"
+            className="form__button"
                 onClick={() => {
                 receiver(
                     blockchain.account,
@@ -251,7 +256,7 @@ const Details = () => {
             </button>
 
             <button
-            className="log"
+            className="form__button"
                 onClick={() => {
                 end(
                     blockchain.account,
@@ -261,7 +266,7 @@ const Details = () => {
                 Dừng kêu gọi
             </button>
             <button
-            className="log"
+            className="form__button"
                 onClick={() => {
                 pay(
                     blockchain.account,
@@ -273,7 +278,8 @@ const Details = () => {
             {/* </div> */}
 
             </s.Container>
-                <h1>{timerDays} days {timerHours} hours {timerMinutes} minutes {timerSeconds} seconds</h1>
+            {/* <h3 className="name">{timerDays} days {timerHours} hours {timerMinutes} minutes {timerSeconds} seconds</h3> */}
+                {/* <h1>{timerDays} days {timerHours} hours {timerMinutes} minutes {timerSeconds} seconds</h1> */}
           </div>
           </div>
         
@@ -296,7 +302,7 @@ const Details = () => {
            
                             <tr>
                                 <td>{item.donorAddress}</td>
-                                <td>{item.amount} Ether</td>
+                                <td>{item.amount} wei</td>
                             </tr>
  
             ))}
@@ -322,32 +328,144 @@ const Details = () => {
     
             </table>
         </div>
-        
-        {/* <button
-            className="log"
-                onClick={() => {
-                end(
-                    blockchain.account,
-                )
-                }}
-            >
-                END PROJECT
-            </button>
-            <button
-            className="log"
-                onClick={() => {
-                pay(
-                    blockchain.account,
-                )
-                }}
-            >
-                PAY
-            </button> */}
+      
 
         </s.Screen>
         
         </>
     )
+}
+const ShowError = () => {
+  store.addNotification({
+    title: "Ủng hộ không thành công",
+    message: "Chương trình đã dừng kêu gọi",
+    type: "danger",
+    insert: "top",
+    container: "top-left",
+    animationIn: ["animate__animated", "animate__fadeIn"],
+    animationOut: ["animate__animated", "animate__fadeOut"],
+    dismiss: {
+      duration: 10000,
+      showIcon: true,
+      onScreen: true,
+    },
+  })
+}
+
+const ShowSuccess = () => {
+  store.addNotification({
+    title: "Ủng hộ thành công",
+    message: "Bạn đã ủng hộ thành công cho chương trình",
+    type: "success",
+    insert: "top",
+    container: "top-left",
+    animationIn: ["animate__animated", "animate__fadeIn"],
+    animationOut: ["animate__animated", "animate__fadeOut"],
+    dismiss: {
+      duration: 10000,
+      showIcon: true,
+      onScreen: true
+    },
+  })
+}
+const ShowError1 = () => {
+  store.addNotification({
+    title: "Đã có lỗi xảy ra",
+    message: "Hãy kiểm tra lại",
+    type: "danger",
+    insert: "top",
+    container: "top-left",
+    animationIn: ["animate__animated", "animate__fadeIn"],
+    animationOut: ["animate__animated", "animate__fadeOut"],
+    dismiss: {
+      duration: 10000,
+      showIcon: true,
+      onScreen: true,
+    },
+  })
+}
+
+const ShowSuccess1 = () => {
+  store.addNotification({
+    title: "Dừng kêu gọi thành công",
+    message: "Chương trình đã được đóng",
+    type: "success",
+    insert: "top",
+    container: "top-left",
+    animationIn: ["animate__animated", "animate__fadeIn"],
+    animationOut: ["animate__animated", "animate__fadeOut"],
+    dismiss: {
+      duration: 10000,
+      showIcon: true,
+      onScreen: true
+    },
+  })
+}
+const ShowError2 = () => {
+  store.addNotification({
+    title: "Giải ngân thất bại",
+    message: "Hãy kiểm tra lại",
+    type: "danger",
+    insert: "top",
+    container: "top-left",
+    animationIn: ["animate__animated", "animate__fadeIn"],
+    animationOut: ["animate__animated", "animate__fadeOut"],
+    dismiss: {
+      duration: 10000,
+      showIcon: true,
+      onScreen: true,
+    },
+  })
+}
+
+const ShowSuccess2 = () => {
+  store.addNotification({
+    title: "Giải ngân thành công",
+    message: "Tiền đã được chuyển đến những người trong danh sách nhận",
+    type: "success",
+    insert: "top",
+    container: "top-left",
+    animationIn: ["animate__animated", "animate__fadeIn"],
+    animationOut: ["animate__animated", "animate__fadeOut"],
+    dismiss: {
+      duration: 10000,
+      showIcon: true,
+      onScreen: true
+    },
+  })
+}
+const ShowError3 = () => {
+  store.addNotification({
+    title: "Đăng kí nhận hỗ trợ không thành công",
+    message: "Chương trình đã dừng tiếp nhận đăng kí",
+    type: "danger",
+    insert: "top",
+    container: "top-left",
+    animationIn: ["animate__animated", "animate__fadeIn"],
+    animationOut: ["animate__animated", "animate__fadeOut"],
+    dismiss: {
+      duration: 10000,
+      showIcon: true,
+      onScreen: true,
+    },
+  })
+}
+
+const ShowSuccess3 = () => {
+  store.addNotification({
+    title: "Đăng kí thành công",
+    message: "Bạn đã đăng kí nhận hỗ trợ thành công ",
+    type: "success",
+    insert: "top",
+    container: "top-left",
+    animationIn: ["animate__animated", "animate__fadeIn"],
+    animationOut: ["animate__animated", "animate__fadeOut"],
+    dismiss: {
+      duration: 10000,
+      showIcon: true,
+      onScreen: true
+    },
+  })
 }
 
 export default Details
