@@ -11,8 +11,7 @@ npm run start
 
 ### Running the project locally
 
-You'll need a local ETH blockchain like [Ganache](https://www.trufflesuite.com/ganache). Can use either the graphical interface or the CLI (npm install -g ganache-cli). If using the graphical app create a new workspace and link the truffle config file /truffle-config.js to the workspace.
-(Open a new TERMINAL and run)
+
 
 ```
 ganache-cli -d --allowUnlimitedContractSize
