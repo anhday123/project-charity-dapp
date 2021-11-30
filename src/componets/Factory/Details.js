@@ -127,10 +127,10 @@ const Details = () => {
       };
       
     
-      const receiver = async (_account) => {
+      const receiver = async (_account, _name, _location, _disadvantaged) => {
         setLoading(true);
         await blockchain.Charity.methods
-          .Registered_recipient(id)
+          .createRegistered_recipientStruct(id,_name, _location, _disadvantaged)
           .send({
             from: _account,
           })

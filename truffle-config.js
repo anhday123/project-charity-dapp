@@ -18,7 +18,10 @@
  *
  */
 // const HDWalletProvider = require("@truffle/hdwallet-provider");
+// const fs = require("fs");
 
+// const infuraID = "b5b68c3089864b62b5b0208f652cecf6";
+// const mnemonic = fs.readFileSync(".secret").toString().trim();
 module.exports = {
     /**
      * Networks define how you connect to your ethereum client and let you set the
@@ -56,8 +59,8 @@ module.exports = {
         // NB: It's important to wrap the provider as a function.
         // ropsten: {
         //     provider: () => new HDWalletProvider(
-        //         process.env.mnemonic,
-        //         `https://ropsten.infura.io/v3/cd4e9e7659bb4e63b3fa28d7d3f68223`
+        //         mnemonic,
+        //         `https://ropsten.infura.io/v3/${infuraID}`
         //     ),
         //     network_id: 3, // Ropsten's id
         //     gas: 5500000, // Ropsten has a lower block limit than mainnet

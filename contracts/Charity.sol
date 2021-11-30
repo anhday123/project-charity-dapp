@@ -28,6 +28,9 @@ contract Charity {
     struct Receiver {
         address payable receiverAddress;
         uint256 projectID;
+        string name;
+        string locationR;
+        string disadvantaged;
     }
     uint256 public nextId = 1;
     uint cooldownTime = 3 minutes;
@@ -264,14 +267,14 @@ contract Charity {
     //     revert('not sure what you are doing');
     // }
     // tạo người nhận ủng hộ
-    function createRegistered_recipientStruct(uint256 id) internal {Receiver memory newReceiver = Receiver(
+    function createRegistered_recipientStruct(uint256 id,string memory name,string memory locationR, string memory disadvantaged) public {
+        Receiver memory newReceiver = Receiver(
         {receiverAddress: payable(msg.sender),
-            projectID: id
+            projectID: id,
+            name: name,
+            locationR: locationR,
+            disadvantaged: disadvantaged
         });
-        allReceviver.push(newReceiver);
-        IDReceiverAmount[newReceiver.projectID]++;
-    }
-    function Registered_recipient (uint256 id)public{
         uint256 i = find(id);
         require(allProjects[i].program_creator != msg.sender,'you cannot register');
         require(allProjects[i].recipient != msg.sender,'you cannot register');
@@ -281,9 +284,22 @@ contract Charity {
         for(uint256 j=0;j<result.length;j++){
             require(msg.sender != result[j].receiverAddress,'you are already registered');
         }
-        createRegistered_recipientStruct(id);
-        
+        allReceviver.push(newReceiver);
+        IDReceiverAmount[newReceiver.projectID]++;
     }
+    // function Registered_recipient (uint256 id)public{
+    //     uint256 i = find(id);
+    //     require(allProjects[i].program_creator != msg.sender,'you cannot register');
+    //     require(allProjects[i].recipient != msg.sender,'you cannot register');
+    //     require(allProjects[i].ongoing != false,'The program is closed');
+    //     Receiver[] memory result = new Receiver[](IDReceiverAmount[id]);
+    //     result = getIdReceiver(id);
+    //     for(uint256 j=0;j<result.length;j++){
+    //         require(msg.sender != result[j].receiverAddress,'you are already registered');
+    //     }
+    //     createRegistered_recipientStruct(id);
+        
+    // }
     function getAllReceiver() public view returns(Receiver[] memory){
         return allReceviver;
     }
