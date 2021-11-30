@@ -12,37 +12,20 @@ import FormCreate from "./page/FormCreate";
 
 function App() {
 
-    return ( <
-        Router >
-        <
-        Navbar / >
-        <
-        Switch >
-        <
-        Route path = '/'
-        exact component = { Home }
-        /> <
-        Route path = '/allprojects'
-        component = { AllProjects }
-        /> <
-        Route path = '/ambassadors'
-        component = { Ambassadors }
-        /> <
-        Route path = '/about'
-        component = { About }
-        /> <
-        Route path = '/formcreate'
-        component = { FormCreate }
-        /> <
-        Route path = '/myproject'
-        component = { MyProjects }
-        /> <
-        Route path = "/details/:id?"
-        component = { Details }
-        /> <
-        Route > 404 Not Found! < /Route> < /
-        Switch > <
-        /Router>
+    return ( 
+        <Router >
+            <Navbar/>
+                <Switch >
+                    <Route path = '/'exact component = { Home }/>
+                    <Route path = '/allprojects'component = { AllProjects }/> 
+                    <Route path = '/ambassadors'component = { Ambassadors }/>
+                    <Route path = '/about'component = { About }/> 
+                    <Route path = '/formcreate'component = { FormCreate }/> 
+                    <Route path = '/myproject'component = { MyProjects }/>
+                    <Route path = "/details/:id?"component = { Details }/>
+                    <Route > 404 Not Found! </Route> 
+                </Switch > 
+        </Router>
     );
 }
 

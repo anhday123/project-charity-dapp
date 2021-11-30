@@ -20,6 +20,9 @@ const Details = () => {
     const { id } = useParams();
     console.log(id);
     
+    const [nameCharity, setNameCharity] = useState("");
+    const [location, setLocation] = useState("");
+    const [description, setDescription] = useState("");
     const list = data.AllProjects;
     console.log(list);
     const listDonors = data.Donors;
@@ -148,6 +151,12 @@ const Details = () => {
           });
       };
 
+    const [showForm1, setShowForm1] = useState(false);
+
+    const showForm = () => {
+      setShowForm1(!showForm1);}
+    
+
       useEffect(() => {
         if(id && id !== "") 
         dispatch(fetchData(blockchain.account))
@@ -157,7 +166,7 @@ const Details = () => {
             dispatch(fetchData(blockchain.account));
         }
     }, [blockchain.Charity, blockchain.account, dispatch]);
-    // var tinh = item.amountDonated / listReceiver.lenght;
+
     return (
         <>
             <s.Screen
@@ -243,17 +252,47 @@ const Details = () => {
             >
                 Ủng hộ
             </button>
+            {!showForm1 && (
+              <button
+              className="form__button"
+                onClick={showForm}>
+                  Đăng kí nhận hỗ trợ
+              </button>
+            )}
+            
+            {showForm1 && (
+              <form action="" className="form">
+              {/* <h1 className="form__title">Tạo chương trình</h1> */}
 
-            <button
-            className="form__button"
-                onClick={() => {
-                receiver(
-                    blockchain.account,
-                )
-                }}
-            >
-                Đăng kí nhận hỗ trợ
-            </button>
+              <div className="form__div">
+                  <input type="text" className="form__input" placeholder=" " onChange={e => setNameCharity(e.target.value)}/>
+                  <label  className="form__label">Tên chương trình</label>
+              </div>
+
+              <div className="form__div">
+                  <input type="text" className="form__input" placeholder=" " onChange={e => setLocation(e.target.value)}/>
+                  <label  className="form__label">Địa điểm </label>
+              </div>
+              <div className="form__div">
+                  <input type="text" className="form__input" placeholder=" " onChange={e => setDescription(e.target.value)}/>
+                  <label  className="form__label">Mô tả chương trình</label>
+              </div>
+           
+              
+              <input  type="submit" className="form__button" value="Hoàn thành"
+            
+                     onClick={() => {
+                      receiver(
+                        blockchain.account,
+                        nameCharity,
+                        location,
+                        description,
+                      )
+                      setShowForm1(!showForm1);
+                      }}
+                      />
+          </form>
+            )}
 
             <button
             className="form__button"
@@ -468,4 +507,4 @@ const ShowSuccess3 = () => {
   })
 }
 
-export default Details
+export default Details;
