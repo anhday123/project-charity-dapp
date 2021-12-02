@@ -11,6 +11,9 @@ export const Nav = styled.nav `
   height: 80px;
   display: flex;
   justify-content: space-between;
+  // position: absolute;
+  z-index: 99;
+  
   /* padding: 0.5rem calc((100vw - 1000px) / 2); */
   /* padding: 0 120px; */
   z-index: 10;
@@ -28,7 +31,7 @@ export const NavLink = styled(Link)`
   height: 100%;
   /* width: 100%; */
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.2s eas-in-out;
   h1{
     width: 200px;
   }

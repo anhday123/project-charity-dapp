@@ -66,11 +66,7 @@ const Navbar = () => {
           </NavBtnLink>
           <NavBtn>
           
-          <NavBtnLink to='/'  
-            onClick={(e) => {
-              e.preventDefault();
-              dispatch(connect());
-            }}>
+          <NavBtnLink to='/formcreate' >
             Tạo chương trình
           </NavBtnLink>
           

@@ -22,7 +22,7 @@ const FormCreate = () => {
   const [nameCharity, setNameCharity] = useState("");
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
-  const [amountNeed, setAmountNeed] = useState();
+  const [amountNeed, setAmountNeed] = useState("");
   const [recipient, setRecipient] = useState();
   const [fileImg, setFileImg] = useState();
   const [fileImg1, setFileImg1] = useState();
@@ -135,12 +135,9 @@ const FormCreate = () => {
       
         <s.Screen mgtS={"80px"}>
         <ReactNotification />
-        <s.Container  flex={1} ai={"center"} jc={"center"} >
-        <s.TextTitle style={{textAlign: "center", fontSize: "36px", color: "#000"}}>Tạo chương trình</s.TextTitle>      
-        </s.Container>
         {blockchain.account === "" || blockchain.Charity === null ? (
             <s.Container flex={1} ai={"center"} jc={"center"}>
-          
+              <h1>Hãy đăng nhập để tạo chương trình</h1>   
               {blockchain.errorMsg !== "" ? (
                 <s.TextDescription>{blockchain.errorMsg}</s.TextDescription>
               ) : null}
@@ -151,28 +148,28 @@ const FormCreate = () => {
           {!loading &&
           <div className="l-form">
           <form action="" className="form">
-              {/* <h1 className="form__title">Tạo chương trình</h1> */}
+              <h1 className="form__title">Tạo chương trình</h1>
 
               <div className="form__div">
-                  <input type="text" className="form__input" placeholder=" " onChange={e => setNameCharity(e.target.value)}/>
-                  <label  className="form__label">Tên chương trình</label>
+                  <input required type="text" className="form__input" placeholder="Tên chương trình " onChange={e => setNameCharity(e.target.value)}/>
+                  {/* <label  className="form__label">Tên chương trình</label> */}
               </div>
 
               <div className="form__div">
-                  <input type="text" className="form__input" placeholder=" " onChange={e => setLocation(e.target.value)}/>
+                  <input required type="text" className="form__input" placeholder=" " onChange={e => setLocation(e.target.value)}/>
                   <label  className="form__label">Địa điểm </label>
               </div>
               <div className="form__div">
-                  <input type="text" className="form__input" placeholder=" " onChange={e => setDescription(e.target.value)}/>
+                  <input required type="text" className="form__input" placeholder=" " onChange={e => setDescription(e.target.value)}/>
                   <label  className="form__label">Mô tả chương trình</label>
               </div>
            
               <div className="form__div">
-                  <input type="text" className="form__input" placeholder=" " onChange={e => setAmountNeed(e.target.value)}/>
+                  <input required type="number" className="form__input" placeholder=" " onChange={e => setAmountNeed(e.target.value)}/>
                   <label  className="form__label">Số tiền kêu gọi</label>
               </div>
               <div className="form__div">
-                  <input type="text" className="form__input" placeholder=" " onChange={e => setRecipient(e.target.value)}/>
+                  <input required type="text" className="form__input" placeholder=" " onChange={e => setRecipient(e.target.value)}/>
                   <label  className="form__label">Địa chỉ người nhận</label>
               </div>
               <input 

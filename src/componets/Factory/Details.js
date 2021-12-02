@@ -24,9 +24,7 @@ const Details = () => {
     const [location, setLocation] = useState("");
     const [description, setDescription] = useState("");
     const list = data.AllProjects;
-    console.log(list);
     const listDonors = data.Donors;
-    console.log(listDonors);
     const listReceiver = data.Receivers;
 
     const [timerDays,setTimerDays] = useState(0);
@@ -293,41 +291,43 @@ const Details = () => {
                       />
           </form>
             )}
-
-            <button
-            className="form__button"
-                onClick={() => {
-                end(
-                    blockchain.account,
-                )
-                }}
-            >
-                Dừng kêu gọi
-            </button>
-            <button
-            className="form__button"
-                onClick={() => {
-                pay(
-                    blockchain.account,
-                )
-                }}
-            >
-                Giải ngân
-            </button>
-            {/* </div> */}
-
+            {blockchain.account === item.program_creator.toLowerCase() ? (
+              <div>
+                                          <button
+                          className="form__button"
+                              onClick={() => {
+                              end(
+                                  blockchain.account,
+                              )
+                              }}
+                          >
+                              Dừng kêu gọi
+                          </button>
+                          <button
+                          className="form__button"
+                              onClick={() => {
+                              pay(
+                                  blockchain.account,
+                              )
+                              }}
+                          >
+                              Giải ngân
+                          </button>
+              </div>
+            ): (
+              null
+            )}
             </s.Container>
-            {/* <h3 className="name">{timerDays} days {timerHours} hours {timerMinutes} minutes {timerSeconds} seconds</h3> */}
-                {/* <h1>{timerDays} days {timerHours} hours {timerMinutes} minutes {timerSeconds} seconds</h1> */}
           </div>
           </div>
         
             ))}
             
             </s.ContainerItemBoder  >
-
-          
-            <div className='container-table'>
+            {console.log("Hello :" + listDonors.filter(item => item.projectID === id ).map(result =>result.amount))}
+            {listDonors.filter(item => item.projectID === id ).map(result =>result.amount) >= "0" ? (
+              <>
+               <div className='container-table'>
               <h1>Danh sách người ủng hộ</h1>
             {/* <h3>Số người đã ủng hộ: {listDonors.length}</h3> */}
 
@@ -367,8 +367,8 @@ const Details = () => {
     
             </table>
         </div>
-      
-
+              </>
+            ):(null)}
         </s.Screen>
         
         </>
