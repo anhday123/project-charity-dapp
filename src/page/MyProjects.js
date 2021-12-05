@@ -1,8 +1,8 @@
 import React from 'react'
 
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 
-import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom";
+import { BrowserRouter as  Link} from "react-router-dom";
 import * as s from "../styles/globalStyles";
 
 const MyProjects = () => {

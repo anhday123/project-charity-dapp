@@ -8,11 +8,7 @@ import "./styled/formcreate.scss"
 import ReactNotification from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
 import { store } from 'react-notifications-component';
-// import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom";
 
-// import _Bg from "../../assets/images/bg/1.jpg";
-// import { BiDna } from "react-icons/bi";
-// import {Link} from "react-router-dom";
 const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0')
 const FormCreate = () => {
   const dispatch = useDispatch();
@@ -156,21 +152,21 @@ const FormCreate = () => {
               </div>
 
               <div className="form__div">
-                  <input required type="text" className="form__input" placeholder=" " onChange={e => setLocation(e.target.value)}/>
-                  <label  className="form__label">Địa điểm </label>
+                  <input required type="text" className="form__input" placeholder="Địa điểm " onChange={e => setLocation(e.target.value)}/>
+                  {/* <label  className="form__label">Địa điểm </label> */}
               </div>
               <div className="form__div">
-                  <input required type="text" className="form__input" placeholder=" " onChange={e => setDescription(e.target.value)}/>
-                  <label  className="form__label">Mô tả chương trình</label>
+                  <input required type="text" className="form__input" placeholder="Mô tả chương trình " onChange={e => setDescription(e.target.value)}/>
+                  {/* <label  className="form__label">Mô tả chương trình</label> */}
               </div>
            
               <div className="form__div">
-                  <input required type="number" className="form__input" placeholder=" " onChange={e => setAmountNeed(e.target.value)}/>
-                  <label  className="form__label">Số tiền kêu gọi</label>
+                  <input required type="number" className="form__input" placeholder="Số tiền kêu gọi đơn vị ETH" onChange={e => setAmountNeed(e.target.value)}/>
+                  {/* <label  className="form__label">Số tiền kêu gọi</label> */}
               </div>
               <div className="form__div">
-                  <input required type="text" className="form__input" placeholder=" " onChange={e => setRecipient(e.target.value)}/>
-                  <label  className="form__label">Địa chỉ người nhận</label>
+                  <input required type="text" className="form__input" placeholder="Địa chỉ người nhận " onChange={e => setRecipient(e.target.value)}/>
+                  {/* <label  className="form__label">Địa chỉ người nhận</label> */}
               </div>
               <input 
               className="form__button"
@@ -193,19 +189,22 @@ const FormCreate = () => {
           
               {/* <Link to="/allprojects"> */}
               <input  type="submit" className="form__button" value="Hoàn thành"
-            
                      onClick={() => {
+                       if(!nameCharity || !location || !description || !amountNeed || !fileImg || !fileImg1 || !recipient){
+                          alert("Vui lòng nhập đầy đủ thông tin")
+                       }else{
                         createProjectStruct(
                           blockchain.account,
                           nameCharity,
                           location,
                           description,
-                          amountNeed,
-                          fileImg,
+                          blockchain.web3.utils.toWei(amountNeed),
+                          fileImg,  
                           fileImg1,
                          
                           recipient,
                         )
+                       }
                       }}
                       />
               {/* </Link> */}

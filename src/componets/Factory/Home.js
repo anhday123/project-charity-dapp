@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import { connect } from "../../redux/blockchain/blockchainActions";
 import { fetchData } from "../../redux/data/dataActions";
 import * as s from "../../styles/globalStyles";
-// import { create as ipfsHttpClient } from 'ipfs-http-client'
 import _Bg from "../../assets/images/bg/hand.jpg";
 import _Bg1 from "../../assets/images/bg/blockchain1.png";
 import contentProgramData from "./fake-data/contentProgram"

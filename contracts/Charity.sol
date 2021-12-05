@@ -28,9 +28,9 @@ contract Charity {
     struct Receiver {
         address payable receiverAddress;
         uint256 projectID;
-        string name;
+        string nameR;
         string locationR;
-        string disadvantaged;
+        string descriptionR;
     }
     uint256 public nextId = 1;
     uint cooldownTime = 3 minutes;
@@ -184,6 +184,7 @@ contract Charity {
             allProjects[i].amountDonated
         );
         allProjects[i].ongoing = false;
+        allProjects[i].readyTime = uint32(block.timestamp);
         emit Project_Ended(
             allProjects[i].program_creator,
             address(this),
@@ -267,13 +268,13 @@ contract Charity {
     //     revert('not sure what you are doing');
     // }
     // tạo người nhận ủng hộ
-    function createRegistered_recipientStruct(uint256 id,string memory name,string memory locationR, string memory disadvantaged) public {
+    function createRegistered_recipientStruct(uint256 id,string memory nameR,string memory locationR, string memory descriptionR) public {
         Receiver memory newReceiver = Receiver(
         {receiverAddress: payable(msg.sender),
             projectID: id,
-            name: name,
+            nameR: nameR,
             locationR: locationR,
-            disadvantaged: disadvantaged
+            descriptionR: descriptionR
         });
         uint256 i = find(id);
         require(allProjects[i].program_creator != msg.sender,'you cannot register');

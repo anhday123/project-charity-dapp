@@ -1,12 +1,12 @@
 import React from 'react'
 import {  useSelector } from "react-redux";
-import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom";
-// import _Bg from "../assets/images/bg/about-2.jpeg"
+import { BrowserRouter as  Link } from "react-router-dom";
 
 import * as s from "../styles/globalStyles";
 
 
 const AllProjects = () => {
+  const blockchain = useSelector((state) => state.blockchain);
     const data = useSelector((state) => state.data);
     console.log(data.AllProjects)
 
@@ -55,8 +55,8 @@ const AllProjects = () => {
                     <s.ItemP>{item.description}</s.ItemP>
 
                     <s.ItemBody>
-                      <s.ItemBodyMoney1>{item.amountDonated}</s.ItemBodyMoney1>
-                      <s.ItemBodyMoney1>/ {item.amountNeeded}</s.ItemBodyMoney1>
+                      <s.ItemBodyMoney1>{blockchain.web3.utils.fromWei(item.amountDonated, "ether")}</s.ItemBodyMoney1>
+                      <s.ItemBodyMoney1>/ {blockchain.web3.utils.fromWei(item.amountNeeded, "ether")}</s.ItemBodyMoney1>
 
                       {/* <s.ItemBodyMoney2>{item.amountNeeded}</s.ItemBodyMoney2> */}
                     </s.ItemBody>

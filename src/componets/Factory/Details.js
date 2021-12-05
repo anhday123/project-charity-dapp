@@ -1,15 +1,14 @@
 import React, { useEffect, useState} from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { fetchData , removeData } from "../../redux/data/dataActions";
+import { fetchData  } from "../../redux/data/dataActions";
 import * as s from "../../styles/globalStyles";
 import "../../page/styled/formcreate.scss"
-// import { Nav, NavLink, Bars, NavMenu, NavBtn, NavBtnLink } from '../Navbar/NavbarElements';
 import ReactNotification from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
 import { store } from 'react-notifications-component';
 import "../../page/styled/styled.scss"
-// import _Bg1 from "../../assets/images/bg/blockchain1.png";
+
 
 const Details = () => {
     const dispatch = useDispatch();
@@ -20,9 +19,9 @@ const Details = () => {
     const { id } = useParams();
     console.log(id);
     
-    const [nameCharity, setNameCharity] = useState("");
-    const [location, setLocation] = useState("");
-    const [description, setDescription] = useState("");
+    const [nameR, setnameR] = useState("");
+    const [locationR, setlocationR] = useState("");
+    const [descriptionR, setDescriptionR] = useState("");
     const list = data.AllProjects;
     const listDonors = data.Donors;
     const listReceiver = data.Receivers;
@@ -36,7 +35,6 @@ const Details = () => {
     useEffect(() => {
       const startCouterTimer = setInterval(() => {
         const seconds  = list.filter(item => item.id === id ).map(result =>
-          // console.log(parseInt(result.readyTime - Date.now() /1000))
           parseInt(result.readyTime - Date.now() / 1000)
         )
   
@@ -78,6 +76,7 @@ const Details = () => {
             setLoading(false);
             console.log(err);
             ShowError();
+            
           })
           .then((receipt) => {
             setLoading(false);
@@ -128,10 +127,10 @@ const Details = () => {
       };
       
     
-      const receiver = async (_account, _name, _location, _disadvantaged) => {
+      const receiver = async (_account, _nameR, _locationR, _descriptionR) => {
         setLoading(true);
         await blockchain.Charity.methods
-          .createRegistered_recipientStruct(id,_name, _location, _disadvantaged)
+          .createRegistered_recipientStruct(id,_nameR, _locationR, _descriptionR)
           .send({
             from: _account,
           })
@@ -169,7 +168,6 @@ const Details = () => {
         <>
             <s.Screen
              mgtS={"80px"} 
-            //  image={_Bg1}
              >
         <ReactNotification />
 
@@ -183,25 +181,19 @@ const Details = () => {
         >
             Chi tiết chương trình
             </s.TextTitle>
-            <h3  style={{
-                    textAlign: "center", 
-                    fontSize: "28px", 
-                   }}
-                    >Thời gian kêu gọi còn lại: {timerDays} Ngày {timerHours} Giờ {timerMinutes} Phút {timerSeconds} Giây</h3>
           
-            {/* <s.TextTitle 
-                style={{
-                    textAlign: "center", 
-                    fontSize: "36px", 
-                    color: "#000"}}
-        >
-            {timerDays} Ngày {timerHours} Giờ {timerMinutes} Phút {timerSeconds} Giây
-            </s.TextTitle>        */}
         </s.Container>
    
             <s.ContainerItemBoder>
             {list.filter(item => item.id === id).map((item, index) => (
               <div className="item">
+                <h3  style={{
+                    textAlign: "center", 
+                    fontSize: "28px", 
+                    marginLeft:"auto",
+                    marginRight: "auto"
+                   }}
+                    >Thời gian kêu gọi còn lại: {timerDays} Ngày {timerHours} Giờ {timerMinutes} Phút {timerSeconds} Giây</h3>
               <div className="title">
                 <h3 className="name">Tên chương trình: {item.projectName}</h3>
                 <p className="location">Địa điểm: {item.location}</p>
@@ -222,8 +214,8 @@ const Details = () => {
                 <p className="sumary">Mô tả: {item.description}</p>
               </div>
               <div className="tt-right">
-                <p className="title money">Số tiền kêu gọi: {item.amountNeeded} wei</p>
-                <p className="title money">Số tiền đã kêu gọi được: {item.amountDonated} wei</p>
+                <p className="title money">Số tiền kêu gọi: {blockchain.web3.utils.fromWei(item.amountNeeded, "ether")} ETH</p>
+                <p className="title money">Số tiền đã kêu gọi được: {blockchain.web3.utils.fromWei(item.amountDonated, "ether")} ETH</p>
                 
                   
                 
@@ -238,14 +230,17 @@ const Details = () => {
             style={{padding: "10px",  height:"50px", width: "500px"}}
             onChange={e => setValue(e.target.value)}
             />
-            {/* <div className="container-btn"> */}
             <button
             className="form__button"
                 onClick={() => {
-                donate(
-                    blockchain.account,
-                    sotien, 
-                )
+                  if(!sotien){
+                    alert("Vui lòng nhập số tiền ủng hộ")
+                  }else{
+                    donate(
+                      blockchain.account,
+                      sotien, 
+                  )
+                  }
                 }}
             >
                 Ủng hộ
@@ -259,40 +254,42 @@ const Details = () => {
             )}
             
             {showForm1 && (
-              <form action="" className="form">
-              {/* <h1 className="form__title">Tạo chương trình</h1> */}
+              <form action="" className="form" style={{height: "450px", marginTop: "16px"}}>
+              <h1 className="form__title">Đăng ký nhận hỗ trợ</h1>
 
               <div className="form__div">
-                  <input type="text" className="form__input" placeholder=" " onChange={e => setNameCharity(e.target.value)}/>
-                  <label  className="form__label">Tên chương trình</label>
+                  <input type="text" className="form__input" placeholder="Tên người đăng ký " onChange={e => setnameR(e.target.value)}/>
               </div>
 
               <div className="form__div">
-                  <input type="text" className="form__input" placeholder=" " onChange={e => setLocation(e.target.value)}/>
-                  <label  className="form__label">Địa điểm </label>
+                  <input type="text" className="form__input" placeholder="Địa chỉ " onChange={e => setlocationR(e.target.value)}/>
               </div>
               <div className="form__div">
-                  <input type="text" className="form__input" placeholder=" " onChange={e => setDescription(e.target.value)}/>
-                  <label  className="form__label">Mô tả chương trình</label>
+                  <input type="text" className="form__input" placeholder="Mô tả hoàn cảnh " onChange={e => setDescriptionR(e.target.value)}/>
               </div>
            
               
               <input  type="submit" className="form__button" value="Hoàn thành"
             
                      onClick={() => {
-                      receiver(
-                        blockchain.account,
-                        nameCharity,
-                        location,
-                        description,
-                      )
-                      setShowForm1(!showForm1);
-                      }}
+                        if(!nameR || !locationR || ! descriptionR){
+                           alert("Vui lòng nhập đầy đủ thông tin")
+                        }else{
+                        receiver(
+                          blockchain.account,
+                          nameR,
+                          locationR,
+                          descriptionR,
+                        )
+                        setShowForm1(!showForm1);
+                        }}
+                      }
+                      
                       />
           </form>
             )}
             {blockchain.account === item.program_creator.toLowerCase() ? (
-              <div>
+              <>
                                           <button
                           className="form__button"
                               onClick={() => {
@@ -313,7 +310,7 @@ const Details = () => {
                           >
                               Giải ngân
                           </button>
-              </div>
+              </>
             ): (
               null
             )}
@@ -324,12 +321,11 @@ const Details = () => {
             ))}
             
             </s.ContainerItemBoder  >
-            {console.log("Hello :" + listDonors.filter(item => item.projectID === id ).map(result =>result.amount))}
+            
             {listDonors.filter(item => item.projectID === id ).map(result =>result.amount) >= "0" ? (
               <>
                <div className='container-table'>
               <h1>Danh sách người ủng hộ</h1>
-            {/* <h3>Số người đã ủng hộ: {listDonors.length}</h3> */}
 
             <table id="customers">
               <tr>
@@ -341,26 +337,7 @@ const Details = () => {
            
                             <tr>
                                 <td>{item.donorAddress}</td>
-                                <td>{item.amount} wei</td>
-                            </tr>
- 
-            ))}
-    
-            </table>
-        </div>
-
-        <div className='container-table'>
-              <h1>Danh sách đăng kí nhận hỗ trợ</h1>
-
-            <table id="customers">
-              <tr>
-                  <th>Địa chỉ ví</th>
-              </tr>
-            
-            {listReceiver.filter(item => item.projectID === id).map((item, index) => (
-                            
-                            <tr>
-                                <td>{item.receiverAddress}</td>
+                                <td>{blockchain.web3.utils.fromWei(item.amount, "ether")} ETH</td>
                             </tr>
  
             ))}
@@ -369,6 +346,34 @@ const Details = () => {
         </div>
               </>
             ):(null)}
+
+            {listReceiver.filter(item => item.projectID === id ).map(result =>result.locationR) != "" ? (
+              <>
+               <div className='container-table'>
+              <h1>Danh sách đăng kí nhận hỗ trợ</h1>
+
+                  <table id="customers">
+                    <tr>
+                        <th>Tên người đăng ký</th>
+                        <th>Địa chỉ</th>
+                        <th>Địa chỉ ví</th>
+                    </tr>
+                  
+                  {listReceiver.filter(item => item.projectID === id).map((item, index) => (
+                                  
+                                  <tr>
+                                      <td>{item.nameR}</td>
+                                      <td>{item.locationR}</td>
+                                      <td>{item.receiverAddress}</td>
+                                  </tr>
+      
+                  ))}
+          
+                  </table>
+              </div>
+              </>
+            ):(null)} 
+            
         </s.Screen>
         
         </>
