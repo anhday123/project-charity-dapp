@@ -214,8 +214,8 @@ const Details = () => {
                 <p className="sumary">Mô tả: {item.description}</p>
               </div>
               <div className="tt-right">
-                <p className="title money">Số tiền kêu gọi: {blockchain.web3.utils.fromWei(item.amountNeeded, "ether")} ETH (tương đương với {blockchain.web3.utils.fromWei(item.amountNeeded, "ether")*95074746} VNĐ) </p>
-                <p className="title money">Số tiền đã kêu gọi được: {blockchain.web3.utils.fromWei(item.amountDonated, "ether")} ETH (tương đương với {blockchain.web3.utils.fromWei(item.amountDonated, "ether")*95074746} VNĐ)</p>
+                <p className="title money">Số tiền kêu gọi: {blockchain.web3.utils.fromWei(item.amountNeeded, "ether")} ETH ( trị giá {blockchain.web3.utils.fromWei(item.amountNeeded, "ether")*95074746} VNĐ) </p>
+                <p className="title money">Số tiền đã kêu gọi được: {blockchain.web3.utils.fromWei(item.amountDonated, "ether")} ETH ( trị giá {blockchain.web3.utils.fromWei(item.amountDonated, "ether")*95074746} VNĐ)</p>
                 
                   
                 
@@ -254,7 +254,7 @@ const Details = () => {
             )}
             
             {showForm1 && (
-              <form action="" className="form" style={{height: "450px", marginTop: "16px"}}>
+              <form action="" className="form" style={{height: "500px", marginTop: "16px"}}>
               <h1 className="form__title">Đăng ký nhận hỗ trợ</h1>
 
               <div className="form__div">
@@ -285,6 +285,12 @@ const Details = () => {
                         }}
                       }
                       
+                      />
+                      <input  type="submit" className="form__button" value="Đóng"
+                        onClick={() => {
+                        setShowForm1(!showForm1);
+
+                        }}
                       />
           </form>
             )}
@@ -382,8 +388,8 @@ const Details = () => {
 }
 const ShowError = () => {
   store.addNotification({
-    title: "Ủng hộ không thành công",
-    message: "Chương trình đã dừng kêu gọi",
+    title: "Ủng hộ thất bại",
+    message: "Vui lòng kiểm tra lại",
     type: "danger",
     insert: "top",
     container: "top-left",
@@ -416,7 +422,7 @@ const ShowSuccess = () => {
 const ShowError1 = () => {
   store.addNotification({
     title: "Đã có lỗi xảy ra",
-    message: "Hãy kiểm tra lại",
+    message: "Vui lòng kiểm tra lại",
     type: "danger",
     insert: "top",
     container: "top-left",
@@ -481,8 +487,8 @@ const ShowSuccess2 = () => {
 }
 const ShowError3 = () => {
   store.addNotification({
-    title: "Đăng kí nhận hỗ trợ không thành công",
-    message: "Chương trình đã dừng tiếp nhận đăng kí",
+    title: "Đăng kí nhận hỗ trợ thất bại",
+    message: "Vui lòng kiểm tra lại",
     type: "danger",
     insert: "top",
     container: "top-left",

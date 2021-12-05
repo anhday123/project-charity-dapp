@@ -33,7 +33,7 @@ contract Charity {
         string descriptionR;
     }
     uint256 public nextId = 1;
-    uint cooldownTime = 3 minutes;
+    uint cooldownTime = 5 minutes;
     Donor[] public allDonors;   // mang donate
     Project[] public allProjects; //mang project
     Receiver[] public allReceviver; //mang nguoi nhan

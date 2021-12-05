@@ -61,7 +61,7 @@ const FormCreate = () => {
       console.log('Error uploading file: ', error)
     }  
   }
-    console.log(data);
+    // console.log(data);
 
     const createProjectStruct = (_account, _name, _location, _description, _amountNeeded, _imageUrl, _imageUrl1,_recipient) => {
       setLoading(true);
@@ -81,11 +81,13 @@ const FormCreate = () => {
           dispatch(fetchData(blockchain.account));
           //ShowSuccess();
           Swal.fire({
-            //position: 'top-center',
+            
+            title: 'Chúc mừng bạn đã tạo chương trình thành công!',
+            width: 600,
+            padding: '3em',
             icon: 'success',
-            title: 'Tạo Thành công',
-            showConfirmButton: false,
-            timer: 3000
+            background: '#fff url(/images/trees.png)',
+         
           })
         });
     };
@@ -93,8 +95,8 @@ const FormCreate = () => {
     console.log(data.AllProjects)
     const ShowError = () => {
       store.addNotification({
-        title: "failed",
-        message: "Transaction failed",
+        title: "Đã có lỗi xảy ra",
+        message: "Vui lòng kiểm tra lại",
         type: "danger",
         insert: "top",
         container: "top-right",

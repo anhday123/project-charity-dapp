@@ -40,7 +40,7 @@ const AllProjects = () => {
                     </Link>
 
                     <s.ItemTitle>
-                    <s.ItemH3>#{item.id}</s.ItemH3>
+                    <s.ItemH3>id#{item.id}</s.ItemH3>
                     <s.ItemH3>{item.projectName}</s.ItemH3>
                     </s.ItemTitle>
                   </s.ContainerItemTitle>
@@ -55,16 +55,16 @@ const AllProjects = () => {
                     <s.ItemP>{item.description}</s.ItemP>
 
                     <s.ItemBody>
-                      <s.ItemBodyMoney1>{blockchain.web3.utils.fromWei(item.amountDonated, "ether")}</s.ItemBodyMoney1>
-                      <s.ItemBodyMoney1>/{blockchain.web3.utils.fromWei(item.amountNeeded, "ether")}</s.ItemBodyMoney1>
+                      <s.ItemBodyMoney1>Số tiền kêu gọi được: {blockchain.web3.utils.fromWei(item.amountDonated, "ether")}</s.ItemBodyMoney1>
+                      <s.ItemBodyMoney1>/ {blockchain.web3.utils.fromWei(item.amountNeeded, "ether")}</s.ItemBodyMoney1>
 
 
                     </s.ItemBody>
                   </s.ItemBodyContainer>
                   <s.ItemFooterContainer>
                     <s.ItemFooter>
-                      <s.ItemFooterDonateText>Số lần ủng hộ</s.ItemFooterDonateText>
-                      <s.ItemFooterDonate>xxxx</s.ItemFooterDonate>
+                      {/* <s.ItemFooterDonateText>Số lần ủng hộ</s.ItemFooterDonateText>
+                      <s.ItemFooterDonate>xxxx</s.ItemFooterDonate> */}
                       <Link to={`/details/${item.id}`}><s.ItemBtn>Tham gia</s.ItemBtn></Link>
                     </s.ItemFooter>
                   </s.ItemFooterContainer>
