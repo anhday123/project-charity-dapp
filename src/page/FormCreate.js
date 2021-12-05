@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import tick from "../assets/images/bg/tick.png";
+import Swal from 'sweetalert2'
+
+import {   Link  } from "react-router-dom";
 import { fetchData } from "../redux/data/dataActions";
 import * as s from "../styles/globalStyles";
 import { create as ipfsHttpClient } from 'ipfs-http-client'
@@ -9,11 +13,14 @@ import ReactNotification from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
 import { store } from 'react-notifications-component';
 
+
 const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0')
 const FormCreate = () => {
   const dispatch = useDispatch();
   const blockchain = useSelector((state) => state.blockchain);
   const data = useSelector((state) => state.data);
+
+
   const [loading, setLoading] = useState(false);
   const [nameCharity, setNameCharity] = useState("");
   const [location, setLocation] = useState("");
@@ -72,7 +79,14 @@ const FormCreate = () => {
           setLoading(false);
           console.log(receipt);
           dispatch(fetchData(blockchain.account));
-          ShowSuccess();
+          //ShowSuccess();
+          Swal.fire({
+            //position: 'top-center',
+            icon: 'success',
+            title: 'Tạo Thành công',
+            showConfirmButton: false,
+            timer: 3000
+          })
         });
     };
 
@@ -94,22 +108,22 @@ const FormCreate = () => {
       })
     }
 
-    const ShowSuccess = () => {
-      store.addNotification({
-        title: "Tạo thành công",
-        message: "Bạn đã tạo 1 chương trình thành công",
-        type: "success",
-        insert: "top",
-        container: "top-right",
-        animationIn: ["animate__animated", "animate__fadeIn"],
-        animationOut: ["animate__animated", "animate__fadeOut"],
-        dismiss: {
-          duration: 10000,
-          showIcon: true,
-          onScreen: true
-        },
-      })
-    }
+    // const ShowSuccess = () => {
+    //   store.addNotification({
+    //     title: "Tạo thành công",
+    //     message: "Bạn đã tạo 1 chương trình thành công",
+    //     type: "success",
+    //     insert: "top",
+    //     container: "top-right",
+    //     animationIn: ["animate__animated", "animate__fadeIn"],
+    //     animationOut: ["animate__animated", "animate__fadeOut"],
+    //     dismiss: {
+    //       duration: 10000,
+    //       showIcon: true,
+    //       onScreen: true
+    //     },
+    //   })
+    // }
 
     // const handlePreviewImg = (e) => {
     //   const file = e.target.files[0];
@@ -117,18 +131,17 @@ const FormCreate = () => {
     //   setFileImg(file);
     // }
 
-    
     useEffect(() => {
         if (blockchain.account !== "" && blockchain.Charity !== null) {
             dispatch(fetchData(blockchain.account));
         }
     }, [blockchain.Charity, blockchain.account, dispatch]);
       
-    console.log(blockchain.account)
 
     return (
       <>
-      
+        
+
         <s.Screen mgtS={"80px"}>
         <ReactNotification />
         {blockchain.account === "" || blockchain.Charity === null ? (
@@ -148,31 +161,25 @@ const FormCreate = () => {
 
               <div className="form__div">
                   <input required type="text" className="form__input" placeholder="Tên chương trình " onChange={e => setNameCharity(e.target.value)}/>
-                  {/* <label  className="form__label">Tên chương trình</label> */}
               </div>
 
               <div className="form__div">
                   <input required type="text" className="form__input" placeholder="Địa điểm " onChange={e => setLocation(e.target.value)}/>
-                  {/* <label  className="form__label">Địa điểm </label> */}
               </div>
               <div className="form__div">
                   <input required type="text" className="form__input" placeholder="Mô tả chương trình " onChange={e => setDescription(e.target.value)}/>
-                  {/* <label  className="form__label">Mô tả chương trình</label> */}
               </div>
            
               <div className="form__div">
                   <input required type="number" className="form__input" placeholder="Số tiền kêu gọi đơn vị ETH" onChange={e => setAmountNeed(e.target.value)}/>
-                  {/* <label  className="form__label">Số tiền kêu gọi</label> */}
               </div>
               <div className="form__div">
                   <input required type="text" className="form__input" placeholder="Địa chỉ người nhận " onChange={e => setRecipient(e.target.value)}/>
-                  {/* <label  className="form__label">Địa chỉ người nhận</label> */}
               </div>
               <input 
               className="form__button"
               type="file"
               placeholder=" Chọn ảnh minh hoạ"
-            //   style={{color : "#ffffff"}}
               onChange={onChange}
               
           />
@@ -180,15 +187,11 @@ const FormCreate = () => {
               className="form__button"
               type="file"
               placeholder=" Chọn ảnh minh hoạ"
-            //   style={{color : "#ffffff"}}
               onChange={onChange1}
               
           />
-         
-         
-          
-              {/* <Link to="/allprojects"> */}
-              <input  type="submit" className="form__button" value="Hoàn thành"
+            
+              <input type="submit" className="form__button" value="Hoàn thành"
                      onClick={() => {
                        if(!nameCharity || !location || !description || !amountNeed || !fileImg || !fileImg1 || !recipient){
                           alert("Vui lòng nhập đầy đủ thông tin")
@@ -201,13 +204,12 @@ const FormCreate = () => {
                           blockchain.web3.utils.toWei(amountNeed),
                           fileImg,  
                           fileImg1,
-                         
                           recipient,
                         )
                        }
                       }}
                       />
-              {/* </Link> */}
+              
           </form>
       </div>
           }   

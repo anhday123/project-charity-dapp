@@ -34,6 +34,7 @@ const Home = () => {
 
     return (
       <>
+      
         <s.Screen image={_Bg}>
      
           <s.Container flex={1} ai={"center"} jc={"center"} >
@@ -48,6 +49,12 @@ const Home = () => {
                 khỏe của con người và hành tinh của chúng ta.
                 </s.TextTitle>
           </s.Container> 
+        </s.Screen>
+        <s.TextTitle wt={"100%"} style={{textAlign:"center", color:"#000", fontSize:"40px", marginTop:"80px"}}>
+        All children have a right to survive, thrive and fulfill their potential – to the benefit of a better world.
+            </s.TextTitle>
+        <s.Screen style={{alignItems:"center"}}>
+        <iframe width="1170" height="657px" src="https://www.youtube.com/embed/LjkayYf36bQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </s.Screen>
         <s.Screen image={_Bg1} >
         <s.Container flex={1} ai={"center"} jc={"center"} >

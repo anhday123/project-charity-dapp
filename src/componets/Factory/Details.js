@@ -23,7 +23,7 @@ const Details = () => {
     const [locationR, setlocationR] = useState("");
     const [descriptionR, setDescriptionR] = useState("");
     const list = data.AllProjects;
-    const listDonors = data.Donors;
+    const listDonors = data.Donors; 
     const listReceiver = data.Receivers;
 
     const [timerDays,setTimerDays] = useState(0);
@@ -214,8 +214,8 @@ const Details = () => {
                 <p className="sumary">Mô tả: {item.description}</p>
               </div>
               <div className="tt-right">
-                <p className="title money">Số tiền kêu gọi: {blockchain.web3.utils.fromWei(item.amountNeeded, "ether")} ETH</p>
-                <p className="title money">Số tiền đã kêu gọi được: {blockchain.web3.utils.fromWei(item.amountDonated, "ether")} ETH</p>
+                <p className="title money">Số tiền kêu gọi: {blockchain.web3.utils.fromWei(item.amountNeeded, "ether")} ETH (tương đương với {blockchain.web3.utils.fromWei(item.amountNeeded, "ether")*95074746} VNĐ) </p>
+                <p className="title money">Số tiền đã kêu gọi được: {blockchain.web3.utils.fromWei(item.amountDonated, "ether")} ETH (tương đương với {blockchain.web3.utils.fromWei(item.amountDonated, "ether")*95074746} VNĐ)</p>
                 
                   
                 
@@ -313,6 +313,7 @@ const Details = () => {
               </>
             ): (
               null
+              
             )}
             </s.Container>
           </div>

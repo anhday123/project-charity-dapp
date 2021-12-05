@@ -2,7 +2,7 @@ import React from 'react'
 
 import {  useSelector } from "react-redux";
 
-import { BrowserRouter as  Link} from "react-router-dom";
+import {  Link} from "react-router-dom";
 import * as s from "../styles/globalStyles";
 
 const MyProjects = () => {

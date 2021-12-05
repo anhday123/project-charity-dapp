@@ -1,7 +1,7 @@
 import React from 'react'
 import {  useSelector } from "react-redux";
-import { BrowserRouter as  Link } from "react-router-dom";
-
+// import { BrowserRouter as  Link } from "react-router-dom";
+import {   Link  } from "react-router-dom";
 import * as s from "../styles/globalStyles";
 
 
@@ -33,7 +33,7 @@ const AllProjects = () => {
                       jc={"center"}
                       
                       key={index}
-                    >                     
+                    >                   
                     <s.ContainerItemTitle>
                     <Link to={`/details/${item.id}`}>
                       <img src={item.imageUrl} alt=""/>
@@ -56,9 +56,9 @@ const AllProjects = () => {
 
                     <s.ItemBody>
                       <s.ItemBodyMoney1>{blockchain.web3.utils.fromWei(item.amountDonated, "ether")}</s.ItemBodyMoney1>
-                      <s.ItemBodyMoney1>/ {blockchain.web3.utils.fromWei(item.amountNeeded, "ether")}</s.ItemBodyMoney1>
+                      <s.ItemBodyMoney1>/{blockchain.web3.utils.fromWei(item.amountNeeded, "ether")}</s.ItemBodyMoney1>
 
-                      {/* <s.ItemBodyMoney2>{item.amountNeeded}</s.ItemBodyMoney2> */}
+
                     </s.ItemBody>
                   </s.ItemBodyContainer>
                   <s.ItemFooterContainer>
@@ -72,16 +72,7 @@ const AllProjects = () => {
                     </s.ContainerItem>
                   );
               })}
-          {/*
-            <s.ItemFooterContainer>
-              <s.ItemFooter>
-                <s.ItemFooterDonateText>huhuhu</s.ItemFooterDonateText>
-                <s.ItemFooterDonate>800</s.ItemFooterDonate>
-                <s.ItemBtn>Tham gia</s.ItemBtn>
-              </s.ItemFooter>
-            </s.ItemFooterContainer>
-          </s.ContainerItem> */}
-  
+
         </s.ContainerItemBoder>
         </s.ContainerI>
      
