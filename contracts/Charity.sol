@@ -31,15 +31,20 @@ contract Charity {
         string nameR;
         string locationR;
         string descriptionR;
+        string CMND;
+        string imageUrlR;
+        string imageUrl1R;
+        bool take;
     }
     uint256 public nextId = 1;
-    uint cooldownTime = 5 minutes;
+    uint cooldownTime = 3 minutes;
     Donor[] public allDonors;   // mang donate
     Project[] public allProjects; //mang project
     Receiver[] public allReceviver; //mang nguoi nhan
     mapping (address => uint256) public ownerProjectAmount;
     mapping (uint256 => uint256) public IDDonateAmount;
     mapping (uint256 => uint256) public IDReceiverAmount;
+    mapping (bool => uint256) public IDReceiverAmountTake;
     
     function createDonationStruct(uint256 amount, uint256 id) internal {Donor memory newDonor = Donor(
         {donorAddress: msg.sender,
@@ -158,6 +163,15 @@ contract Charity {
         }
         revert('Project does not exist');
     }
+    // tìm receiver theo address
+    function findAdd(address a) internal view returns (uint256) {
+        for (uint256 i = 0; i < allReceviver.length; i++) {
+            if (allReceviver[i].receiverAddress == a) {
+                return i;
+            }
+        }
+        revert('Receiver does not exist');
+    }
 
 
     function _isReady(Project storage _project) internal view returns (bool) {
@@ -191,15 +205,17 @@ contract Charity {
             allProjects[i].amountDonated
         );
       
-        // //allProjects[i].program_creator.transfer(allProjects[i].amountDonated); // gửi số dư tài khoản đến program_creator
+         //allProjects[i].program_creator.transfer(allProjects[i].amountDonated); // gửi số dư tài khoản đến program_creator
         
     }
+
     // chuyển tiền cho người thụ hưởng
     function pay(uint256 id)public payable returns(uint256 ethers){
+        bool check = true;
         uint256 i = find(id);
         require(msg.sender == allProjects[i].program_creator,'you have no right');
-        Receiver[] memory result = new Receiver[](IDReceiverAmount[id]);
-        result = getIdReceiver(id);
+        Receiver[] memory result = new Receiver[](IDReceiverAmountTake[check]);
+        result = getIdReceiverTake();
         uint256 a = result.length;
         if(a==0){
             allProjects[i].recipient.transfer(allProjects[i].amountDonated);
@@ -211,14 +227,8 @@ contract Charity {
             result[p].receiverAddress.transfer(b);
             }
             return b;
-        }
-        
+        } 
     }
-
-    // function _isReady(Project storage _project) internal view returns (bool) {
-    //     return (_project.readyTime <= block.timestamp);
-    // }
-    
 
     //xem một project
     function readSingleProject(uint256 id)
@@ -234,8 +244,6 @@ contract Charity {
             uint256,
             bool,
             string memory,
-   
-            //address,
             address
         )
     {
@@ -264,17 +272,22 @@ contract Charity {
         }
         return false;
     }
+    
     // function () external fall {
     //     revert('not sure what you are doing');
     // }
     // tạo người nhận ủng hộ
-    function createRegistered_recipientStruct(uint256 id,string memory nameR,string memory locationR, string memory descriptionR) public {
+    function createRegistered_recipientStruct(uint256 id,string memory nameR,string memory locationR, string memory descriptionR,string memory CMND,string memory imageUrlR,string memory imageUrl1R) public {
         Receiver memory newReceiver = Receiver(
         {receiverAddress: payable(msg.sender),
             projectID: id,
             nameR: nameR,
             locationR: locationR,
-            descriptionR: descriptionR
+            descriptionR: descriptionR,
+            CMND: CMND,
+            imageUrlR: imageUrlR,
+            imageUrl1R: imageUrl1R,
+            take: false
         });
         uint256 i = find(id);
         require(allProjects[i].program_creator != msg.sender,'you cannot register');
@@ -288,34 +301,74 @@ contract Charity {
         allReceviver.push(newReceiver);
         IDReceiverAmount[newReceiver.projectID]++;
     }
-    // function Registered_recipient (uint256 id)public{
-    //     uint256 i = find(id);
-    //     require(allProjects[i].program_creator != msg.sender,'you cannot register');
-    //     require(allProjects[i].recipient != msg.sender,'you cannot register');
-    //     require(allProjects[i].ongoing != false,'The program is closed');
-    //     Receiver[] memory result = new Receiver[](IDReceiverAmount[id]);
-    //     result = getIdReceiver(id);
-    //     for(uint256 j=0;j<result.length;j++){
-    //         require(msg.sender != result[j].receiverAddress,'you are already registered');
-    //     }
-    //     createRegistered_recipientStruct(id);
-        
-    // }
+ 
     function getAllReceiver() public view returns(Receiver[] memory){
         return allReceviver;
     }
     // lấy người nhận theo 1 chương trình
     function getIdReceiver(uint256 id)public view returns(Receiver[] memory){
         Receiver[] memory result = new Receiver[](IDReceiverAmount[id]);
-        uint256 count;
+        uint256 count;  
         for(uint256 i=0;i<allReceviver.length;i++){
             if(allReceviver[i].projectID == id){
                 result[count] = allReceviver[i];
                 count++;
-            }
+           }
           }
       return result;
     }
+    // lấy số người được duyệt
+    function getIdReceiverTake()public view returns(Receiver[] memory){
+        Receiver[] memory result = new Receiver[](IDReceiverAmountTake[true]);
+        uint256 count;  
+        for(uint256 i=0;i<allReceviver.length;i++){
+            if(allReceviver[i].take == true){
+                result[count] = allReceviver[i];
+                count++;
+           }
+          }
+      return result;
+    }
+    // phê duyệt người nhận
+    function approveReceiver(address a)public {
+        uint256 i = findAdd(a);
+        require(isCharity() == true, 'you have no right');
+        
+        allReceviver[i].take = true;
+        IDReceiverAmountTake[allReceviver[i].take]++;
+    }
+
+    // xem thông tin người nhận
+    function readSingleReceiver(address a)
+        public
+        view
+        returns (
+            address,
+            uint256,
+            string memory,
+            string memory,
+            string memory,
+            string memory,
+            string memory,
+            string memory,
+            bool
+        )
+    {
+        uint256 i = findAdd(a);
+        return (
+            allReceviver[i].receiverAddress,
+            allReceviver[i].projectID,
+            allReceviver[i].nameR,
+            allReceviver[i].locationR,
+            allReceviver[i].descriptionR,
+            allReceviver[i].CMND,
+            allReceviver[i].imageUrlR,
+            allReceviver[i].imageUrl1R,
+            allReceviver[i].take
+        );
+    }
+
+   
 
 
     //     //EVENTS
@@ -343,4 +396,5 @@ contract Charity {
         address indexed _contract,
         uint256 _value
     );
+ 
 } 

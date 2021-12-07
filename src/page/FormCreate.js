@@ -50,7 +50,7 @@ const FormCreate = () => {
   const [recipient, setRecipient] = useState();
   const [fileImg, setFileImg] = useState();
   const [fileImg1, setFileImg1] = useState();
-    const [error, setError] = useState(false);
+  const [error, setError] = useState(false);
 
  
   
@@ -306,6 +306,8 @@ const FormCreate = () => {
                           fileImg1,
                           recipient,
                         )
+                        setFileImg1(null);
+                        setFileImg(null);
                        }
                       }}
                       />
