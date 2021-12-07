@@ -61,7 +61,7 @@ const Details = () => {
       }
     })
 
-    console.log(data.AllProjects)
+    // console.log(data.AllProjects)
 
 
     const donate = async (_account, _value) => {

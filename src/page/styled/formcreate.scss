@@ -42,7 +42,7 @@ h1 {
     // position: absolute;
     // position: relative;
     width: 1000px;
-    height: 800px;
+    height: 850px;
     padding: 4rem 2rem;
     border-radius: 1rem;
     box-shadow: 0 10px 25px rgba(76, 82, 87, 0.2);
@@ -84,6 +84,7 @@ h1 {
     }
     &__button {
         width: 500px;
+        height: 40px;
         display: block;
         margin-top: 16px;
         margin-left: auto;
@@ -140,3 +141,43 @@ h1 {
     margin-left: auto;
     margin-right: auto;
 }
+
+.containerDis {
+    display: flex;
+}
+
+// .container {
+//     max-height: 100vh;
+//     background: #1A73E8;
+//     display: flex;
+// }
+// .containerItem {
+//     margin: auto;
+//     width: 50%;
+//     max-width: 300px;
+// }
+// .errorMsg {
+//     color: red;
+//     font-size: 24px;
+//     margin: 3px 0;
+// }
+// .imgPreview {
+//     width: 50%;
+//     height: 200px;
+//     display: flex;
+//     flex-direction: column;
+//     align-items: center;
+//     justify-content: center;
+//     text-align: center;
+//     color: #fff;
+// }
+// .imgPreview input[type="file"] {
+//     display: none;
+// }
+// .imgPreview .customFileUpload {
+//     color: #80868B;
+//     font-size: 22px;
+//     font-weight: 500;
+//     padding: 6px 12px;
+//     cursor: pointer;
+// }

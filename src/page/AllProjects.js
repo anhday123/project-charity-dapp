@@ -8,7 +8,7 @@ import * as s from "../styles/globalStyles";
 const AllProjects = () => {
   const blockchain = useSelector((state) => state.blockchain);
     const data = useSelector((state) => state.data);
-    console.log(data.AllProjects)
+    // console.log(data.AllProjects)
 
     return ( 
        <s.Screen mgtS={"80px"}>

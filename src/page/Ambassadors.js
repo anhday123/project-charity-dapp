@@ -6,9 +6,9 @@ import _Bg from "../assets/images/bg/bg.jpeg"
 const Ambassadors = () => {
 
 
-    const data = useSelector((state) => state.data);
+    // const data = useSelector((state) => state.data);
 
-    console.log(data.AllProjects )
+    // console.log(data.AllProjects )
 
     return (
         <s.Screen image={_Bg}>

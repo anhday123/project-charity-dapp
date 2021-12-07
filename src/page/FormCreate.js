@@ -9,6 +9,7 @@ import { fetchData } from "../redux/data/dataActions";
 import * as s from "../styles/globalStyles";
 import { create as ipfsHttpClient } from 'ipfs-http-client'
 import "./styled/formcreate.scss"
+import "./styled/footer.css"
 import ReactNotification from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
 import { store } from 'react-notifications-component';
@@ -16,6 +17,26 @@ import { store } from 'react-notifications-component';
 
 const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0')
 const FormCreate = () => {
+
+  // const [imgPreview, setImgPreview] = useState(null);
+  //   const [error, setError] = useState(false);
+
+  //   const handleImageChange = (e) => {
+  //       const selected = e.target.files[0];
+  //       const ALLOWED_TYPES = ["image/png", "image/jpeg", "image/jpg"];
+  //       if (selected && ALLOWED_TYPES.includes(selected.type)) {
+  //           let render = new FileReader();
+  //           render.onloadend = () =>{
+  //               setImgPreview(render.result);
+  //           }
+  //           render.readAsDataURL(selected);
+  //         console.log("selected");
+  //       } else {
+  //           setError(true);
+  //         console.log("file not support");
+  //       }
+  //     };
+
   const dispatch = useDispatch();
   const blockchain = useSelector((state) => state.blockchain);
   const data = useSelector((state) => state.data);
@@ -29,6 +50,8 @@ const FormCreate = () => {
   const [recipient, setRecipient] = useState();
   const [fileImg, setFileImg] = useState();
   const [fileImg1, setFileImg1] = useState();
+    const [error, setError] = useState(false);
+
  
   
   async function onChange(e) {
@@ -43,7 +66,9 @@ const FormCreate = () => {
       const url = `https://ipfs.infura.io/ipfs/${added.path}`
       setFileImg(url)
     } catch (error) {
-      console.log('Error uploading file: ', error)
+            setError(true);
+
+      // console.log('Error uploading file: ', error)
     }  
   }
   async function onChange1(e) {
@@ -58,7 +83,9 @@ const FormCreate = () => {
       const url1 = `https://ipfs.infura.io/ipfs/${added.path}`
       setFileImg1(url1);
     } catch (error) {
-      console.log('Error uploading file: ', error)
+      setError(true);
+      
+      // console.log('Error uploading file: ', error)
     }  
   }
     // console.log(data);
@@ -87,6 +114,7 @@ const FormCreate = () => {
             padding: '3em',
             icon: 'success',
             background: '#fff url(/images/trees.png)',
+            
          
           })
         });
@@ -178,20 +206,90 @@ const FormCreate = () => {
               <div className="form__div">
                   <input required type="text" className="form__input" placeholder="Địa chỉ người nhận " onChange={e => setRecipient(e.target.value)}/>
               </div>
-              <input 
+              <div className="containerDis">
+              <div className="container">
+                <div className="containerItem">
+                  {error && <p className="errorMsg">File không hỗ trợ</p>}
+                  <div className="imgPreview" 
+                  style={{
+                    background: fileImg
+                    ? `url("${fileImg}") no-repeat center/cover`
+                    : "#fff"
+                  }}
+                >
+                    {
+                        !fileImg && (
+                            <>
+                                <p style={{color:"#000"}}>Đính kèm hình ảnh minh hoạ</p>
+                                <label htmlFor="fileUpload" className="customFileUpload">
+                                    Chọn File
+                                </label>
+                                <input type="file" id="fileUpload" onChange={onChange}/>
+                                <span style={{color:"#000"}}>(jpg, png or jpeg)</span>
+                            </>
+                        )
+                    }
+                </div>  
+                {
+                  fileImg && (
+                    <button onClick={() => setFileImg(null)}>Tải lại</button>
+                  )
+                }  
+            </div>
+        </div>
+        <div className="container">
+                <div className="containerItem">
+                  {error && <p className="errorMsg">File không hỗ trợ</p>}
+                  <div className="imgPreview" 
+                  style={{
+                    background: fileImg1
+                    ? `url("${fileImg1}") no-repeat center/cover`
+                    : "#fff"
+                  }}
+                >
+                    {
+                        !fileImg1 && (
+                            <>
+                                <p style={{color:"#000"}}>Đính kèm hình ảnh minh hoạ</p>
+                                <label htmlFor="fileUpload" className="customFileUpload">
+                                    Chọn File
+                                </label>
+                                <input type="file" id="fileUpload" onChange={onChange1}/>
+                                <span style={{color:"#000"}}>(jpg, png or jpeg)</span>
+                            </>
+                        )
+                    }
+                </div>  
+                {
+                  fileImg1 && (
+                    <button  onClick={() => setFileImg1(null)}>Tải lại</button>
+                  )
+                }  
+            </div>
+        </div>
+        </div>
+            
+              {/* <input 
               className="form__button"
               type="file"
-              placeholder=" Chọn ảnh minh hoạ"
+              // placeholder=" Chọn ảnh minh hoạ"
               onChange={onChange}
               
           />
+          {
+          fileImg && (
+            <img className="rounded mt-4" width="350" src={fileImg} />
+          )
+        }
+         
+     
           <input 
               className="form__button"
               type="file"
               placeholder=" Chọn ảnh minh hoạ"
               onChange={onChange1}
               
-          />
+          /> */}
             
               <input type="submit" className="form__button" value="Hoàn thành"
                      onClick={() => {

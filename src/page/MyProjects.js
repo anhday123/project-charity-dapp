@@ -9,7 +9,7 @@ const MyProjects = () => {
  
     const data = useSelector((state) => state.data)
     
-    console.log(data.AllOwnerProjects);
+    // console.log(data.AllOwnerProjects);
 
 
     return (
