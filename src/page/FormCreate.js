@@ -50,7 +50,7 @@ const FormCreate = () => {
   const [recipient, setRecipient] = useState();
   const [fileImg, setFileImg] = useState();
   const [fileImg1, setFileImg1] = useState();
-    const [error, setError] = useState(false);
+  const [error, setError] = useState(false);
 
  
   
@@ -232,7 +232,7 @@ const FormCreate = () => {
                 </div>  
                 {
                   fileImg && (
-                    <button onClick={() => setFileImg(null)}>Tải lại</button>
+                    <button className="buttonPriview" onClick={() => setFileImg(null)}>Tải lại</button>
                   )
                 }  
             </div>
@@ -262,7 +262,7 @@ const FormCreate = () => {
                 </div>  
                 {
                   fileImg1 && (
-                    <button  onClick={() => setFileImg1(null)}>Tải lại</button>
+                    <button className="buttonPriview" onClick={() => setFileImg1(null)}>Tải lại</button>
                   )
                 }  
             </div>
@@ -306,6 +306,8 @@ const FormCreate = () => {
                           fileImg1,
                           recipient,
                         )
+                        setFileImg1(null);
+                        setFileImg(null);
                        }
                       }}
                       />

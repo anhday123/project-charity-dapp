@@ -1,15 +1,16 @@
 import React, { useEffect, useState} from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { fetchData  } from "../../redux/data/dataActions";
 import * as s from "../../styles/globalStyles";
 import "../../page/styled/formcreate.scss"
+import { create as ipfsHttpClient } from 'ipfs-http-client'
 import ReactNotification from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
 import { store } from 'react-notifications-component';
 import "../../page/styled/styled.scss"
 
-
+const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0')
 const Details = () => {
     const dispatch = useDispatch();
     const blockchain = useSelector((state) => state.blockchain);
@@ -18,10 +19,16 @@ const Details = () => {
     const [sotien, setValue] = useState();
     const { id } = useParams();
     console.log(id);
+    let querystring = window.location.search.substring(1);
     
     const [nameR, setnameR] = useState("");
     const [locationR, setlocationR] = useState("");
     const [descriptionR, setDescriptionR] = useState("");
+    const [CMND, setCMND] = useState("");
+    const [fileImgR, setFileImgR] = useState();
+    const [fileImg1R, setFileImg1R] = useState();
+    const [error, setError] = useState(false);
+
     const list = data.AllProjects;
     const listDonors = data.Donors; 
     const listReceiver = data.Receivers;
@@ -30,6 +37,41 @@ const Details = () => {
     const [timerHours,setTimerHours] = useState(0);
     const [timerMinutes,setTimerMinutes] = useState(0);
     const [timerSeconds,setTimerSeconds] = useState(0);
+
+    async function onChange(e) {
+      const file = e.target.files[0]
+      try {
+        const added = await client.add(
+          file,
+          {
+            progress: (prog) => console.log(`received: ${prog}`)
+          }
+        )
+        const url = `https://ipfs.infura.io/ipfs/${added.path}`
+        setFileImgR(url)
+      } catch (error) {
+              setError(true);
+  
+        // console.log('Error uploading file: ', error)
+      }  
+    }
+    async function onChange1(e) {
+      const file = e.target.files[0]
+      try {
+        const added = await client.add(
+          file,
+          {
+            progress: (prog) => console.log(`received: ${prog}`)
+          }
+        )
+        const url1 = `https://ipfs.infura.io/ipfs/${added.path}`
+        setFileImg1R(url1);
+      } catch (error) {
+        setError(true);
+        
+        // console.log('Error uploading file: ', error)
+      }  
+    }
 
 
     useEffect(() => {
@@ -61,8 +103,7 @@ const Details = () => {
       }
     })
 
-    // console.log(data.AllProjects)
-
+     console.log(data.Receivers)
 
     const donate = async (_account, _value) => {
         setLoading(true);
@@ -127,10 +168,10 @@ const Details = () => {
       };
       
     
-      const receiver = async (_account, _nameR, _locationR, _descriptionR) => {
+      const receiver = async (_account, _nameR, _locationR, _descriptionR, _cnmd, _imageUrlR, _imageUrl1R) => {
         setLoading(true);
         await blockchain.Charity.methods
-          .createRegistered_recipientStruct(id,_nameR, _locationR, _descriptionR)
+          .createRegistered_recipientStruct(id,_nameR, _locationR, _descriptionR,  _cnmd, _imageUrlR, _imageUrl1R)
           .send({
             from: _account,
           })
@@ -147,12 +188,33 @@ const Details = () => {
 
           });
       };
+      const approveReceiver = async (_account, _address) => {
+        setLoading(true);
+        await blockchain.Charity.methods
+          .approveReceiver(_address)
+          .send({
+            from: _account,
+          })
+          .once("error", (err) => {
+            setLoading(false);
+            console.log(err);
+            ShowError2();
+          })
+          .then((receipt) => {
+            setLoading(false);
+            console.log(receipt);
+            dispatch(fetchData(blockchain.account));
+          });
+      };
 
     const [showForm1, setShowForm1] = useState(false);
-
     const showForm = () => {
-      setShowForm1(!showForm1);}
-    
+      setShowForm1(!showForm1);
+    }
+    const [showForm2, setShowForm2] = useState(false);
+    const showForm3 = () => {
+      setShowForm2(!showForm2);
+    }
 
       useEffect(() => {
         if(id && id !== "") 
@@ -171,7 +233,6 @@ const Details = () => {
              >
         <ReactNotification />
 
-              
             <s.Container ai={"center"}>
             <s.TextTitle 
                 style={{
@@ -199,7 +260,7 @@ const Details = () => {
                 <p className="location">Địa điểm: {item.location}</p>
                 <p className="stk">Số tài khoản kêu gọi: {item.program_creator}</p>
                 <p className="stk">Số tài khoản người nhận: {item.recipient}</p>
-
+                <p className="stk">check: {item.ongoing}</p>
     
               </div>
               <p className="location">Hình ảnh minh hoạ:</p>
@@ -254,20 +315,84 @@ const Details = () => {
             )}
             
             {showForm1 && (
-              <form action="" className="form" style={{height: "500px", marginTop: "16px"}}>
+              <form action="" className="form" style={{height: "800px", marginTop: "16px"}}>
               <h1 className="form__title">Đăng ký nhận hỗ trợ</h1>
 
               <div className="form__div">
-                  <input type="text" className="form__input" placeholder="Tên người đăng ký " onChange={e => setnameR(e.target.value)}/>
+                  <input type="text" className="form__input" placeholder="Họ và tên " onChange={e => setnameR(e.target.value)}/>
               </div>
 
               <div className="form__div">
-                  <input type="text" className="form__input" placeholder="Địa chỉ " onChange={e => setlocationR(e.target.value)}/>
+                  <input type="text" className="form__input" placeholder="Địa chỉ thường trú " onChange={e => setlocationR(e.target.value)}/>
               </div>
               <div className="form__div">
                   <input type="text" className="form__input" placeholder="Mô tả hoàn cảnh " onChange={e => setDescriptionR(e.target.value)}/>
               </div>
-           
+              <div className="form__div">
+                  <input type="number" className="form__input" placeholder="Số CMND/CCCD" onChange={e => setCMND(e.target.value)}/>
+              </div>
+              <div className="containerDis">
+              <div className="container">
+                <div className="containerItem">
+                  {error && <p className="errorMsg">File không hỗ trợ</p>}
+                  <div className="imgPreview" 
+                  style={{
+                    background: fileImgR
+                    ? `url("${fileImgR}") no-repeat center/cover`
+                    : "#fff"
+                  }}
+                >
+                    {
+                        !fileImgR && (
+                            <>
+                                <p style={{color:"#000"}}>Đính kèm ảnh CMND/CCCD</p>
+                                <label htmlFor="fileUpload" className="customFileUpload">
+                                    Chọn File
+                                </label>
+                                <input type="file" id="fileUpload" onChange={onChange}/>
+                                <span style={{color:"#000"}}>(jpg, png or jpeg)</span>
+                            </>
+                        )
+                    }
+                </div>  
+                {
+                  fileImgR && (
+                    <button className="buttonPriview" onClick={() => setFileImgR(null)}>Tải lại</button>
+                  )
+                }  
+            </div>
+        </div>
+        <div className="container">
+                <div className="containerItem">
+                  {error && <p className="errorMsg">File không hỗ trợ</p>}
+                  <div className="imgPreview" 
+                  style={{
+                    background: fileImg1R
+                    ? `url("${fileImg1R}") no-repeat center/cover`
+                    : "#fff"
+                  }}
+                >
+                    {
+                        !fileImg1R && (
+                            <>
+                                <p style={{color:"#000"}}>Đính kèm ảnh chân dung (khuôn mặt)</p>
+                                <label htmlFor="fileUpload" className="customFileUpload">
+                                    Chọn File
+                                </label>
+                                <input type="file" id="fileUpload" onChange={onChange1}/>
+                                <span style={{color:"#000"}}>(jpg, png or jpeg)</span>
+                            </>
+                        )
+                    }
+                </div>  
+                {
+                  fileImg1R && (
+                    <button className="buttonPriview"  onClick={() => setFileImg1R(null)}>Tải lại</button>
+                  )
+                }  
+            </div>
+        </div>
+        </div>
               
               <input  type="submit" className="form__button" value="Hoàn thành"
             
@@ -280,8 +405,15 @@ const Details = () => {
                           nameR,
                           locationR,
                           descriptionR,
+                          CMND,
+                          fileImgR,  
+                          fileImg1R,
                         )
                         setShowForm1(!showForm1);
+                        setFileImg1R(null);
+                        setFileImgR(null);
+                        
+
                         }}
                       }
                       
@@ -293,6 +425,7 @@ const Details = () => {
                         }}
                       />
           </form>
+          
             )}
             {blockchain.account === item.program_creator.toLowerCase() ? (
               <>
@@ -319,7 +452,6 @@ const Details = () => {
               </>
             ): (
               null
-              
             )}
             </s.Container>
           </div>
@@ -362,21 +494,76 @@ const Details = () => {
                   <table id="customers">
                     <tr>
                         <th>Tên người đăng ký</th>
-                        <th>Địa chỉ</th>
+                        {/* <th>Địa chỉ</th> */}
                         <th>Địa chỉ ví</th>
+                        <th style={{textAlign:"center"}}>Chi tiết</th>
                     </tr>
                   
                   {listReceiver.filter(item => item.projectID === id).map((item, index) => (
                                   
                                   <tr>
                                       <td>{item.nameR}</td>
-                                      <td>{item.locationR}</td>
+                                      {/* <td>{item.locationR}</td> */}
                                       <td>{item.receiverAddress}</td>
+                                      <td>{!showForm2 && (
+                                        <Link to={`/details/${item.projectID}?${item.receiverAddress} `}>
+                                            <button
+  
+                                              onClick={showForm3}>
+                                                Xem thêm
+                                            </button>
+                                            </Link>
+                                          )}
+                                          </td>
                                   </tr>
-      
                   ))}
-          
+                  
                   </table>
+                  {showForm2 && (
+                    <form action="" className="form" style={{height: "840px", width:"920px", marginTop: "16px"}}>  
+                      {listReceiver.filter(item => item.receiverAddress === querystring).map((item, index) => (
+                        <div className="title">
+                          <h2>Chi tiết thông tin người nhận hỗ trợ</h2>
+                          <p>Họ và tên: {item.nameR}</p>
+                          <p>Số CMND/CCCD: {item.CMND}</p>
+                          <p>Địa chỉ ví: {item.receiverAddress}</p>
+                          <p>Địa chỉ thường trú: {item.locationR}</p>
+                          <p>Mô tả hoàn cảnh: {item.descriptionR}</p>
+                          <p>Tình trạng phê duyệt: {item.take}</p>
+
+
+                          <div style={{display:"flex", marginLeft: "auto", marginRight:"auto", justifyContent:"center"}}>
+                            <img style={{height: "200px", padding:"8px"}} src={item.imageUrlR} alt=""  /><br></br>
+                            <img style={{height: "200px", padding:"8px"}} src={item.imageUrl1R} alt=""  />
+
+                          </div>
+                          <p style={{textAlign:"center", fontSize:"16px"}}>Hình ảnh CMND/CCCD và khuôn mặt: </p>
+
+                          
+
+                        </div>
+
+
+                      ))}
+                      
+                      <input className="form__button" type="submit"  value="Đóng"
+                        onClick={() => {
+                        setShowForm2(!showForm2);
+                        }}
+                      />
+                      <input className="form__button" type="submit"  value="Phê Duyệt"
+                        onClick={() => {
+                          approveReceiver(querystring);
+                        }}
+                      />
+                    
+                        {/* <button style={{margin: "20px"}} 
+                          onClick={() => {
+                            approveReceiver(querystring);
+                          }}
+                        >Duyệt</button> */}
+                      
+                  </form>)}
               </div>
               </>
             ):(null)} 
