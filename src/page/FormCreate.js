@@ -13,30 +13,13 @@ import "./styled/footer.css"
 import ReactNotification from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
 import { store } from 'react-notifications-component';
+import { useHistory } from "react-router-dom";
 
 
 const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0')
 const FormCreate = () => {
 
-  // const [imgPreview, setImgPreview] = useState(null);
-  //   const [error, setError] = useState(false);
-
-  //   const handleImageChange = (e) => {
-  //       const selected = e.target.files[0];
-  //       const ALLOWED_TYPES = ["image/png", "image/jpeg", "image/jpg"];
-  //       if (selected && ALLOWED_TYPES.includes(selected.type)) {
-  //           let render = new FileReader();
-  //           render.onloadend = () =>{
-  //               setImgPreview(render.result);
-  //           }
-  //           render.readAsDataURL(selected);
-  //         console.log("selected");
-  //       } else {
-  //           setError(true);
-  //         console.log("file not support");
-  //       }
-  //     };
-
+  const history = useHistory();
   const dispatch = useDispatch();
   const blockchain = useSelector((state) => state.blockchain);
   const data = useSelector((state) => state.data);
@@ -106,7 +89,7 @@ const FormCreate = () => {
           setLoading(false);
           console.log(receipt);
           dispatch(fetchData(blockchain.account));
-          //ShowSuccess();
+          
           Swal.fire({
             
             title: 'Chúc mừng bạn đã tạo chương trình thành công!',
@@ -117,6 +100,7 @@ const FormCreate = () => {
             
          
           })
+          history.push("/");
         });
     };
 
@@ -137,29 +121,7 @@ const FormCreate = () => {
         },
       })
     }
-
-    // const ShowSuccess = () => {
-    //   store.addNotification({
-    //     title: "Tạo thành công",
-    //     message: "Bạn đã tạo 1 chương trình thành công",
-    //     type: "success",
-    //     insert: "top",
-    //     container: "top-right",
-    //     animationIn: ["animate__animated", "animate__fadeIn"],
-    //     animationOut: ["animate__animated", "animate__fadeOut"],
-    //     dismiss: {
-    //       duration: 10000,
-    //       showIcon: true,
-    //       onScreen: true
-    //     },
-    //   })
-    // }
-
-    // const handlePreviewImg = (e) => {
-    //   const file = e.target.files[0];
-    //   file.preview = URL.createObjectURL(file);
-    //   setFileImg(file);
-    // }
+ 
 
     useEffect(() => {
         if (blockchain.account !== "" && blockchain.Charity !== null) {

@@ -37,7 +37,7 @@ contract Charity {
         bool take;
     }
     uint256 public nextId = 1;
-    uint cooldownTime = 10 minutes;
+    uint cooldownTime = 5 minutes;
     Donor[] public allDonors;   // mang donate
     Project[] public allProjects; //mang project
     Receiver[] public allReceviver; //mang nguoi nhan
@@ -273,10 +273,6 @@ contract Charity {
         return false;
     }
     
-    // function () external fall {
-    //     revert('not sure what you are doing');
-    // }
-    // tạo người nhận ủng hộ
     function createRegistered_recipientStruct(uint256 id,string memory nameR,string memory locationR, string memory descriptionR,string memory CMND,string memory imageUrlR,string memory imageUrl1R) public {
         Receiver memory newReceiver = Receiver(
         {receiverAddress: payable(msg.sender),
@@ -293,8 +289,8 @@ contract Charity {
         require(allProjects[i].program_creator != msg.sender,'you cannot register');
         require(allProjects[i].recipient != msg.sender,'you cannot register');
         require(allProjects[i].ongoing != false,'The program is closed');
-        Receiver[] memory result = new Receiver[](IDReceiverAmount[id]);
-        result = getIdReceiver(id);
+        Receiver[] memory result = new Receiver[](allReceviver.length);
+        result = getAllReceiver();
         for(uint256 j=0;j<result.length;j++){
             require(msg.sender != result[j].receiverAddress,'you are already registered');
         }
@@ -336,6 +332,8 @@ contract Charity {
         
         allReceviver[i].take = true;
         IDReceiverAmountTake[allReceviver[i].take]++;
+
+     
     }
 
     // xem thông tin người nhận

@@ -9,6 +9,8 @@ import ReactNotification from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
 import { store } from 'react-notifications-component';
 import "../../page/styled/styled.scss"
+import Swal from 'sweetalert2'
+import { FaLess } from 'react-icons/fa';
 
 const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0')
 const Details = () => {
@@ -19,7 +21,7 @@ const Details = () => {
     const [sotien, setValue] = useState();
     const { id } = useParams();
     console.log(id);
-    let querystring = window.location.search.substring(1);
+    const querystring = window.location.search.substring(1);
     
     const [nameR, setnameR] = useState("");
     const [locationR, setlocationR] = useState("");
@@ -91,11 +93,13 @@ const Details = () => {
         remaining.hours = hours - remaining.days * 24;
         remaining.minutes = minutes - remaining.days * 24 * 60 - remaining.hours * 60;
         remaining.seconds = seconds - remaining.days * 24 * 60 * 60 - remaining.hours * 60 * 60 - remaining.minutes * 60;
+
+        
   
         setTimerDays(remaining.days)
-        setTimerHours(remaining.hours)
-        setTimerMinutes(remaining.minutes)
-        setTimerSeconds(remaining.seconds)
+        setTimerHours(remaining.hours > 9 ? remaining.hours: '0' + remaining.hours)
+        setTimerMinutes(remaining.minutes > 9 ? remaining.minutes: '0' + remaining.minutes)
+        setTimerSeconds(remaining.seconds > 9 ? remaining.seconds: '0' + remaining.seconds)
       }, 1000);
   
       return () => {
@@ -188,25 +192,24 @@ const Details = () => {
 
           });
       };
-      const approveReceiver = async (_account, _address) => {
+      const approveReceiverR = async (_account) => {
         setLoading(true);
         await blockchain.Charity.methods
-          .approveReceiver(_address)
+          .approveReceiver(querystring)
           .send({
             from: _account,
           })
           .once("error", (err) => {
             setLoading(false);
             console.log(err);
-            ShowError2();
+            ShowError1();
           })
           .then((receipt) => {
             setLoading(false);
             console.log(receipt);
             dispatch(fetchData(blockchain.account));
           });
-      };
-
+        };
     const [showForm1, setShowForm1] = useState(false);
     const showForm = () => {
       setShowForm1(!showForm1);
@@ -553,16 +556,10 @@ const Details = () => {
                       />
                       <input className="form__button" type="submit"  value="Phê Duyệt"
                         onClick={() => {
-                          approveReceiver(querystring);
+                          approveReceiverR(blockchain.account);
                         }}
                       />
-                    
-                        {/* <button style={{margin: "20px"}} 
-                          onClick={() => {
-                            approveReceiver(querystring);
-                          }}
-                        >Duyệt</button> */}
-                      
+ 
                   </form>)}
               </div>
               </>
