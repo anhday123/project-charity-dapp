@@ -14,7 +14,6 @@ contract Charity {
         string imageUrl;
         string imageUrl1;
         bool ongoing;
-        //address projectAddress;
         address payable recipient;
         uint32 readyTime;
     }
@@ -44,7 +43,8 @@ contract Charity {
     mapping (address => uint256) public ownerProjectAmount;
     mapping (uint256 => uint256) public IDDonateAmount;
     mapping (uint256 => uint256) public IDReceiverAmount;
-    mapping (bool => uint256) public IDReceiverAmountTake;
+    mapping (bool => uint256) public ReceiverAmountTake;
+    mapping (uint256 => uint256) public IDReceiverAmountTake;
     
     function createDonationStruct(uint256 amount, uint256 id) internal {Donor memory newDonor = Donor(
         {donorAddress: msg.sender,
@@ -60,26 +60,11 @@ contract Charity {
         //tìm project
 
         uint256 i = find(id);
-        // require(
-        //     allProjects[i].program_creator != msg.sender,
-        //     'Please donate from another wallet'
-        // );
-        // require(isCharity() == false, 'cannot donate.');
+
         require(allProjects[i].ongoing != false,'The program is closed');
-        // require(allProjects[i].amountDonated < allProjects[i].amountNeeded, 'the project already raised enough money');
         createDonationStruct(msg.value, id);
-        // this.balance.transfer(msg.value);
         allProjects[i].amountDonated += msg.value;
-        emit Funds_Donated(msg.sender, address(this), msg.value);
-        // if (allProjects[i].amountDonated >= allProjects[i].amountNeeded) {
-        //     //chạy chức năng để kết thúc dự án
-        //     endProject(allProjects[i].id);
-        //     // emit Goal_Reached(
-        //     //     allProjects[i].program_creator,
-        //     //     address(this),
-        //     //     allProjects[i].amountDonated
-        //     // );
-        // }
+
         if(allProjects[i].readyTime <= block.timestamp){
             endProject(id);
         }
@@ -98,7 +83,6 @@ contract Charity {
             imageUrl: imageUrl,
             imageUrl1: imageUrl1,
             ongoing: true,
-            // projectAddress: address(this),
             recipient: payable(recipient),
             readyTime: uint32(block.timestamp + cooldownTime)
         });
@@ -142,16 +126,15 @@ contract Charity {
     function getOwnerProjects(address _owner) public view returns (Project[] memory ) {
         Project[] memory result = new Project[](ownerProjectAmount[_owner]);
         
-      uint count=0;
-      for(uint i=0;i<allProjects.length;i++){
-          if(allProjects[i].program_creator == _owner){
-              result[count]=allProjects[i];
-              count++;
-          }
-      }
-      return result;
-      
-    }
+        uint count=0;
+        for(uint i=0;i<allProjects.length;i++){
+            if(allProjects[i].program_creator == _owner){
+                result[count]=allProjects[i];
+                count++;
+            }
+        }
+        return result;  
+        }
     
     
     // tìm project theo id
@@ -185,12 +168,7 @@ contract Charity {
     // dừng chương trình 
     function endProject(uint256 id) public {
         uint256 i = find(id);
-        // require(
-        //     allProjects[i].amountDonated >= allProjects[i].amountNeeded,
-        //     'project doesnt have enough money'
-        // );
-        // Project storage myProject = allProjects[id];
-        // require(_isReady(myProject));
+
         require(msg.sender == allProjects[i].program_creator,'you have no right');
         emit Goal_Reached(
             allProjects[i].program_creator,
@@ -204,18 +182,15 @@ contract Charity {
             address(this),
             allProjects[i].amountDonated
         );
-      
-         //allProjects[i].program_creator.transfer(allProjects[i].amountDonated); // gửi số dư tài khoản đến program_creator
-        
+
     }
 
     // chuyển tiền cho người thụ hưởng
     function pay(uint256 id)public payable returns(uint256 ethers){
-        bool check = true;
         uint256 i = find(id);
         require(msg.sender == allProjects[i].program_creator,'you have no right');
-        Receiver[] memory result = new Receiver[](IDReceiverAmountTake[check]);
-        result = getIdReceiverTake();
+        Receiver[] memory result = new Receiver[](IDReceiverAmountTake[id]);
+        result = getIdRTake(id);
         uint256 a = result.length;
         if(a==0){
             allProjects[i].recipient.transfer(allProjects[i].amountDonated);
@@ -313,28 +288,55 @@ contract Charity {
           }
       return result;
     }
-    // lấy số người được duyệt
-    function getIdReceiverTake()public view returns(Receiver[] memory){
-        Receiver[] memory result = new Receiver[](IDReceiverAmountTake[true]);
-        uint256 count;  
+    // lấy mảng số người được duyệt
+    function SetTake()public view returns (Receiver[] memory ){
+        uint count=0;
+        Receiver[] memory result = new Receiver[](ReceiverAmountTake[true]);
         for(uint256 i=0;i<allReceviver.length;i++){
             if(allReceviver[i].take == true){
                 result[count] = allReceviver[i];
                 count++;
            }
-          }
-      return result;
+        }
+        return result;
     }
-    // phê duyệt người nhận
-    function approveReceiver(address a)public {
-        uint256 i = findAdd(a);
-        require(isCharity() == true, 'you have no right');
-        
-        allReceviver[i].take = true;
-        IDReceiverAmountTake[allReceviver[i].take]++;
+    // tạo sô lượng người được duyệt theo từng chương trình
+    function getIdReceiverTake(uint256 id) public{
+        Receiver[] memory result = new Receiver[](ReceiverAmountTake[true]);
+        result = SetTake();
+        for(uint256 i; i<result.length;i++){
+            if(result[i].projectID == id){
+                IDReceiverAmountTake[result[i].projectID]++;
+            }
+        }
+    }
+    //lấy mảng người được duyệt theo chương trình
+    function getIdRTake(uint256 id)public view returns (Receiver[] memory ){
+        Receiver[] memory settake = new Receiver[](ReceiverAmountTake[true]);
+        settake = SetTake();
+        uint count=0;
+        Receiver[] memory result = new Receiver[](IDReceiverAmountTake[id]);
+        for(uint256 i=0;i<settake.length;i++){
+            if(settake[i].projectID == id){
+                result[count] = settake[i];
+                count++;
+           }
+        }
+        return result;
+    }
 
-     
+    // phê duyệt người nhận theo từng chương trình
+    function approveReceiver(uint256 id, address a)public returns(bool b){
+        uint256 p = find(id);
+        require(msg.sender == allProjects[p].program_creator,'you have no right');
+
+        uint256 i = findAdd(a);
+        require(allReceviver[i].take == false,'Address approved');
+        allReceviver[i].take = true;
+        ReceiverAmountTake[allReceviver[i].take]++;
+        return allReceviver[i].take;
     }
+    
 
     // xem thông tin người nhận
     function readSingleReceiver(address a)

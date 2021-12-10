@@ -11,6 +11,7 @@ import { store } from 'react-notifications-component';
 import "../../page/styled/styled.scss"
 import Swal from 'sweetalert2'
 import { FaLess } from 'react-icons/fa';
+import { t } from 'i18next';
 
 const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0')
 const Details = () => {
@@ -195,7 +196,7 @@ const Details = () => {
       const approveReceiverR = async (_account) => {
         setLoading(true);
         await blockchain.Charity.methods
-          .approveReceiver(querystring)
+          .approveReceiver(id,querystring)
           .send({
             from: _account,
           })
@@ -210,6 +211,25 @@ const Details = () => {
             dispatch(fetchData(blockchain.account));
           });
         };
+        const getIdReceiverTake = async (_account) => {
+          setLoading(true);
+          await blockchain.Charity.methods
+            .getIdReceiverTake(id)
+            .send({
+              from: _account,
+            })
+            .once("error", (err) => {
+              setLoading(false);
+              console.log(err);
+              ShowError1();
+            })
+            .then((receipt) => {
+              setLoading(false);
+              console.log(receipt);
+              dispatch(fetchData(blockchain.account));
+            });
+          };
+
     const [showForm1, setShowForm1] = useState(false);
     const showForm = () => {
       setShowForm1(!showForm1);
@@ -263,7 +283,8 @@ const Details = () => {
                 <p className="location">Địa điểm: {item.location}</p>
                 <p className="stk">Số tài khoản kêu gọi: {item.program_creator}</p>
                 <p className="stk">Số tài khoản người nhận: {item.recipient}</p>
-                <p className="stk">check: {item.ongoing}</p>
+                {item.ongoing == true ? (<h2 className="stk">Tình trạng: đang hoạt động</h2>) : (<h2 className="stk">Tình trạng: Chương trình đã kết thúc</h2>) }
+                
     
               </div>
               <p className="location">Hình ảnh minh hoạ:</p>
@@ -532,7 +553,8 @@ const Details = () => {
                           <p>Địa chỉ ví: {item.receiverAddress}</p>
                           <p>Địa chỉ thường trú: {item.locationR}</p>
                           <p>Mô tả hoàn cảnh: {item.descriptionR}</p>
-                          <p>Tình trạng phê duyệt: {item.take}</p>
+                          {item.take == true ? (<p>Tình trạng phê duyệt: Đã được duyệt</p>) : (<p>Tình trạng phê duyệt: Chưa được duyệt</p>)}
+                          
 
 
                           <div style={{display:"flex", marginLeft: "auto", marginRight:"auto", justifyContent:"center"}}>
@@ -557,6 +579,7 @@ const Details = () => {
                       <input className="form__button" type="submit"  value="Phê Duyệt"
                         onClick={() => {
                           approveReceiverR(blockchain.account);
+                          getIdReceiverTake(blockchain.account)
                         }}
                       />
  
