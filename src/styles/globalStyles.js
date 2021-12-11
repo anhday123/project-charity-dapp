@@ -407,3 +407,20 @@ export const ContentP2 = styled.p `
         font-size: 20px;
         letter-spacing: 2px;
 `
+export const InputSearch = styled.input.attrs({type: "search"})`
+  width: 40%;
+  height: 40px;
+  border: 1px solid rgba(255, 255, 255, 1);
+  background: #e3e3e3;
+  outline: none;
+  box-sizing: border-box;
+  border-radius: 0.4rem;
+  padding:  20px;
+  font-size: 15px;
+  color: #000000;
+  transition: 0.3s;
+  margin-bottom: 16px;
+  &:focus {
+    border-color: rgb(254, 22, 229);
+  }
+`;

@@ -2,6 +2,8 @@ import React from 'react'
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as s from "../styles/globalStyles";
+import "./styled/formcreate.scss"
+import "./styled/styled.scss"
 import { Link, useParams } from "react-router-dom";
 import { fetchData  } from "../redux/data/dataActions";
 import { useHistory } from "react-router-dom";
@@ -52,8 +54,13 @@ const DetailRecer = () => {
       };
     return (
         <>
+        <s.Screen
+             mgtS={"80px"} 
+             >
+
             <s.ContainerItemBoder>
             {listReceiver.filter(itemR => itemR.receiverAddress === querystring).map((itemR, index) => (
+              <div className="item">
                         <div className="title">
                           <h2>Chi tiết thông tin người nhận hỗ trợ</h2>
                           <p>Họ và tên: {itemR.nameR}</p>
@@ -62,23 +69,30 @@ const DetailRecer = () => {
                           <p>Địa chỉ thường trú: {itemR.locationR}</p>
                           <p>Mô tả hoàn cảnh: {itemR.descriptionR}</p>
                           {itemR.take == true ? (<p>Tình trạng phê duyệt: Đã được duyệt</p>) : (<p>Tình trạng phê duyệt: Chưa được duyệt</p>)}
-                          
 
-
-                          <div style={{display:"flex", marginLeft: "auto", marginRight:"auto", justifyContent:"center"}}>
+                          {/* <div style={{display:"flex", marginLeft: "auto", marginRight:"auto", justifyContent:"center"}}>
                             <img style={{height: "200px", padding:"8px"}} src={itemR.imageUrlR} alt=""  /><br></br>
                             <img style={{height: "200px", padding:"8px"}} src={itemR.imageUrl1R} alt=""  />
 
-                          </div>
+                          </div> */}
+                          <div className="img">
+                            <img src={itemR.imageUrlR} alt=""  />
+                            <img src={itemR.imageUrl1R} alt=""  />
+                           </div>
                           <p style={{textAlign:"center", fontSize:"16px"}}>Hình ảnh CMND/CCCD và khuôn mặt: </p>
 
                         </div>
+              </div>
+
 
 
                       ))}
                       
-                      
-                      {list.filter(item => item.id === id).map((item) => (
+                      {listReceiver.filter(itemR => itemR.receiverAddress === querystring).map((itemR, index) => (
+                        <div>
+                          {itemR.take === false ? (
+                            <div style={{marginLeft:"auto", marginRight:"auto"}}>
+                              {list.filter(item => item.id === id).map((item) => (
                         blockchain.account === item.program_creator.toLowerCase() ? (
                                 <button className="form__button" 
                                 onClick={() => {
@@ -87,9 +101,14 @@ const DetailRecer = () => {
                                 }}
                                 > Duyệt</button>
                         ) : (null) 
+                      ))} 
+                            </div>
+                          ):(null)}
+                        </div>
                       ))}
-
+                      
             </s.ContainerItemBoder>
+            </s.Screen>
         </>
     )
 }

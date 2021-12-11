@@ -37,9 +37,11 @@ const AllProjects = () => {
               Chương trình đang kêu gọi
             
             </s.TextTitle>  
-            <input
+            <s.InputSearch
+              
+             
                 type="search"
-                placeholder="Search"
+                placeholder="Tìm kiếm"
                 value={searchName}
                 onChange={handleChange}
             />    
@@ -89,7 +91,10 @@ const AllProjects = () => {
                   <s.ItemFooterContainer>
                     <s.ItemFooter>
                       {/* <s.ItemFooterDonateText>Số lần ủng hộ</s.ItemFooterDonateText>
-                      <s.ItemFooterDonate>xxxx</s.ItemFooterDonate> */}
+                      // <s.ItemFooterDonate>xxxx<s.ItemFooterDonate> */}
+                      <s.ItemFooterDonateText>Trạng thái chương trình</s.ItemFooterDonateText>
+                      <s.ItemFooterDonate>{item.ongoing == true ? (<>Đang hoạt động</> ) : (<>Chương trình đã kết thúc</>) }
+</s.ItemFooterDonate>
                       <Link to={`/details/${item.id}`}><s.ItemBtn>Tham gia</s.ItemBtn></Link>
                     </s.ItemFooter>
                   </s.ItemFooterContainer>

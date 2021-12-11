@@ -9,9 +9,7 @@ import ReactNotification from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
 import { store } from 'react-notifications-component';
 import "../../page/styled/styled.scss"
-import Swal from 'sweetalert2'
-import { FaLess } from 'react-icons/fa';
-import { t } from 'i18next';
+
 
 
 const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0')
@@ -249,8 +247,6 @@ const Details = () => {
                 <p className="stk">Số tài khoản kêu gọi: {item.program_creator}</p>
                 <p className="stk">Số tài khoản người nhận: {item.recipient}</p>
                 {item.ongoing == true ? (<h2 className="stk">Tình trạng: đang hoạt động</h2>) : (<h2 className="stk">Tình trạng: Chương trình đã kết thúc</h2>) }
-                
-    
               </div>
               <p className="location">Hình ảnh minh hoạ:</p>
     
@@ -444,12 +440,9 @@ const Details = () => {
             )}
             </s.Container>
           </div>
-          </div>
-        
-            ))}
-            
+          </div>  
+            ))}  
             </s.ContainerItemBoder  >
-            
             {listDonors.filter(item => item.projectID === id ).map(result =>result.amount) >= "0" ? (
               <>
                <div className='container-table'>
@@ -467,9 +460,7 @@ const Details = () => {
                                 <td>{item.donorAddress}</td>
                                 <td>{blockchain.web3.utils.fromWei(item.amount, "ether")} ETH</td>
                             </tr>
- 
             ))}
-    
             </table>
         </div>
               </>
@@ -485,20 +476,20 @@ const Details = () => {
                         <th>Tên người đăng ký</th>
                         {/* <th>Địa chỉ</th> */}
                         <th>Địa chỉ ví</th>
+                        <th>Trạng thái</th>
                         <th style={{textAlign:"center"}}>Chi tiết</th>
                     </tr>
-                  
                   {listReceiver.filter(itemR => itemR.projectID === id).map((itemR, index) => (
                                   
                                   <tr>
                                       <td>{itemR.nameR}</td>
                                       {/* <td>{item.locationR}</td> */}
                                       <td>{itemR.receiverAddress}</td>
+                                      <td>{itemR.take == true ? (<p>Đã được duyệt</p>)
+                                       : (<p>Chưa được duyệt</p>)}</td>
                                       <td>
                                         <Link to={`/detailRever/${itemR.projectID}?${itemR.receiverAddress} `}>
                                             <button>
-  
-          
                                                 Xem thêm
                                             </button>
                                             </Link>
