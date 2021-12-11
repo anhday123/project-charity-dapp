@@ -89,9 +89,9 @@ const DetailRecer = () => {
                       ))}
                       
                       {listReceiver.filter(itemR => itemR.receiverAddress === querystring).map((itemR, index) => (
-                        <div>
+                        <div style={{marginLeft:"auto", marginRight:"auto"}}>
                           {itemR.take === false ? (
-                            <div style={{marginLeft:"auto", marginRight:"auto"}}>
+                            <div >
                               {list.filter(item => item.id === id).map((item) => (
                             blockchain.account === item.program_creator.toLowerCase() ? (
                                 <button className="form__button" 
