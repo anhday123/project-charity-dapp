@@ -17,11 +17,11 @@
  * phrase from a file you've .gitignored so it doesn't accidentally become public.
  *
  */
-// const HDWalletProvider = require("@truffle/hdwallet-provider");
-// const fs = require("fs");
+const HDWalletProvider = require("@truffle/hdwallet-provider");
+const fs = require("fs");
 
-// const infuraID = "b5b68c3089864b62b5b0208f652cecf6";
-// const mnemonic = fs.readFileSync(".secret").toString().trim();
+const infuraID = "b5b68c3089864b62b5b0208f652cecf6";
+const mnemonic = fs.readFileSync(".secret").toString().trim();
 module.exports = {
     /**
      * Networks define how you connect to your ethereum client and let you set the
