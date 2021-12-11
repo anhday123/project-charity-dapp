@@ -34,9 +34,11 @@ contract Charity {
         string imageUrlR;
         string imageUrl1R;
         bool take;
+        bool asked;
     }
     uint256 public nextId = 1;
-    uint cooldownTime = 5 minutes;
+    uint public cooldownTime = 10 minutes;
+    uint public end;
     Donor[] public allDonors;   // mang donate
     Project[] public allProjects; //mang project
     Receiver[] public allReceviver; //mang nguoi nhan
@@ -66,8 +68,8 @@ contract Charity {
         allProjects[i].amountDonated += msg.value;
 
         if(allProjects[i].readyTime <= block.timestamp){
-            endProject(id);
-        }   
+            allProjects[i].ongoing = false;
+        }  
     }
     
     // tạo  project kêu gọi ủng hộ (tên, mô tả, số tiền cần, ảnh)
@@ -86,11 +88,16 @@ contract Charity {
             recipient: payable(recipient),
             readyTime: uint32(block.timestamp + cooldownTime)
         });
+        
         require(msg.sender != recipient,'does not allow you to be the recipient');
         allProjects.push(newProject);
+        uint256 i = find(nextId);
+        if(allProjects[i].readyTime <= block.timestamp){
+            allProjects[i].ongoing = false;
+        }  
         nextId++;
-        ownerProjectAmount[newProject.program_creator]++;
         
+        ownerProjectAmount[newProject.program_creator]++;        
         emit Project_Created(msg.sender, address(this), description);
     }
     function getAllDonors()public view returns(Donor[] memory){
@@ -177,6 +184,7 @@ contract Charity {
         );
         allProjects[i].ongoing = false;
         allProjects[i].readyTime = uint32(block.timestamp);
+        allReceviver[i].asked = false;
         emit Project_Ended(
             allProjects[i].program_creator,
             address(this),
@@ -233,8 +241,6 @@ contract Charity {
             allProjects[i].amountDonated,
             allProjects[i].ongoing,
             allProjects[i].imageUrl,
-    
-            //allProjects[i].projectAddress,
             allProjects[i].recipient
         );
     }
@@ -258,19 +264,23 @@ contract Charity {
             CMND: CMND,
             imageUrlR: imageUrlR,
             imageUrl1R: imageUrl1R,
-            take: false
+            take: false,
+            asked: true
         });
         uint256 i = find(id);
         require(allProjects[i].program_creator != msg.sender,'you cannot register');
         require(allProjects[i].recipient != msg.sender,'you cannot register');
-        require(allProjects[i].ongoing != false,'The program is closed');
         if(allProjects[i].readyTime <= block.timestamp){
-            endProject(id);
+            allProjects[i].ongoing = false;
         }  
+        require(allProjects[i].ongoing != false,'The program is closed');
+        
         Receiver[] memory result = new Receiver[](allReceviver.length);
         result = getAllReceiver();
         for(uint256 j=0;j<result.length;j++){
-            require(msg.sender != result[j].receiverAddress,'you are already registered');
+            uint256 check = findAdd(msg.sender);
+            require(allReceviver[check].asked == false,'you are already registered');
+            //require(msg.sender != result[j].receiverAddress,'you are already registered');
         }
         allReceviver.push(newReceiver);
         IDReceiverAmount[newReceiver.projectID]++;
@@ -303,16 +313,7 @@ contract Charity {
         }
         return result;
     }
-    // tạo sô lượng người được duyệt theo từng chương trình
-    // function getIdReceiverTake(uint256 id) public{
-    //     Receiver[] memory result = new Receiver[](ReceiverAmountTake[true]);
-    //     result = SetTake();
-    //     for(uint256 i; i<result.length;i++){
-    //         if(result[i].projectID == id){
-    //             IDReceiverAmountTake[result[i].projectID]++;
-    //         }
-    //     }
-    // }
+
     //lấy mảng người được duyệt theo chương trình
     function getIdRTake(uint256 id)public view returns (Receiver[] memory ){
         Receiver[] memory settake = new Receiver[](ReceiverAmountTake[true]);

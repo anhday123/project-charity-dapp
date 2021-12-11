@@ -93,7 +93,7 @@ const DetailRecer = () => {
                           {itemR.take === false ? (
                             <div style={{marginLeft:"auto", marginRight:"auto"}}>
                               {list.filter(item => item.id === id).map((item) => (
-                        blockchain.account === item.program_creator.toLowerCase() ? (
+                            blockchain.account === item.program_creator.toLowerCase() ? (
                                 <button className="form__button" 
                                 onClick={() => {
                                     approveReceiver(blockchain.account);
