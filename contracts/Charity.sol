@@ -67,9 +67,9 @@ contract Charity {
 
         if(allProjects[i].readyTime <= block.timestamp){
             endProject(id);
-        }
-        
+        }   
     }
+    
     // tạo  project kêu gọi ủng hộ (tên, mô tả, số tiền cần, ảnh)
     function createProjectStruct(string memory name,string memory location,string memory description,uint256 amountNeeded,string memory imageUrl,string memory imageUrl1,address recipient) public {
         Project memory newProject = Project({
@@ -264,6 +264,9 @@ contract Charity {
         require(allProjects[i].program_creator != msg.sender,'you cannot register');
         require(allProjects[i].recipient != msg.sender,'you cannot register');
         require(allProjects[i].ongoing != false,'The program is closed');
+        if(allProjects[i].readyTime <= block.timestamp){
+            endProject(id);
+        }  
         Receiver[] memory result = new Receiver[](allReceviver.length);
         result = getAllReceiver();
         for(uint256 j=0;j<result.length;j++){
@@ -301,15 +304,15 @@ contract Charity {
         return result;
     }
     // tạo sô lượng người được duyệt theo từng chương trình
-    function getIdReceiverTake(uint256 id) public{
-        Receiver[] memory result = new Receiver[](ReceiverAmountTake[true]);
-        result = SetTake();
-        for(uint256 i; i<result.length;i++){
-            if(result[i].projectID == id){
-                IDReceiverAmountTake[result[i].projectID]++;
-            }
-        }
-    }
+    // function getIdReceiverTake(uint256 id) public{
+    //     Receiver[] memory result = new Receiver[](ReceiverAmountTake[true]);
+    //     result = SetTake();
+    //     for(uint256 i; i<result.length;i++){
+    //         if(result[i].projectID == id){
+    //             IDReceiverAmountTake[result[i].projectID]++;
+    //         }
+    //     }
+    // }
     //lấy mảng người được duyệt theo chương trình
     function getIdRTake(uint256 id)public view returns (Receiver[] memory ){
         Receiver[] memory settake = new Receiver[](ReceiverAmountTake[true]);
@@ -333,7 +336,8 @@ contract Charity {
         uint256 i = findAdd(a);
         require(allReceviver[i].take == false,'Address approved');
         allReceviver[i].take = true;
-        ReceiverAmountTake[allReceviver[i].take]++;
+        ReceiverAmountTake[allReceviver[i].take]++;     
+        IDReceiverAmountTake[allReceviver[i].projectID]++;
         return allReceviver[i].take;
     }
     

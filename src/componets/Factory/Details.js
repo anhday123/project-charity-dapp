@@ -13,16 +13,19 @@ import Swal from 'sweetalert2'
 import { FaLess } from 'react-icons/fa';
 import { t } from 'i18next';
 
+
 const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0')
 const Details = () => {
     const dispatch = useDispatch();
     const blockchain = useSelector((state) => state.blockchain);
     const data = useSelector((state) => state.data);
     const [loading, setLoading] = useState(false);
+
+
     const [sotien, setValue] = useState();
     const { id } = useParams();
     console.log(id);
-    const querystring = window.location.search.substring(1);
+    // const querystring = window.location.search.substring(1);
     
     const [nameR, setnameR] = useState("");
     const [locationR, setlocationR] = useState("");
@@ -148,7 +151,6 @@ const Details = () => {
             console.log(receipt);
             dispatch(fetchData(blockchain.account));
             ShowSuccess1();
-
           });
       };
       const pay = async (_account) => {
@@ -168,7 +170,6 @@ const Details = () => {
             console.log(receipt);
             dispatch(fetchData(blockchain.account));
             ShowSuccess2();
-
           });
       };
       
@@ -193,42 +194,6 @@ const Details = () => {
 
           });
       };
-      const approveReceiverR = async (_account) => {
-        setLoading(true);
-        await blockchain.Charity.methods
-          .approveReceiver(id,querystring)
-          .send({
-            from: _account,
-          })
-          .once("error", (err) => {
-            setLoading(false);
-            console.log(err);
-            ShowError1();
-          })
-          .then((receipt) => {
-            setLoading(false);
-            console.log(receipt);
-            dispatch(fetchData(blockchain.account));
-          });
-        };
-        const getIdReceiverTake = async (_account) => {
-          setLoading(true);
-          await blockchain.Charity.methods
-            .getIdReceiverTake(id)
-            .send({
-              from: _account,
-            })
-            .once("error", (err) => {
-              setLoading(false);
-              console.log(err);
-              ShowError1();
-            })
-            .then((receipt) => {
-              setLoading(false);
-              console.log(receipt);
-              dispatch(fetchData(blockchain.account));
-            });
-          };
 
     const [showForm1, setShowForm1] = useState(false);
     const showForm = () => {
@@ -510,7 +475,7 @@ const Details = () => {
               </>
             ):(null)}
 
-            {listReceiver.filter(item => item.projectID === id ).map(result =>result.locationR) != "" ? (
+            {listReceiver.filter(item => item.projectID === id ).map(result =>result.nameR) != "" ? (
               <>
                <div className='container-table'>
               <h1>Danh sách đăng kí nhận hỗ trợ</h1>
@@ -523,67 +488,25 @@ const Details = () => {
                         <th style={{textAlign:"center"}}>Chi tiết</th>
                     </tr>
                   
-                  {listReceiver.filter(item => item.projectID === id).map((item, index) => (
+                  {listReceiver.filter(itemR => itemR.projectID === id).map((itemR, index) => (
                                   
                                   <tr>
-                                      <td>{item.nameR}</td>
+                                      <td>{itemR.nameR}</td>
                                       {/* <td>{item.locationR}</td> */}
-                                      <td>{item.receiverAddress}</td>
-                                      <td>{!showForm2 && (
-                                        <Link to={`/details/${item.projectID}?${item.receiverAddress} `}>
-                                            <button
+                                      <td>{itemR.receiverAddress}</td>
+                                      <td>
+                                        <Link to={`/detailRever/${itemR.projectID}?${itemR.receiverAddress} `}>
+                                            <button>
   
-                                              onClick={showForm3}>
+          
                                                 Xem thêm
                                             </button>
                                             </Link>
-                                          )}
                                           </td>
                                   </tr>
                   ))}
                   
                   </table>
-                  {showForm2 && (
-                    <form action="" className="form" style={{height: "840px", width:"920px", marginTop: "16px"}}>  
-                      {listReceiver.filter(item => item.receiverAddress === querystring).map((item, index) => (
-                        <div className="title">
-                          <h2>Chi tiết thông tin người nhận hỗ trợ</h2>
-                          <p>Họ và tên: {item.nameR}</p>
-                          <p>Số CMND/CCCD: {item.CMND}</p>
-                          <p>Địa chỉ ví: {item.receiverAddress}</p>
-                          <p>Địa chỉ thường trú: {item.locationR}</p>
-                          <p>Mô tả hoàn cảnh: {item.descriptionR}</p>
-                          {item.take == true ? (<p>Tình trạng phê duyệt: Đã được duyệt</p>) : (<p>Tình trạng phê duyệt: Chưa được duyệt</p>)}
-                          
-
-
-                          <div style={{display:"flex", marginLeft: "auto", marginRight:"auto", justifyContent:"center"}}>
-                            <img style={{height: "200px", padding:"8px"}} src={item.imageUrlR} alt=""  /><br></br>
-                            <img style={{height: "200px", padding:"8px"}} src={item.imageUrl1R} alt=""  />
-
-                          </div>
-                          <p style={{textAlign:"center", fontSize:"16px"}}>Hình ảnh CMND/CCCD và khuôn mặt: </p>
-
-                          
-
-                        </div>
-
-
-                      ))}
-                      
-                      <input className="form__button" type="submit"  value="Đóng"
-                        onClick={() => {
-                        setShowForm2(!showForm2);
-                        }}
-                      />
-                      <input className="form__button" type="submit"  value="Phê Duyệt"
-                        onClick={() => {
-                          approveReceiverR(blockchain.account);
-                          getIdReceiverTake(blockchain.account)
-                        }}
-                      />
- 
-                  </form>)}
               </div>
               </>
             ):(null)} 

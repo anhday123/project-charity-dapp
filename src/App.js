@@ -8,6 +8,7 @@ import Ambassadors from './page/Ambassadors'
 import Details from './componets/Factory/Details';
 import MyProjects from './page/MyProjects';
 import FormCreate from "./page/FormCreate";
+import DetailRecer from "./page/DetailRecer";
 
 
 function App() {
@@ -23,6 +24,8 @@ function App() {
                     <Route path = '/formcreate'component = { FormCreate }/> 
                     <Route path = '/myproject'component = { MyProjects }/>
                     <Route path = "/details/:id?"component = { Details }/>
+                    <Route path = "/detailRever/:id?"component = { DetailRecer }/>
+
                     <Route > 404 Not Found! </Route> 
                 </Switch > 
         </Router>

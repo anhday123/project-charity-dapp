@@ -97,14 +97,13 @@ const FormCreate = () => {
             padding: '3em',
             icon: 'success',
             background: '#fff url(/images/trees.png)',
-            
-         
+
           })
           history.push("/");
         });
     };
 
-    console.log(data.AllProjects)
+    //console.log(data.AllProjects)
     const ShowError = () => {
       store.addNotification({
         title: "Đã có lỗi xảy ra",
