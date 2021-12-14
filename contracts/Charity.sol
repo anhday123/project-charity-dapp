@@ -277,9 +277,10 @@ contract Charity {
         
         Receiver[] memory result = new Receiver[](allReceviver.length);
         result = getAllReceiver();
-        for(uint256 j=0;j<result.length;j++){
-            uint256 check = findAdd(msg.sender);
-            require(allReceviver[check].asked == false,'you are already registered');
+        for(uint256 j=0;j<result.length;j++){ 
+            if(result[j].receiverAddress == msg.sender){
+                require(allReceviver[j].asked == false,'you are already registered');
+            }
             //require(msg.sender != result[j].receiverAddress,'you are already registered');
         }
         allReceviver.push(newReceiver);
