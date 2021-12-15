@@ -27,6 +27,7 @@ const AllProjects = () => {
 
     return ( 
        <s.Screen mgtS={"80px"}>
+         
         <s.Container   ai={"center"}  >
         <s.TextTitle 
           style={{
@@ -38,15 +39,14 @@ const AllProjects = () => {
             
             </s.TextTitle>  
             <s.InputSearch
-              
-             
+
                 type="search"
                 placeholder="Tìm kiếm"
                 value={searchName}
                 onChange={handleChange}
             />    
         </s.Container>
-        
+    
         {searchName != null ? (
           <>
           <s.ContainerI>
@@ -93,8 +93,7 @@ const AllProjects = () => {
                       {/* <s.ItemFooterDonateText>Số lần ủng hộ</s.ItemFooterDonateText>
                       // <s.ItemFooterDonate>xxxx<s.ItemFooterDonate> */}
                       <s.ItemFooterDonateText>Trạng thái chương trình</s.ItemFooterDonateText>
-                      <s.ItemFooterDonate>{item.ongoing == true ? (<>Đang hoạt động</> ) : (<>Chương trình đã kết thúc</>) }
-</s.ItemFooterDonate>
+                      <s.ItemFooterDonate>{item.ongoing == true ? (<>Đang hoạt động</> ) : (<>Chương trình đã kết thúc</>) }</s.ItemFooterDonate>
                       <Link to={`/details/${item.id}`}><s.ItemBtn>Tham gia</s.ItemBtn></Link>
                     </s.ItemFooter>
                   </s.ItemFooterContainer>
@@ -162,9 +161,6 @@ const AllProjects = () => {
                     </s.ContainerItemBoder>
                     </s.ContainerI>
         )}
-        
-        
-      
        </s.Screen>
   
 

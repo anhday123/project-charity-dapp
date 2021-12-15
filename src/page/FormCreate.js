@@ -132,7 +132,6 @@ const FormCreate = () => {
     return (
       <>
         
-
         <s.Screen mgtS={"80px"}>
         <ReactNotification />
         {blockchain.account === "" || blockchain.Charity === null ? (
@@ -229,29 +228,7 @@ const FormCreate = () => {
             </div>
         </div>
         </div>
-            
-              {/* <input 
-              className="form__button"
-              type="file"
-              // placeholder=" Chọn ảnh minh hoạ"
-              onChange={onChange}
-              
-          />
-          {
-          fileImg && (
-            <img className="rounded mt-4" width="350" src={fileImg} />
-          )
-        }
-         
-     
-          <input 
-              className="form__button"
-              type="file"
-              placeholder=" Chọn ảnh minh hoạ"
-              onChange={onChange1}
-              
-          /> */}
-            
+
               <input type="submit" className="form__button" value="Hoàn thành"
                      onClick={() => {
                        if(!nameCharity || !location || !description || !amountNeed || !fileImg || !fileImg1 || !recipient){

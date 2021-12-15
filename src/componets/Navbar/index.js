@@ -19,15 +19,15 @@ const Navbar = () => {
   
     console.log(account);
     
-    const links = 
-     (
+    const links = account != null 
+      ? (
       <>
         <NavLink to="/" exact activeStyle>Trang chủ</NavLink>
         <NavLink to="/allprojects" activeStyle>Chương trình</NavLink>
         <NavLink to="/ambassadors" activeStyle>Đại sứ</NavLink>
         <NavLink to="/about" activeStyle>Về chúng tôi</NavLink>
       </>
-    ) 
+    ) : null
 
   return (
     <>
@@ -36,12 +36,13 @@ const Navbar = () => {
       <NavLink to='/'  >
         <h1>Chairity-Dapp</h1>
       </NavLink>
+      
       <Bars />
+      
       <NavMenu>
         {links}
       </NavMenu>
         {blockchain.account !== null ? (
-          
           <NavBtn>
           <NavBtnLink to='/formcreate' activeStyle>
             Tạo chương trình
@@ -55,25 +56,25 @@ const Navbar = () => {
         </NavBtn>
         ) : (
           
-        <NavBtn>
+        // <NavBtn>
+            
+        //   <NavBtnLink to='/'  
+        //     onClick={(e) => {
+        //       e.preventDefault();
+        //       dispatch(connect());
+        //     }}>
+        //     Tham gia
+        //   </NavBtnLink>
+        //   <NavBtn>
           
-          <NavBtnLink to='/'  
-            onClick={(e) => {
-              e.preventDefault();
-              dispatch(connect());
-            }}>
-            Tham gia
-          </NavBtnLink>
-          <NavBtn>
+        //   <NavBtnLink to='/formcreate' >
+        //     Tạo chương trình
+        //   </NavBtnLink>
           
-          <NavBtnLink to='/formcreate' >
-            Tạo chương trình
-          </NavBtnLink>
+        // </NavBtn>
           
-        </NavBtn>
-          
-        </NavBtn>
-        )}
+        // </NavBtn>
+        null)}
     </Nav>
   </>
   );

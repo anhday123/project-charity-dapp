@@ -39,6 +39,8 @@ export const connect = () => {
             let web3 = new Web3(window.ethereum);
 
             try {
+                await window.ethereum.enable();
+
                 const accounts = await window.ethereum.request({
                     method: "eth_accounts",
                 });
@@ -46,12 +48,18 @@ export const connect = () => {
                     method: "net_version",
                 });
                 console.log(networkId);
-                const CharityNetwork = await Charity.networks[networkId]
-                if (CharityNetwork) {
+
+                if(networkId == 97){
                     const charity = new web3.eth.Contract(
                         Charity.abi,
-                        CharityNetwork.address
-                    );
+                        "0x023B138c0319464137836894a5A2eA20484055f1")
+                ;
+                // const CharityNetwork = await Charity.networks[networkId]
+                // if (CharityNetwork) {
+                //     const charity = new web3.eth.Contract(
+                //         Charity.abi,
+                //         CharityNetwork.address
+                //     );
                     dispatch(
                         connectSuccess({
                             account: accounts[0],
@@ -68,7 +76,7 @@ export const connect = () => {
                     });
                     // Add listeners end
                 } else {
-                    dispatch(connectFailed("Change network to rinkeby."));
+                    dispatch(connectFailed("Change network to BSC testnet.."));
                 }
             } catch (err) {
                 dispatch(connectFailed("Something went wrong."));

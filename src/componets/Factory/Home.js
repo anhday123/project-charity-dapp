@@ -9,20 +9,12 @@ import ContentProgram from "./fake-data/contentProgram1"
 import contentData from "./fake-data/contentUser"
 import ContentUse from "./fake-data/contenUser1"
 import Footer from "./fake-data/Footer"
-
+import { connect } from '../../redux/blockchain/blockchainActions';
 
 const Home = () => {
   const dispatch = useDispatch();
   const blockchain = useSelector((state) => state.blockchain);
   const data = useSelector((state) => state.data);
-    // console.log(data);
-    // console.log(data.AllProjects);
-  
-    // const handlePreviewImg = (e) => {
-    //   const file = e.target.files[0];
-    //   file.preview = URL.createObjectURL(file);
-    //   setFileImg(file);
-    // }
 
     useEffect(() => {
         if (blockchain.account !== "" && blockchain.Charity !== null) {
@@ -38,7 +30,18 @@ const Home = () => {
         <s.Screen image={_Bg}>
      
           <s.Container flex={1} ai={"center"} jc={"center"} >
-
+          <s.StyledButton style={{color : "red" , marginTop: 100}}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            dispatch(connect());
+                        }}
+                    >
+                        Tham Gia
+                    </s.StyledButton>
+                    <s.SpacerXSmall />
+                    {blockchain.errorMsg !== "" ? (
+                    <s.TextDescription>{blockchain.errorMsg}</s.TextDescription>
+                    ) : null}
             <s.TextTitle wt={"60%"} style={{textAlign: "center", fontSize: "70px", color: "#ffffff"}}>
               Nền tảng quyên góp minh bạch
             </s.TextTitle>
@@ -50,6 +53,7 @@ const Home = () => {
                 </s.TextTitle>
           </s.Container> 
         </s.Screen>
+        
         <s.TextTitle wt={"100%"} style={{textAlign:"center", color:"#000", fontSize:"40px", marginTop:"80px"}}>
         All children have a right to survive, thrive and fulfill their potential – to the benefit of a better world.
             </s.TextTitle>
@@ -116,11 +120,7 @@ const Home = () => {
           )
         }
         </s.ContainerContent>
-        
-        <s.Screen mgtS={"80px"}>
-          <Footer/>
-
-        </s.Screen>        
+        <Footer/>     
      </>
     );
 }
