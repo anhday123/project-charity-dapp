@@ -197,11 +197,6 @@ const Details = () => {
     const showForm = () => {
       setShowForm1(!showForm1);
     }
-    const [showForm2, setShowForm2] = useState(false);
-    const showForm3 = () => {
-      setShowForm2(!showForm2);
-    }
-
       useEffect(() => {
         if(id && id !== "") 
         dispatch(fetchData(blockchain.account))
@@ -272,7 +267,7 @@ const Details = () => {
                   }}>
             <input
             className="unghott"
-            placeholder={"Số tiền ủng hộ đơn vị ETH"}
+            placeholder={"Số tiền ủng hộ đơn vị BNB"}
             style={{padding: "10px",  height:"50px", width: "500px"}}
             onChange={e => setValue(e.target.value)}
             />

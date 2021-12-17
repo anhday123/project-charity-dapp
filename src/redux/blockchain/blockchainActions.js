@@ -47,13 +47,14 @@ export const connect = () => {
                 const networkId = await window.ethereum.request({
                     method: "net_version",
                 });
-                console.log(networkId);
+
+                // const CharityNetwork = await Charity.networks[networkId]
 
                 if(networkId == 97){
                     const charity = new web3.eth.Contract(
                         Charity.abi,
-                        "0x023B138c0319464137836894a5A2eA20484055f1")
-                ;
+                        "0x0E70D9Bb7aC7Cf24988d033D91900fC024759f8f"
+                );
                 // const CharityNetwork = await Charity.networks[networkId]
                 // if (CharityNetwork) {
                 //     const charity = new web3.eth.Contract(

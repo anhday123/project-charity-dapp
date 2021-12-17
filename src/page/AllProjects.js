@@ -10,7 +10,7 @@ const AllProjects = () => {
 
   const blockchain = useSelector((state) => state.blockchain);
     const data = useSelector((state) => state.data);
-    // console.log(data.AllProjects)
+     console.log(data.AllProjects)
     const [searchName, setSearchName] = React.useState("");
     const [searchResults, setSearchResults] = React.useState([]);
 
@@ -46,7 +46,6 @@ const AllProjects = () => {
                 onChange={handleChange}
             />    
         </s.Container>
-    
         {searchName != null ? (
           <>
           <s.ContainerI>
@@ -90,8 +89,7 @@ const AllProjects = () => {
                   </s.ItemBodyContainer>
                   <s.ItemFooterContainer>
                     <s.ItemFooter>
-                      {/* <s.ItemFooterDonateText>Số lần ủng hộ</s.ItemFooterDonateText>
-                      // <s.ItemFooterDonate>xxxx<s.ItemFooterDonate> */}
+
                       <s.ItemFooterDonateText>Trạng thái chương trình</s.ItemFooterDonateText>
                       <s.ItemFooterDonate>{item.ongoing == true ? (<>Đang hoạt động</> ) : (<>Chương trình đã kết thúc</>) }</s.ItemFooterDonate>
                       <Link to={`/details/${item.id}`}><s.ItemBtn>Tham gia</s.ItemBtn></Link>
@@ -148,8 +146,7 @@ const AllProjects = () => {
                   </s.ItemBodyContainer>
                   <s.ItemFooterContainer>
                     <s.ItemFooter>
-                      {/* <s.ItemFooterDonateText>Số lần ủng hộ</s.ItemFooterDonateText>
-                      <s.ItemFooterDonate>xxxx</s.ItemFooterDonate> */}
+
                       <Link to={`/details/${item.id}`}><s.ItemBtn>Tham gia</s.ItemBtn></Link>
                     </s.ItemFooter>
                   </s.ItemFooterContainer>

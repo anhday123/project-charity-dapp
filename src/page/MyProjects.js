@@ -8,6 +8,7 @@ import * as s from "../styles/globalStyles";
 const MyProjects = () => {
  
     const data = useSelector((state) => state.data)
+    const blockchain = useSelector((state) => state.blockchain);
     
     // console.log(data.AllOwnerProjects);
 
@@ -59,24 +60,20 @@ const MyProjects = () => {
                     {/* <s.ItemBodyMoney1>{item.location}</s.ItemBodyMoney1> */}
 
                     <s.ItemBody>
-                      <s.ItemBodyMoney1>{item.amountDonated}</s.ItemBodyMoney1>
-                      <s.ItemBodyMoney1>/ {item.amountNeeded}</s.ItemBodyMoney1>
+                      <s.ItemBodyMoney1>Số tiền kêu gọi được: {blockchain.web3.utils.fromWei(item.amountDonated, "ether")}</s.ItemBodyMoney1>
+                      <s.ItemBodyMoney1>/ {blockchain.web3.utils.fromWei(item.amountNeeded, "ether")}</s.ItemBodyMoney1>
 
-                      {/* <s.ItemBodyMoney2>{item.amountNeeded}</s.ItemBodyMoney2> */}
+
                     </s.ItemBody>
                   </s.ItemBodyContainer>
                   <s.ItemFooterContainer>
                     <s.ItemFooter>
-                        <s.ItemFooterDonateText>
-                          Số lần ủng hộ
-                        </s.ItemFooterDonateText>
-                      <s.ItemFooterDonate>xxxx</s.ItemFooterDonate>
-                        <Link to={`/details/${item.id}`}>
-                          <s.ItemBtn>Tham gia</s.ItemBtn>
-                        </Link>
+
+                      <s.ItemFooterDonateText>Trạng thái chương trình</s.ItemFooterDonateText>
+                      <s.ItemFooterDonate>{item.ongoing == true ? (<>Đang hoạt động</> ) : (<>Chương trình đã kết thúc</>) }</s.ItemFooterDonate>
+                      
                     </s.ItemFooter>
                   </s.ItemFooterContainer>
-
                     </s.ContainerItem>
                   );
               })}

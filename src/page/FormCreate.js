@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import tick from "../assets/images/bg/tick.png";
+
 import Swal from 'sweetalert2'
 
 import {   Link  } from "react-router-dom";
@@ -14,7 +14,6 @@ import ReactNotification from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
 import { store } from 'react-notifications-component';
 import { useHistory } from "react-router-dom";
-
 
 const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0')
 const FormCreate = () => {
