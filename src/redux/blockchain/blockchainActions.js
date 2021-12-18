@@ -50,17 +50,17 @@ export const connect = () => {
 
                 // const CharityNetwork = await Charity.networks[networkId]
 
-                if(networkId == 97){
-                    const charity = new web3.eth.Contract(
-                        Charity.abi,
-                        "0x0E70D9Bb7aC7Cf24988d033D91900fC024759f8f"
-                );
-                // const CharityNetwork = await Charity.networks[networkId]
-                // if (CharityNetwork) {
+                // if(networkId == 97){
                 //     const charity = new web3.eth.Contract(
                 //         Charity.abi,
-                //         CharityNetwork.address
-                //     );
+                //         "0x0E70D9Bb7aC7Cf24988d033D91900fC024759f8f"
+                // );
+                const CharityNetwork = await Charity.networks[networkId]
+                if (CharityNetwork) {
+                    const charity = new web3.eth.Contract(
+                        Charity.abi,
+                        CharityNetwork.address
+                    );
                     dispatch(
                         connectSuccess({
                             account: accounts[0],

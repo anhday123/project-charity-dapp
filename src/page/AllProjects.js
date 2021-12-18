@@ -91,7 +91,7 @@ const AllProjects = () => {
                     <s.ItemFooter>
 
                       <s.ItemFooterDonateText>Trạng thái chương trình</s.ItemFooterDonateText>
-                      <s.ItemFooterDonate>{item.ongoing == true ? (<>Đang hoạt động</> ) : (<>Chương trình đã kết thúc</>) }</s.ItemFooterDonate>
+                      <s.ItemFooterDonate>{item.readyTime > Date.now() /1000 ? (<>Đang hoạt động</> ) : (<>Chương trình đã kết thúc</>) }</s.ItemFooterDonate>
                       <Link to={`/details/${item.id}`}><s.ItemBtn>Tham gia</s.ItemBtn></Link>
                     </s.ItemFooter>
                   </s.ItemFooterContainer>

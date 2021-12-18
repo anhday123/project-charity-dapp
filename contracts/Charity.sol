@@ -37,7 +37,7 @@ contract Charity {
         bool asked;
     }
     uint256 public nextId = 1;
-    uint public cooldownTime = 10 minutes;
+    uint public cooldownTime = 1 minutes;
     uint public end;
     Donor[] public allDonors;   // mang donate
     Project[] public allProjects; //mang project

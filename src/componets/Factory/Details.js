@@ -85,7 +85,9 @@ const Details = () => {
         )
   
         var remaining = {hours: 0, minutes: 0, seconds: 0 };
-        if (seconds < 0) return remaining;
+        if (seconds < 0){
+          return remaining;
+        } 
   
         const minutes = `0${Math.floor(seconds / 60)}`;
         const hours = `0${Math.floor(minutes / 60)}`;
@@ -96,8 +98,6 @@ const Details = () => {
         remaining.minutes = minutes - remaining.days * 24 * 60 - remaining.hours * 60;
         remaining.seconds = seconds - remaining.days * 24 * 60 * 60 - remaining.hours * 60 * 60 - remaining.minutes * 60;
 
-        
-  
         setTimerDays(remaining.days)
         setTimerHours(remaining.hours > 9 ? remaining.hours: '0' + remaining.hours)
         setTimerMinutes(remaining.minutes > 9 ? remaining.minutes: '0' + remaining.minutes)
@@ -241,7 +241,8 @@ const Details = () => {
                 <p className="location">Địa điểm: {item.location}</p>
                 <p className="stk">Số tài khoản kêu gọi: {item.program_creator}</p>
                 <p className="stk">Số tài khoản người nhận: {item.recipient}</p>
-                {item.ongoing == true ? (<h2 className="stk">Tình trạng: đang hoạt động</h2>) : (<h2 className="stk">Tình trạng: Chương trình đã kết thúc</h2>) }
+                {item.readyTime > Date.now() /1000 ? (<h2 className="stk">Tình trạng: đang hoạt động</h2>):(<h2 className="stk">Tình trạng: Chương trình đã kết thúc</h2>)}
+                {/* {item.ongoing == true ? (<h2 className="stk">Tình trạng: đang hoạt động</h2>) : (<h2 className="stk">Tình trạng: Chương trình đã kết thúc</h2>) } */}
               </div>
               <p className="location">Hình ảnh minh hoạ:</p>
     
