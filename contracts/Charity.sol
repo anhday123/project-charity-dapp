@@ -37,7 +37,7 @@ contract Charity {
         bool asked;
     }
     uint256 public nextId = 1;
-    uint public cooldownTime = 1 minutes;
+    uint public cooldownTime = 10 minutes;
     uint public end;
     Donor[] public allDonors;   // mang donate
     Project[] public allProjects; //mang project
@@ -175,7 +175,6 @@ contract Charity {
     // dừng chương trình 
     function endProject(uint256 id) public {
         uint256 i = find(id);
-
         require(msg.sender == allProjects[i].program_creator,'you have no right');
         emit Goal_Reached(
             allProjects[i].program_creator,
@@ -184,13 +183,19 @@ contract Charity {
         );
         allProjects[i].ongoing = false;
         allProjects[i].readyTime = uint32(block.timestamp);
-        allReceviver[i].asked = false;
+        
+        for(uint256 p; p < allReceviver.length;p++){
+            if(allReceviver[p].projectID == id){
+                allReceviver[p].asked = false;
+            }
+
+        }
         emit Project_Ended(
             allProjects[i].program_creator,
             address(this),
             allProjects[i].amountDonated
         );
-
+        
     }
 
     // chuyển tiền cho người thụ hưởng
