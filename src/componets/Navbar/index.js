@@ -24,7 +24,7 @@ const Navbar = () => {
       <>
         <NavLink to="/" exact activeStyle>Trang chủ</NavLink>
         <NavLink to="/allprojects" activeStyle>Chương trình</NavLink>
-        <NavLink to="/ambassadors" activeStyle>Đại sứ</NavLink>
+        {/* <NavLink to="/ambassadors" activeStyle>Đại sứ</NavLink> */}
         <NavLink to="/about" activeStyle>Về chúng tôi</NavLink>
       </>
     ) : null

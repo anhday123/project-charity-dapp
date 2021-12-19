@@ -4,6 +4,7 @@ import { fetchData } from "../../redux/data/dataActions";
 import * as s from "../../styles/globalStyles";
 import _Bg from "../../assets/images/bg/hand.jpg";
 import _Bg1 from "../../assets/images/bg/blockchain1.png";
+import _Bg2 from "../../assets/images/bg/bg.jpeg"
 import contentProgramData from "./fake-data/contentProgram"
 import ContentProgram from "./fake-data/contentProgram1"
 import contentData from "./fake-data/contentUser"
@@ -31,14 +32,14 @@ const Home = () => {
      
           <s.Container flex={1} ai={"center"} jc={"center"} >
           {blockchain.account === "" || blockchain.Charity === null ? (
-          <s.StyledButton style={{color : "red" , marginTop: 100}}
+          <s.StyledButton1 style={{ marginTop: 100}}
                         onClick={(e) => {
                             e.preventDefault();
                             dispatch(connect());
                         }}
                     >
-                        Tham Gia
-                    </s.StyledButton>
+                        tham gia cùng chúng tôi
+                    </s.StyledButton1>
           ):(null)}
                     <s.SpacerXSmall />
                     {blockchain.errorMsg !== "" ? (
@@ -54,6 +55,30 @@ const Home = () => {
                 khỏe của con người và hành tinh của chúng ta.
                 </s.TextTitle>
           </s.Container> 
+        </s.Screen>
+        <s.Screen image={_Bg2}>
+            <s.Container flex={1} ai={"center"} jc={"center"}>
+
+                <s.TextTitle 
+                    style={{
+                        textAlign: "center", 
+                        fontSize: "56px"}}
+                >
+                    Đại sứ 
+                </s.TextTitle>
+                <s.TextTitle 
+                    style={{
+                        textAlign: "center", 
+                        fontSize: "24px"}}
+                >
+                    Chỉ đơn giản là chúng ta không thể đạt được sứ mệnh của mình một mình.
+                    Chúng tôi dựa vào các cố vấn, đại sứ, người hỗ trợ và đối tác dự án để
+                    giúp chúng tôi thực hiện các dự án có tác động lớn trên toàn thế giới. 
+                    Trang này dành riêng cho những người đang giúp chúng tôi chuyển đổi sự 
+                    sáng tạo thành hành động.
+                </s.TextTitle>
+
+            </s.Container>
         </s.Screen>
         
         <s.TextTitle wt={"100%"} style={{textAlign:"center", color:"#000", fontSize:"40px", marginTop:"80px"}}>

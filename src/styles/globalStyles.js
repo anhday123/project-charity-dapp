@@ -112,12 +112,35 @@ export const StyledButton = styled.button `
     color: #010606;
   }
 `;
+export const StyledButton1 = styled.button `
+  display: block;
+  height: 70px;
+  width: 30%;
+  background: #3f654e;
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  font-family: var( --font-family-Sora);
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: all 0.5s ease-in-out;
+
+  &:hover {
+    transition: all 0.5s ease-in-out;
+    background: #fff;
+    visibility: none;
+    color: #010606;
+  }
+`;
 
 export const StyledButtonTransfer = styled.button `
   display: block;
   height: 40px;
   width: auto;
   border-radius: 0.4rem;
+  background: #fff;;
   border: 1px solid #fff;
   background: none;
   color: #fff;

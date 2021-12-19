@@ -15,12 +15,10 @@ const About = () => {
               </div>
               <div className="explore-content">
                 <h2 className="heading heading--small explore-heading">
-                  A new way to explore the world
+                  Giúp đỡ trẻ am khó khăn
                 </h2>
                 <p className="text explore-desc">
-                  For decades travellers have reached for Lonely Planet books
-                  when looking to plan and execute their perfect trip, but now,
-                  they can also let Lonely Planet Experiences lead the way
+                  Xây dựng trường học có nhà vệ sinh, hỗ trợ các bữa ăn dinh dưỡng và đồng phục
                 </p>
                 {/* <a href="#!" className="btn1 btn--primary">Learn more</a> */}
               </div>
@@ -31,12 +29,10 @@ const About = () => {
               </div>
               <div className="explore-content">
                 <h2 className="heading heading--small explore-heading">
-                  A new way to explore the world
+                  Xây dựng các công trình tình thương
                 </h2>
                 <p className="text explore-desc">
-                  For decades travellers have reached for Lonely Planet books
-                  when looking to plan and execute their perfect trip, but now,
-                  they can also let Lonely Planet Experiences lead the way
+                  Hỗ trợ nhà ở cho người lao động thấp
                 </p>
                 {/* <a href="#!" className="btn1 btn--primary">Learn more</a> */}
               </div>
@@ -47,12 +43,10 @@ const About = () => {
               </div>
               <div className="explore-content">
                 <h2 className="heading heading--small explore-heading">
-                  A new way to explore the world
+                  Chung tay cùng qua đại dịch
                 </h2>
                 <p className="text explore-desc">
-                  For decades travellers have reached for Lonely Planet books
-                  when looking to plan and execute their perfect trip, but now,
-                  they can also let Lonely Planet Experiences lead the way
+                  Hỗ trợ khâor trang, sát khuẩn cho những địa bàn khó khăn
                 </p>
                 {/* <a href="#!" className="btn1 btn--primary">Learn more</a> */}
               </div>
@@ -63,12 +57,10 @@ const About = () => {
               </div>
               <div className="explore-content">
                 <h2 className="heading heading--small explore-heading">
-                  A new way to explore the world
+                  Cứu hộ động vật
                 </h2>
                 <p className="text explore-desc">
-                  For decades travellers have reached for Lonely Planet books
-                  when looking to plan and execute their perfect trip, but now,
-                  they can also let Lonely Planet Experiences lead the way
+                  Tạo môi trường cho các loài động vật có nguy cơ tuyệt chủng
                 </p>
                 {/* <a href="#!" className="btn1 btn--primary">Learn more</a> */}
               </div>

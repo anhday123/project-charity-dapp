@@ -19,7 +19,7 @@ function App() {
                 <Switch >
                     <Route path = '/'exact component = { Home }/>
                     <Route path = '/allprojects'component = { AllProjects }/> 
-                    <Route path = '/ambassadors'component = { Ambassadors }/>
+                    {/* <Route path = '/ambassadors'component = { Ambassadors }/> */}
                     <Route path = '/about'component = { About }/> 
                     <Route path = '/formcreate'component = { FormCreate }/> 
                     <Route path = '/myproject'component = { MyProjects }/>
