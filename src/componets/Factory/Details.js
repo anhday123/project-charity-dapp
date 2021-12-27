@@ -239,8 +239,8 @@ const Details = () => {
                 <p className="location">Địa điểm: {item.location}</p>
                 <p className="stk">Số tài khoản kêu gọi: {item.program_creator}</p>
                 <p className="stk">Số tài khoản người nhận: {item.recipient}</p>
-                {/* {item.readyTime > Date.now() /1000 ? (<h2 className="stk">Tình trạng: đang hoạt động</h2>):(<h2 className="stk">Tình trạng: Chương trình đã kết thúc</h2>)} */}
-                {item.ongoing == true ? (<h2 className="stk">Tình trạng: đang hoạt động</h2>) : (<h2 className="stk">Tình trạng: Chương trình đã kết thúc</h2>) }
+                {item.readyTime > Date.now() /1000 ? (<h2 className="stk">Tình trạng: đang hoạt động</h2>):(<h2 className="stk">Tình trạng: Chương trình đã kết thúc</h2>)}
+                {/* {item.ongoing == true ? (<h2 className="stk">Tình trạng: đang hoạt động</h2>) : (<h2 className="stk">Tình trạng: Chương trình đã kết thúc</h2>) } */}
               </div>
               <p className="location">Hình ảnh minh hoạ:</p>
     

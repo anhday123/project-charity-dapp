@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { connect } from '../../redux/blockchain/blockchainActions';
 import { useEffect } from "react";
 import { fetchData } from "../../redux/data/dataActions"
-
+import logo from "../../assets/images/bg/logo.png"
 
 const Navbar = () => {
   const blockchain = useSelector((state) => state.blockchain);
@@ -33,8 +33,9 @@ const Navbar = () => {
     <>
     <Nav>
       
-      <NavLink to='/'  >
-        <h1>Chairity-Dapp</h1>
+      <NavLink to='/' >
+        {/* <h1>Chairity-Dapp</h1> */}
+        <img src={logo} style={{width:'100px', marginLeft:'20px', opacity:'100%'}}></img>
       </NavLink>
       
       <Bars />

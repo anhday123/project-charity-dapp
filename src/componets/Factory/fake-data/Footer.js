@@ -28,8 +28,6 @@ import { FaFacebook, FaInstagramSquare, FaTwitter, FaInvision } from 'react-icon
                 <div className="footer-col">
                     <h4>Liên hệ chúng tôi</h4>
                     <ul>
-                        <li><a href="/">ngocha17.1999@gmail.com</a></li>
-                        <li><a href="/">tai_1751220039@dau.edu.vn</a></li>
                         <li><a href="/">+0359 500 725</a></li>
                         <li><a href="/">+0895 121 517</a></li>
                     </ul>

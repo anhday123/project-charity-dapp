@@ -13,6 +13,7 @@ export const Nav = styled.nav `
   justify-content: space-between;
   // position: absolute;
   z-index: 99;
+  opacity: 0.8;
   
   /* padding: 0.5rem calc((100vw - 1000px) / 2); */
   /* padding: 0 120px; */
