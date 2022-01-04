@@ -83,16 +83,15 @@ const DetailRecer = () => {
                     ) :(null)}
                   </div>
                         ))}
-                        {listReceiver.filter(itemR => itemR.receiverAddress === querystring).map((itemR, index) => (
+                        {listReceiver.filter(itemR => itemR.projectID === id).filter(itemR => itemR.receiverAddress === querystring).map((itemR, index) => (
                           <div style={{marginLeft:"auto", marginRight:"auto"}}>
                             {itemR.take === false ? (
                               <div >
                                 {list.filter(item => item.id === id).map((item) => (
-                              blockchain.account === item.program_creator.toLowerCase() ? (
+                                  blockchain.account === item.program_creator.toLowerCase() ? (
                                   <button className="form__button" 
                                   onClick={() => {
                                       approveReceiver(blockchain.account);
-                                      
                                   }}
                                   > Duyệt</button>
                           ) : (null) 

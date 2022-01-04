@@ -27,7 +27,6 @@ const Home = () => {
 
     return (
       <>
-      
         <s.Screen image={_Bg}>
      
           <s.Container flex={1} ai={"center"} jc={"center"} >

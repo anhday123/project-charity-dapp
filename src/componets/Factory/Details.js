@@ -23,7 +23,7 @@ const Details = () => {
     const [sotien, setValue] = useState();
     const { id } = useParams();
     console.log(id);
-    // const querystring = window.location.search.substring(1);
+
     
     const [nameR, setnameR] = useState("");
     const [locationR, setlocationR] = useState("");
@@ -73,7 +73,6 @@ const Details = () => {
       } catch (error) {
         setError(true);
         
-        // console.log('Error uploading file: ', error)
       }  
     }
 
@@ -474,25 +473,20 @@ const Details = () => {
                 placeholder="Tìm kiếm"
                 value={searchNameD}
                 onChange={handleChangeD}
-               />    
-                {/* {searchNameD =! null ? ( */}
-                  <table id="customers">
-                  <tr>
-                      <th>Địa chỉ ví</th>
-                      <th>Số tiền</th>
-                  </tr>
-                
-                {searchResultsD.filter(item => item.projectID === id ).map((item, index) => (
-               
-                                <tr>
-                                    <td>{item.donorAddress}</td>
-                                    <td>{blockchain.web3.utils.fromWei(item.amount, "ether")} ETH</td>
-                                </tr>
-                ))}
-                </table>
-              
-              {/* ):(null)} */}
-                {/* <table id="customers">
+               />   
+                {searchNameD != null ? (
+                  <>
+                  {listDonors.filter(item => item.donorAddress === searchNameD).filter(item => item.projectID === id).map((item, index) => (
+                    <table id="customers" >
+                    <tr>
+                      <td>{item.donorAddress}</td>
+                      <td>{blockchain.web3.utils.fromWei(item.amount, "ether")} ETH</td>
+                    </tr>
+                    </table>
+                    ))}
+                  </>
+                ):(null)}
+                <table id="customers">
                 <tr>
                     <th>Địa chỉ ví</th>
                     <th>Số tiền</th>
@@ -504,7 +498,7 @@ const Details = () => {
                                   <td>{blockchain.web3.utils.fromWei(item.amount, "ether")} ETH</td>
                               </tr>
               ))}
-              </table>)}  */}
+              </table>
           </div>
               </>
             ):(null)}
@@ -514,12 +508,32 @@ const Details = () => {
                <div className='container-table'>
               <h1>Danh sách đăng kí nhận hỗ trợ</h1>
               <s.InputSearch
-
                 type="search"
                 placeholder="Tìm kiếm"
                 value={searchNameR}
                 onChange={handleChangeR}
-                />    
+                />  
+                {searchNameR != null ? (
+                  <>
+                  {listReceiver.filter(itemR => itemR.nameR === searchNameR).filter(itemR => itemR.projectID === id).map((itemR, index) => (
+                    <table id="customers" >
+                       <tr>
+                                      <td>{itemR.nameR}</td>
+                                      <td>{itemR.receiverAddress}</td>
+                                      <td>{itemR.take == true ? (<p>Đã được duyệt</p>) : (<p>Chưa được duyệt</p>)}</td>
+                                      <td>
+                                        <Link to={`/detailRever/${itemR.projectID}?${itemR.receiverAddress} `}>
+                                            <button>
+                                                Xem thêm
+                                            </button>
+                                            </Link>
+                                          </td>
+                                  </tr>
+                    </table>
+                    ))}
+                  </>
+                ):(null)}
+                
                   <table id="customers">
                     <tr>
                         <th>Tên người đăng ký</th>
@@ -528,14 +542,12 @@ const Details = () => {
                         <th>Trạng thái</th>
                         <th style={{textAlign:"center"}}>Chi tiết</th>
                     </tr>
-                  {/* {listReceiver.filter(itemR => itemR.projectID === id).map((itemR, index) => ( */}
-                      {searchResultsR.filter(itemR => itemR.projectID === id).map((itemR,index)=>(     
+                  {listReceiver.filter(itemR => itemR.projectID === id).map((itemR, index) => ( 
                                   <tr>
                                       <td>{itemR.nameR}</td>
                                       {/* <td>{item.locationR}</td> */}
                                       <td>{itemR.receiverAddress}</td>
-                                      <td>{itemR.take == true ? (<p>Đã được duyệt</p>)
-                                       : (<p>Chưa được duyệt</p>)}</td>
+                                      <td>{itemR.take == true ? (<p>Đã được duyệt</p>) : (<p>Chưa được duyệt</p>)}</td>
                                       <td>
                                         <Link to={`/detailRever/${itemR.projectID}?${itemR.receiverAddress} `}>
                                             <button>
